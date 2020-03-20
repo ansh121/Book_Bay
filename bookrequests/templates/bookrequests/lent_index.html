@@ -1,0 +1,61 @@
+{% extends "users_base.html" %}
+{% load request_extras %}
+
+{% block content %}
+
+{% include "_request_tabs.html" %}
+
+<div class="tab-content list-group">
+	<div class="tab-pane active" id="pending">
+		{% for r in requests|pending %}
+			<div class="list-group-item">
+				{% show_request_owner r %}
+			</div>
+		{% empty %}
+			<div class="alert">
+				You do not have any pending requests. 
+				Try
+				 <a href="{% url 'users:books:add_book' %}">adding</a>
+				more books?	
+			</div>
+			
+		{% endfor %}
+	</div>
+	<div class="tab-pane" id="all">
+		{% for r in requests %}
+			<div class="list-group-item">
+				{% show_request_owner r %}
+			</div>
+		{% empty %}
+			<div class="alert">
+				You have not lent out any of your books. 
+				Try
+				 <a href="{% url 'users:books:add_book' %}">adding</a>
+				more books?
+			</div>
+		{% endfor %}
+	</div>
+	<div class="tab-pane" id="completed">
+		{% for r in requests|completed %}
+			<div class="list-group-item">
+				{% show_request_owner r %}
+			</div>
+		{% empty %}
+			<div class="alert">You have not completed any book requests</div>
+			
+		{% endfor %}
+	</div>
+	<div class="tab-pane" id="transit">
+		{% for r in requests|intransit %}
+			<div class="list-group-item">
+				{% show_request_owner r %}
+			</div>
+		{% empty %}
+			<div class="alert">None of your books is with a courier</div>	
+			
+		{% endfor %}
+	</div>
+
+</div>
+
+{% endblock content %}

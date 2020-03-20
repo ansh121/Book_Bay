@@ -1,0 +1,11 @@
+.accept-buttons{
+	float: right;
+}
+
+.accept-button{
+	color: green;
+}
+
+.reject-button{
+	color: red;
+}

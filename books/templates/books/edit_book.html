@@ -1,0 +1,16 @@
+{% extends "users_base.html" %}
+{% load widget_tweaks %}
+
+{% block content %}
+<div class="col-md-6">
+	<form action="{% url 'users:books:edit_book' book_id %}" method="post">
+		{% csrf_token %}
+			{% for field in form  %}
+				<div class="form-group">
+					{{ field|add_class:"form-control" }}
+				</div>	
+			{% endfor %}
+			<input type="submit" value="Done editing" class="btn btn-info" />
+	</form>
+</div>
+{% endblock content %}

@@ -1,0 +1,5 @@
+Hey, are you sure you want to delete {{ object.title }}?
+<form method="post">
+  {% csrf_token %}
+  <button type="submit" class="btn btn-danger">Yeah, I'm sure.</button>
+</form>

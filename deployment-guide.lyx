@@ -1,0 +1,308 @@
+#LyX 2.0 created this file. For more info see http://www.lyx.org/
+\lyxformat 413
+\begin_document
+\begin_header
+\textclass article
+\begin_preamble
+\date{}
+\usepackage{hyperref}
+\end_preamble
+\use_default_options true
+\maintain_unincluded_children false
+\language english
+\language_package default
+\inputencoding auto
+\fontencoding global
+\font_roman default
+\font_sans default
+\font_typewriter default
+\font_default_family default
+\use_non_tex_fonts false
+\font_sc false
+\font_osf false
+\font_sf_scale 100
+\font_tt_scale 100
+
+\graphics default
+\default_output_format default
+\output_sync 0
+\bibtex_command default
+\index_command default
+\paperfontsize default
+\spacing single
+\use_hyperref false
+\papersize default
+\use_geometry false
+\use_amsmath 1
+\use_esint 1
+\use_mhchem 1
+\use_mathdots 1
+\cite_engine basic
+\use_bibtopic false
+\use_indices false
+\paperorientation portrait
+\suppress_date false
+\use_refstyle 1
+\index Index
+\shortcut idx
+\color #008000
+\end_index
+\secnumdepth 3
+\tocdepth 3
+\paragraph_separation indent
+\paragraph_indentation default
+\quotes_language english
+\papercolumns 1
+\papersides 1
+\paperpagestyle default
+\tracking_changes false
+\output_changes false
+\html_math_output 0
+\html_css_as_file 0
+\html_be_strict false
+\end_header
+
+\begin_body
+
+\begin_layout Title
+Bookzilla - Deployment Guide
+\end_layout
+
+\begin_layout Author
+Ananth Murthy 
+\size small
+IMT2012004
+\size default
+
+\begin_inset ERT
+status open
+
+\begin_layout Plain Layout
+
+
+\backslash
+and 
+\end_layout
+
+\end_inset
+
+Chandan Yeshwanth 
+\size small
+IMT2012010
+\end_layout
+
+\begin_layout Standard
+Bookzilla is a book-sharing application written in Python using the Django
+ Framework.
+ Source code can be obtained from the Bitbucket repository
+\begin_inset CommandInset citation
+LatexCommand cite
+key "bitbucket"
+
+\end_inset
+
+.
+ Before deploying, you need to install the prerequisites.
+\end_layout
+
+\begin_layout Section
+Prerequisites
+\end_layout
+
+\begin_layout Enumerate
+Python (version 2.7 or higher)
+\begin_inset CommandInset citation
+LatexCommand cite
+key "python"
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Enumerate
+Git 
+\begin_inset CommandInset citation
+LatexCommand cite
+key "git"
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Enumerate
+Django (version 1.7 or higher)
+\begin_inset CommandInset citation
+LatexCommand cite
+key "django"
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Enumerate
+Pip, the Python Package Manager 
+\begin_inset CommandInset citation
+LatexCommand cite
+key "pip"
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Enumerate
+SQLite 3 (using apt-get)
+\end_layout
+
+\begin_layout Section
+Deploying
+\end_layout
+
+\begin_layout Itemize
+Get the source from the repository 
+\begin_inset CommandInset citation
+LatexCommand cite
+key "bitbucket"
+
+\end_inset
+
+ using 
+\family typewriter
+git pull
+\end_layout
+
+\begin_layout Itemize
+Enter the source folder and run 
+\family typewriter
+python manage.py migrate.
+ 
+\family default
+You should see a list of SQL commands being applied.
+\end_layout
+
+\begin_layout Itemize
+Install the required Django plugins by running 
+\family typewriter
+pip install -r requirements.txt 
+\family default
+from the root of the source folder
+\end_layout
+
+\begin_layout Itemize
+Create a superuser using 
+\family typewriter
+python manage.py createsuperuser 
+\family default
+and follow the instructions on screen.
+\end_layout
+
+\begin_layout Itemize
+Enter the administration interface with the account you just created at
+ 
+\family typewriter
+localhost:8000/admin, 
+\family default
+go to 
+\family typewriter
+Groups 
+\family default
+and create a new group called 
+\family typewriter
+Couriers.
+\end_layout
+
+\begin_layout Itemize
+To start the local development server, run 
+\family typewriter
+python manage.py runserver
+\end_layout
+
+\begin_deeper
+\begin_layout Itemize
+You can now use the website on 
+\family typewriter
+localhost:8000
+\end_layout
+
+\begin_layout Itemize
+The courier interface is at 
+\family typewriter
+localhost:8000/courier/login
+\end_layout
+
+\end_deeper
+\begin_layout Itemize
+To run the webserver on a specific 
+\family typewriter
+IP 
+\family default
+and 
+\family typewriter
+port, 
+\family default
+run 
+\family typewriter
+python manage.py <IP>:<port>
+\end_layout
+
+\begin_layout Itemize
+You can then stop the server using 
+\family typewriter
+Ctrl+C
+\end_layout
+
+\begin_layout Bibliography
+\begin_inset CommandInset bibitem
+LatexCommand bibitem
+key "bitbucket"
+
+\end_inset
+
+Bitbucket repository - https://bitbucket.org/e201/bookzilla
+\end_layout
+
+\begin_layout Bibliography
+\begin_inset CommandInset bibitem
+LatexCommand bibitem
+key "python"
+
+\end_inset
+
+Python official site - https://www.python.org/download/
+\end_layout
+
+\begin_layout Bibliography
+\begin_inset CommandInset bibitem
+LatexCommand bibitem
+key "django"
+
+\end_inset
+
+Django installation - https://docs.djangoproject.com/en/1.8/intro/install/
+\end_layout
+
+\begin_layout Bibliography
+\begin_inset CommandInset bibitem
+LatexCommand bibitem
+key "pip"
+
+\end_inset
+
+Pip installation - https://pip.pypa.io/en/latest/installing.html
+\end_layout
+
+\begin_layout Bibliography
+\begin_inset CommandInset bibitem
+LatexCommand bibitem
+key "git"
+
+\end_inset
+
+Git official site - git-scm.com/
+\end_layout
+
+\end_body
+\end_document

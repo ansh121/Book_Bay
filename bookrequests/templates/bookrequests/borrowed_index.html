@@ -1,0 +1,55 @@
+{% extends "users_base.html" %}
+{% load request_extras %}
+{% load staticfiles %}
+
+<script type="text/javascript" src="{% static "bootstrap.min.js" %}"></script>
+<script type="text/javascript" src="{% static "bookrequests/borrowed-index.js" %}"></script>
+
+{% block content %}
+
+{# tabs for grouping requests based on status #}
+{% include "_request_tabs.html" %}
+
+{# content of each tab #}
+<div class="tab-content list-group">
+	<div class="tab-pane active" id="pending">
+		{% for r in requests|pending %}
+			<div class="list-group-item">
+				{% show_request_borrower r %}
+			</div>
+		{% empty %}
+			<div class="alert">You do not have any borrowed books right now</div>
+		{% endfor %}
+	</div>
+	<div class="tab-pane" id="all">
+		{% for r in requests %}
+			<div class="list-group-item">
+				{% show_request_borrower r %}
+			</div>
+		{% empty %}
+			<div class="alert">You have not borrowed any books yet. Try searching for a book!</div>
+		{% endfor %}
+	</div>
+	<div class="tab-pane" id="completed">
+		{% for r in requests|completed %}
+			<div class="list-group-item">
+				{% show_request_borrower r %}
+			</div>
+		{% empty %}
+			<div class="alert">You have not returned any borrowed books yet</div>
+		{% endfor %}
+	</div>
+	<div class="tab-pane" id="transit">
+		{% for r in requests|intransit %}
+			<div class="list-group-item">
+				{% show_request_borrower r %}
+			</div>
+		{% empty %}
+			<div class="alert">None of your requested books is with a courier</div>
+		{% endfor %}
+	</div>
+</div>
+
+	
+
+{% endblock content %}

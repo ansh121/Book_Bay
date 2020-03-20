@@ -1,0 +1,55 @@
+{% extends "courier_home.html" %}
+{% load request_extras %}
+{% load staticfiles %}
+
+<script type="text/javascript" src="{% static "bootstrap.min.js" %}"></script>
+
+{% block content %}
+
+<div class="col-md-2"></div>
+
+<div class="col-md-8">
+
+	{% include "courier_tabs.html" %}
+	<div class="tab-content list-group">
+
+		<div class="tab-pane active" id="pending">
+			{% for r in requests|courier_pending %}
+				<div class="list-group-item">
+					{% show_request_courier r %}
+				</div>
+			{% empty %}
+			<div class="alert">
+				Nothing to do right now. Come back in some time!
+			</div>
+				
+			{% endfor %}
+		</div>
+		<div class="tab-pane" id="completed">
+			{% for r in requests|completed %}
+				<div class="list-group-item">
+					{% show_request_courier r %}
+				</div>
+			{% empty %}
+				<div class="alert">
+					No deliveries have been completed yet
+				</div>
+			{% endfor %}
+		</div>	
+		<div class="tab-pane" id="all">
+			{% for r in requests %}
+				<div class="list-group-item">
+					{% show_request_courier r %}
+				</div>
+			{% empty %}
+				<div class="alert">
+					Nothing to do right now. Come back in some time!
+				</div>
+			{% endfor %}
+		</div>
+	</div>
+
+</div>
+
+{% endblock content %}
+	

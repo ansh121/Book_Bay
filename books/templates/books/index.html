@@ -1,0 +1,33 @@
+{% extends "users_base.html" %}
+
+{# load template tags #}
+{% load staticfiles %}
+{% load book_extras %}
+
+{% block content %}
+
+<div class="">
+	<ul class="nav nav-pills inverse">
+		<li class="">
+			<a href="{% url 'users:books:add_book' %}">Add a book</a>
+		</li>
+	</ul>
+	
+	<h4>Your books</h4>
+
+	{% for book in book_list  %}
+		<div class="col-md-4">
+			{% show_book_private book %}
+		</div>
+	{% empty %}	
+		<div>
+			You haven't added any books yet. 
+			<a href="{% url 'users:books:add_book' %}"> Add a book now!</a>
+		</div>
+	{% endfor %}
+
+</div>
+{% endblock content %}
+
+	
+

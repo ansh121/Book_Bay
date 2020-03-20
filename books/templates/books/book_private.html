@@ -1,0 +1,35 @@
+{% load staticfiles %}
+
+
+<link rel="stylesheet" type="text/css" href="{% static "css/book-detail.css" %}">
+<script type="text/javascript" src="{% static "js/book-private.js" %}"></script>
+
+<div class="book-box panel panel-primary">
+	<div class="panel-heading">
+		<h5 class="book-title panel-title"> {{ book_title }}</h5>	
+	</div>
+
+	<div class="panel-body">
+		<div>
+			<span class="book-author">{{ book_author }}</span>
+			
+		</div>
+		
+		<p class="book-summary">
+			<small>{{ summary }}</small>
+		</p>
+
+		<span class="buttons">
+				{# link to edit this book #}
+				<a href="{% url 'users:books:edit_book' book_id %}" 
+					class="edit-button">
+					<span class="glyphicon glyphicon-edit"></span>
+				</a>
+				<a href="{% url 'users:books:delete' book_id %}" class="delete-button">
+					<span class="glyphicon glyphicon-remove"></span>
+				</a>
+		</span>
+	</div>
+
+	
+</div>
