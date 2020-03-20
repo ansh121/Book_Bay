@@ -10,7 +10,7 @@
   * virtualenv ./envs/
   * source envs/bin/activate
   * pip install Django==1.7.11
-  * sudo apt-get install sqlite3 libsqlite3-dev     (if gives dependency error then )
+  * sudo apt-get install sqlite3 libsqlite3-dev     (if gives dependency error then goto https://askubuntu.com/questions/230619/cannot-install-sqlite3)
   * git clone "https://github.com/Anshul718/Book_Bay.git"
   * pip install -r requirements.txt 
   * python manage.py migrate
