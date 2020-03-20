@@ -17,6 +17,6 @@
   * python manage.py migrate
   * python manage.py createsuperuser
   * now create superuser to login into book sharing system
-  * Enter the administration interface with the account you just created at localhost:8000/admin, go to Groups and create a new group called Couriers
-  * run python manage.py runserver
+  * python manage.py runserver
   * open http://localhost:8000/
+  * Enter the administration interface with the account you just created at localhost:8000/admin, go to Groups and create a new group called Couriers
