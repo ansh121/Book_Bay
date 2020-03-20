@@ -12,9 +12,9 @@
   * pip install Django==1.7.11
   * sudo apt-get install sqlite3 libsqlite3-dev     (if gives dependency error then goto https://askubuntu.com/questions/230619/cannot-install-sqlite3)
   * git clone "https://github.com/Anshul718/Book_Bay.git"
+  * go to root directory of project
   * pip install -r requirements.txt 
   * python manage.py migrate
-  * go to root directory of project
   * python manage.py createsuperuser
   * now create superuser to login into book sharing system
   * Enter the administration interface with the account you just created at localhost:8000/admin, go to Groups and create a new group called Couriers
