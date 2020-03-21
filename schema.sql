@@ -16,10 +16,9 @@
 /*!40111 SET @OLD_SQL_NOTES=@@SQL_NOTES, SQL_NOTES=0 */;
 
 
-
---DROP SCHEMA IF EXISTS project;
---CREATE SCHEMA project;
-USE project;
+DROP SCHEMA IF EXISTS book_bay;
+CREATE SCHEMA book_bay;
+USE book_bay;
 SET AUTOCOMMIT=0;
 
 drop table if exists User;
@@ -73,7 +72,7 @@ CREATE TABLE request
   borrow_time_duration INT NOT NULL,
   completion_flag INT NOT NULL,
   User_ID VARCHAR(20) NOT NULL,
-  ISBN INT NOT NULL,
+  ISBN VARCHAR(30) NOT NULL,
   approved_requestUser_ID VARCHAR(20),
   PRIMARY KEY (Request_ID),
   FOREIGN KEY (User_ID) REFERENCES User(User_ID),
@@ -88,7 +87,7 @@ CREATE TABLE My_Books
   Other_Specifications VARCHAR(1000),
   Security_Money_of_Book INT NOT NULL,
   User_ID VARCHAR(20) NOT NULL,
-  ISBN INT NOT NULL,
+  ISBN VARCHAR(30) NOT NULL,
   PRIMARY KEY (User_ID, ISBN),
   FOREIGN KEY (User_ID) REFERENCES User(User_ID),
   FOREIGN KEY (ISBN) REFERENCES Book(ISBN)
@@ -99,7 +98,7 @@ CREATE TABLE Book_Review
   Rating INT NOT NULL,
   Review VARCHAR(5000),
   User_ID VARCHAR(20) NOT NULL,
-  ISBN INT NOT NULL,
+  ISBN VARCHAR(30) NOT NULL,
   PRIMARY KEY (User_ID, ISBN),
   FOREIGN KEY (User_ID) REFERENCES User(User_ID),
   FOREIGN KEY (ISBN) REFERENCES Book(ISBN)
@@ -108,7 +107,7 @@ CREATE TABLE Book_Review
 CREATE TABLE history
 (
   User_ID VARCHAR(20) NOT NULL,
-  ISBN INT NOT NULL,
+  ISBN VARCHAR(30) NOT NULL,
   PRIMARY KEY (User_ID, ISBN),
   FOREIGN KEY (User_ID) REFERENCES User(User_ID),
   FOREIGN KEY (ISBN) REFERENCES Book(ISBN)
@@ -121,9 +120,3 @@ CREATE TABLE User_Phone_Number
   PRIMARY KEY (Phone_Number, User_ID),
   FOREIGN KEY (User_ID) REFERENCES User(User_ID)
 );
-
-
-
-
-
-
