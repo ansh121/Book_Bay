@@ -47,7 +47,7 @@ CREATE TABLE User
 
 CREATE TABLE Login_Credential
 (
-  Passowrd VARCHAR(30) NOT NULL,
+  Password VARCHAR(30) NOT NULL,
   User_ID VARCHAR(20) NOT NULL,
   PRIMARY KEY (User_ID),
   FOREIGN KEY (User_ID) REFERENCES User(User_ID)

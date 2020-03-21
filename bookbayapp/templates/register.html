@@ -1,0 +1,60 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head><title>
+
+  </title></head>
+  <body>
+	<form method="POST" id="register-form" class="post-form">
+	{% csrf_token %}
+	<div class="form-group">
+		<label class="col-sm-4 control-label" >Username</label>
+		<div id="username" class="col-sm-8">
+            <input type="text"  name="username"  placeholder="Username" class="form-control">
+		</div>
+		<label class="col-sm-4 control-label" >Email</label>
+		<div id="email"  class="col-sm-8">
+			<input type="text"  name="email"  placeholder="" class="form-control">
+		</div>
+		<label class="col-sm-4 control-label" >Name</label>
+		<div  id="Name" class="col-sm-8">
+			<input type="text"  name="name"  placeholder="" class="form-control">
+		</div>
+        <label class="col-sm-4 control-label" >House No</label>
+		<div  id="House_No" class="col-sm-8">
+            <input type="text"  name="house_no"  placeholder="" class="form-control">
+		</div>
+        <label class="col-sm-4 control-label" >Street</label>
+		<div  id="Street" class="col-sm-8">
+            <input type="text"  name="street"  placeholder="" class="form-control">
+		</div>
+         <label class="col-sm-4 control-label" >Locality</label>
+		<div  id="Locality" class="col-sm-8">
+            <input type="text"  name="locality"  placeholder="" class="form-control">
+		</div>
+         <label class="col-sm-4 control-label" >Postal Code</label>
+		<div  id="Postal_Code" class="col-sm-8">
+            <input type="text"  name="postal_code"  placeholder="" class="form-control">
+		</div>
+         <label class="col-sm-4 control-label" >Landmark</label>
+		<div  id="Landmark" class="col-sm-8">
+            <input type="text"  name="landmark"  placeholder="" class="form-control">
+		</div>
+         <label class="col-sm-4 control-label" >City</label>
+		<div  id="City" class="col-sm-8">
+            <input type="text"  name="city"  placeholder="" class="form-control">
+		</div>
+         <label class="col-sm-4 control-label" >State</label>
+		<div  id="State" class="col-sm-8">
+            <input type="text"  name="state"  placeholder="" class="form-control">
+		</div>
+		<label class="col-sm-4 control-label" >Password</label>
+		<div id="password" class="col-sm-8">
+			<input type="text"  name="password"  placeholder="" class="form-control">
+		</div>
+		<div>
+            <button type="submit"  class="btn btn-primary">Submit</button>
+		</div>
+		
+	</div>
+	</form>
+</body>
