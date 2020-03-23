@@ -1,60 +1,140 @@
-<!DOCTYPE html>
-<html lang="en">
-  <head><title>
+{% extends "base.html" %}
+{% block content %}
 
-  </title></head>
-  <body>
-	<form method="POST" id="register-form" class="post-form">
+{# load static files #}
+{% load static %}
+<script src="{% static 'js/register.js' %}"></script>
+
+	<form method="POST" id="register-form" class="post-form" >
 	{% csrf_token %}
-	<div class="form-group">
-		<label class="col-sm-4 control-label" >Username</label>
+	<div id="id01" class="container" align="middle">
+
+        <h1>Sign Up</h1>
+        <p>Please fill in this form to create an account.</p>
+        <hr>
+
 		<div id="username" class="col-sm-8">
-            <input type="text"  name="username"  placeholder="Username" class="form-control">
+            <label class="col-sm-4 control-label" >Username</label>
+            <input type="text"  name="username"  placeholder="Username" class="form-control" required>
 		</div>
-		<label class="col-sm-4 control-label" >Email</label>
+
 		<div id="email"  class="col-sm-8">
-			<input type="text"  name="email"  placeholder="" class="form-control">
+            <label class="col-sm-4 control-label" >Email</label>
+			<input type="email"  name="email"  placeholder="Email" class="form-control" required>
 		</div>
-		<label class="col-sm-4 control-label" >Name</label>
+
 		<div  id="Name" class="col-sm-8">
-			<input type="text"  name="name"  placeholder="" class="form-control">
+            <label class="col-sm-4 control-label" >Name</label>
+			<input type="text"  name="name"  placeholder="Name" class="form-control" required>
 		</div>
-        <label class="col-sm-4 control-label" >House No</label>
+
 		<div  id="House_No" class="col-sm-8">
-            <input type="text"  name="house_no"  placeholder="" class="form-control">
+            <label class="col-sm-4 control-label" >House No</label>
+            <input type="text"  name="house_no"  placeholder="House No" class="form-control" required>
 		</div>
-        <label class="col-sm-4 control-label" >Street</label>
+
 		<div  id="Street" class="col-sm-8">
-            <input type="text"  name="street"  placeholder="" class="form-control">
+            <label class="col-sm-4 control-label" >Street</label>
+            <input type="text"  name="street"  placeholder="Street" class="form-control" >
 		</div>
-         <label class="col-sm-4 control-label" >Locality</label>
+
 		<div  id="Locality" class="col-sm-8">
-            <input type="text"  name="locality"  placeholder="" class="form-control">
+            <label class="col-sm-4 control-label" >Locality</label>
+            <input type="text"  name="locality"  placeholder="Locality" class="form-control" required>
 		</div>
-         <label class="col-sm-4 control-label" >Postal Code</label>
+
 		<div  id="Postal_Code" class="col-sm-8">
-            <input type="text"  name="postal_code"  placeholder="" class="form-control">
+            <label class="col-sm-4 control-label" >Postal Code</label>
+            <input type="text"  name="postal_code"  placeholder="Postal Code" class="form-control" required>
 		</div>
-         <label class="col-sm-4 control-label" >Landmark</label>
+
 		<div  id="Landmark" class="col-sm-8">
-            <input type="text"  name="landmark"  placeholder="" class="form-control">
+            <label class="col-sm-4 control-label" >Landmark</label>
+            <input type="text"  name="landmark"  placeholder="Landmark" class="form-control">
 		</div>
-         <label class="col-sm-4 control-label" >City</label>
+
 		<div  id="City" class="col-sm-8">
-            <input type="text"  name="city"  placeholder="" class="form-control">
+            <label class="col-sm-4 control-label" >City</label>
+            <input type="text"  name="city"  placeholder="City" class="form-control" required>
 		</div>
-         <label class="col-sm-4 control-label" >State</label>
+
 		<div  id="State" class="col-sm-8">
-            <input type="text"  name="state"  placeholder="" class="form-control">
+            <label class="col-sm-4 control-label" >State</label>
+            <input type="text"  name="state"  placeholder="State" class="form-control" required>
 		</div>
-		<label class="col-sm-4 control-label" >Password</label>
+
 		<div id="password" class="col-sm-8">
-			<input type="text"  name="password"  placeholder="" class="form-control">
+            <label class="col-sm-4 control-label" >Password</label>
+			<input type="password"  name="password"  placeholder="Password" class="form-control" required>
 		</div>
+
+        <div id="confirm_password" class="col-sm-8">
+            <label class="col-sm-4 control-label" >Confirm Password</label>
+			<input type="password"  name="confirm_password"  placeholder="Password" class="form-control" required>
+		</div>
+
 		<div>
-            <button type="submit"  class="btn btn-primary">Submit</button>
+            <button type="submit"  class="signupbtn">Sign Up</button>
 		</div>
 		
 	</div>
 	</form>
-</body>
+
+<style>
+body {font-family: Arial, Helvetica, sans-serif;}
+* {box-sizing: border-box;}
+
+#id01 {
+    width: 30%;
+    margin-left: 20%;
+}
+/* Full-width input fields */
+input[type=text], input[type=password], input[type=email] {
+  width: 100%;
+  padding: 15px;
+  margin: 3px 0 22px 0;
+  display: inline-block;
+  border: none;
+  background: #f1f1f1;
+}
+
+/* Add a background color when the inputs get focus */
+input[type=text]:focus, input[type=password]:focus, input[type=email]:focus {
+  background-color: #ddd;
+  outline: none;
+}
+
+/* Set a style for all buttons */
+button {
+  background-color: #4CAF50;
+  color: white;
+  padding: 14px 20px;
+  margin: 8px 0;
+  border: none;
+  cursor: pointer;
+  width: 30%;
+  opacity: 0.9;
+}
+
+button:hover {
+  opacity:1;
+}
+
+.signupbtn {
+  alignment: center;
+  width: 50%;
+}
+
+/* Add padding to container elements */
+.container {
+  padding: 16px;
+}
+
+/* Style the horizontal ruler */
+hr {
+  border: 1px solid #f1f1f1;
+  margin-bottom: 25px;
+}
+
+</style>
+{% endblock %}

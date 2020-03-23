@@ -16,9 +16,15 @@ Including another URLconf
 from django.contrib import admin
 from django.urls import path
 from bookbayapp import views
+from django.contrib.staticfiles.urls import staticfiles_urlpatterns
+
 
 urlpatterns = [
     path('admin/', admin.site.urls),
-    path('register/', views.userdetails),
+    path('register/', views.userdetails, name='register'),
+    path('login/', views.validatelogin, name='login'),
+    path('', views.home, name='home'),
     #path('userdetails/', views.userdetails),
 ]
+
+urlpatterns += staticfiles_urlpatterns()
