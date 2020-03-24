@@ -1,0 +1,53 @@
+{% extends "userbase.html" %}
+
+{% block content %}
+    {% load static %}
+    <style>
+        .small {
+            transform: scale(0.9, 0.9);
+            -ms-transform: scale(0.9, 0.9); /* IE 9 */
+            -webkit-transform: scale(0.9, 0.9); /* Safari and Chrome */
+            -o-transform: scale(0.9, 0.9); /* Opera */
+            -moz-transform: scale(0.9, 0.9); /* Firefox */
+        }
+
+        .column {
+            float: left;
+            width: 20%;
+            padding: 0 10px;
+        }
+
+    </style>
+
+    <div class="small card p-1 mb-5 bg-white rounded" style="min-width: 50%;">
+        <div class="header">
+            <h3>Search Results</h3>
+        </div>
+        <div id = "big" class="card-body">
+            {% for book in books %}
+                <div class="column">
+                    <div class="card shadow p-1 mb-5 bg-white rounded">
+                        <img class="card-img-top" src="{% static 'img/BookBay.png' %}" alt="Card image" style="width:60%;align-self: center">
+                        <div class="card-body" >
+                            <h3 class="center">{{ book.book_name}}</h3><br>
+                            <h6>
+                                Genre: {{ book.genre }} <br>
+                                Author: {{ book.author }} <br>
+                                Edition : {{ book.edition }} <br>
+                                ISBN : {{ book.isbn }} <br>
+                            </h6>
+                            <br><br>
+
+                            <form action = "/bookdetail/" target = "_blank" method = "get">
+                                <button type = "submit" class="btn btn-info" style="width: 40%;position: center">View</button>
+                            </form>
+                            <br>
+                        </div>
+
+                    </div>
+                </div>
+
+            {% endfor %}
+        </div>
+    </div>
+{% endblock %}

@@ -1,0 +1,59 @@
+{% extends "userbase.html" %}
+
+{% block content %}
+    {% load static %}
+
+    <style>
+
+        input[type=search] {
+            width: 100%;
+            padding: 10px;
+            margin: 3px 0 22px 0;
+            display: inline-block;
+            border: none;
+            background: #f1f1f1;
+        }
+
+        input[type=search]:focus {
+            background-color: #ddd;
+            outline: none;
+        }
+
+        button:hover {
+            opacity:1;
+        }
+
+        .container {
+            padding: 12px;
+        }
+    </style>
+    <script>
+        function geterror() {
+            alert("Book Not Found")
+        }
+    </script>
+    {% if messages %}
+        <script>geterror();</script>
+    {% endif %}
+    <br><br><br><br>
+    <div class="small card p-1 mb-5 bg-white rounded" style="max-width: 50%;margin-left: 25%">
+        <div class="header">
+            <h3>Search Book</h3>
+        </div>
+        <div class="card-body">
+            <form method="POST" id="search-form" class="post-form" action="/searchresult/">
+                {% csrf_token %}
+                <div id="searchbox" class="container" align="middle">
+                    <div id="search" class="col-sm-8">
+                        <input type="search"  name="search"  placeholder="Enter Book Name or ISBN ..." class="form-control" required>
+                    </div>
+
+                    <div>
+                        <button type = "submit" class="btn btn-info" style="width: 30%;position: center"><i class="fa fa-search"></i></button>
+                    </div>
+                </div>
+            </form>
+        </div>
+    </div>
+
+{% endblock %}

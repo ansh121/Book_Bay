@@ -3,12 +3,46 @@ from bookbayapp.forms import *
 from bookbayapp.models import *
 from django.http import HttpResponse
 
+from django.contrib.auth import authenticate
+from django.contrib.auth import login as djlogin
+from django.contrib.auth import logout as djlogout
+
+from django.contrib.auth.decorators import login_required
+from django.contrib.auth.models import User as djUser
+
+from django.contrib import messages
+from itertools import chain
+
+
+@login_required()
+def searchresult(request):
+    search=request.POST.get('search')
+    print(search)
+    namebooks = Book.objects.filter(book_name__contains=search)
+    isbnbooks = Book.objects.filter(isbn__exact=search)
+    books = namebooks | isbnbooks
+    books = books.distinct()
+    print(books)
+    user = request.user
+    if books.exists() :
+        return render(request, 'searchresult.html', {'user': user, 'books': books, 'search': search})
+    else:
+        messages.info(request,"Book not found!")
+        return render(request, 'userhome.html',{'user': user})
+
+
+@login_required()
+def userhome(request):
+    user = request.user
+    return render(request, 'userhome.html', {'user':user})
+
 
 def home(request):
     return render(request,'home.html')
 
 
 def validatelogin(request):
+    djlogout(request)
     if request.method=="POST":
         userid = request.POST.get("username")
         password = request.POST.get("password")
@@ -18,6 +52,9 @@ def validatelogin(request):
             user_cred=LoginCredential.objects.get(user_id=userid)
 
             if user_cred.password == password:
+                print('hello its\n')
+                login_user = authenticate(username=userid, password=password)
+                djlogin(request, login_user)
                 message = 'no_error'
             else:
                 message ='password_mismatch'
@@ -53,6 +90,11 @@ def userdetails(request):
 
         if not message:
             try:
+                new_user = djUser.objects.create_user(
+                    username=userid, email="", password=password,
+                    first_name="",
+                    last_name=""
+                )
                 user = User.objects.create(user_id = userid ,email_address = email,name = name,house_number = house_no,street = street,locality = locality,postal_code = postal_code,landmark = landmark,city = city,state = state)
                 new_credentials = LoginCredential(user=user, password=password)
                 new_credentials.save()

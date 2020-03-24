@@ -65,7 +65,7 @@ $(document).ready(function(){
 			else if(msg == "no_error"){
 				console.log("all info ok, redirecting");
 				// redirect to home
-				window.location.href = '/login.html';
+				window.location.href = '/login';
 			}
 
 			return false;

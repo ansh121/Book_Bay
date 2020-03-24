@@ -42,6 +42,7 @@ body {
   text-align: center;
   padding: 14px 20px;
   text-decoration: none;
+
 }
 /* Right-aligned link */
 #navbar a.right {
@@ -66,11 +67,16 @@ body {
 </div>
 
 <div id="navbar">
-    <a id="home" href="{% url 'home' %}"><i class="fa fa-fw fa-home"></i> Home</a>
+    <a id="home" href="{% url 'userhome' %}"><i class="fa fa-fw fa-home"></i> Home</a>
+    <a id="myaccount" href="#" ><i class="fa fa-fw fa-user"></i> My Account</a>
+    <a id="mybooks" href="#" ><i class="fa fa-fw fa-book"></i> My Books</a>
+    <a id="lentbooks" href="#" ><i class="fa fa-fw fa-upload"></i> Lent Books</a>
+    <a id="borrowedbooks" href="#" ><i class="fa fa-fw fa-download"></i> Borrowed Books</a>
+    <a id="pendingrequest" href="#" ><i class="fa fa-fw fa-send"></i> Pending Request</a>
     <a id="contact" href="#" ><i class="fa fa-fw fa-connectdevelop"></i> Contact</a>
     <a id="about" href="#" ><i class="fa fa-fw fa-info-circle"></i> About</a>
-    <a id="login" href="{% url 'login' %}" class="right"> <i class="fa fa-fw fa-user"></i> Login</a>
-    <a id="signup" href="{% url 'register' %}" class="right"> <i class="fa fa-fw fa-user"></i> Signup</a>
+    <a id="logout" href="{% url 'login' %}" class="right"> <i class="fa fa-fw fa-user"></i> Log Out</a>
+    <a class="right" style="color: white">Welcome {{ user }}</a>
 </div>
 
 {% block content %}
@@ -79,3 +85,4 @@ body {
 
 </body>
 </html>
+

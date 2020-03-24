@@ -2,18 +2,14 @@
 
 $(document).ready(function(){
 
-	$('#login-form').on('submit', function(event){
+	$('#search-form').on('submit', function(event){
 		event.preventDefault();
-		console.log('Login form submitted.');
-
 		// remove all previous errors
-		$('#login-form').find('.error-msg').remove();
+		$('#search-form').find('.error-msg').remove();
 
-		// check -
-		// all fields non-empty
 		var all_filled = true;
 
-		$('#login-form input').each(function(){
+		$('#search-form input').each(function(){
 			if(! $(this).val()){
 
 				$(this).parent().addClass('has-error');
@@ -31,18 +27,14 @@ $(document).ready(function(){
 										function(msg){
 			console.log(msg);
 
-			if(msg == "password_mismatch"){
-				console.log("password_mismatch");
-				$('#password input').after('<p class="error-msg" style="color:red">Incorrect Password!</p>');
+			if(msg == 'no_book_found'){
+				console.log("Book not found!");
+				$('#search input').after('<p class="error-msg" style="color:red">Book not found!</p>');
 			}
-			else if(msg == "user_id_not_found"){
-				console.log("User Id not found!");
-				$('#username input').after('<p class="error-msg" style="color:red">Invalid User Id!</p>');
-			}
-			else if(msg == "no_error") {
+			else{
 				console.log("all info ok, redirecting");
 				// redirect to home
-				window.location.href = '/userhome';
+				window.location.href = '/searchresult';
 			}
 
 			return false;
