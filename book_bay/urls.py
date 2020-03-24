@@ -25,6 +25,7 @@ urlpatterns = [
     path('login/', views.validatelogin, name='login'),
     path('userhome/', views.userhome, name='userhome'),
     path('searchresult/', views.searchresult, name='searchresult'),
+    path('mybooks/', views.mybooks, name='mybooks'),
     path('', views.home, name='home'),
     #path('userdetails/', views.userdetails),
 ]

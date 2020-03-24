@@ -11,24 +11,59 @@ from django.contrib.auth.decorators import login_required
 from django.contrib.auth.models import User as djUser
 
 from django.contrib import messages
-from itertools import chain
+from django.db import connection, transaction
 
+
+def perform_raw_sql(sql):
+    cursor = connection.cursor()
+    cursor.execute(sql)
+    results = cursor.fetchall()
+    list = []
+    i = 0
+    for row in results:
+        dict = {}
+        field = 0
+        while True:
+            try:
+                dict[cursor.description[field][0]] = str(results[i][field])
+                field = field +1
+            except IndexError as e:
+                break
+        i = i + 1
+        list.append(dict)
+    return list
 
 @login_required()
 def searchresult(request):
-    search=request.POST.get('search')
-    print(search)
-    namebooks = Book.objects.filter(book_name__contains=search)
-    isbnbooks = Book.objects.filter(isbn__exact=search)
-    books = namebooks | isbnbooks
-    books = books.distinct()
-    print(books)
     user = request.user
-    if books.exists() :
-        return render(request, 'searchresult.html', {'user': user, 'books': books, 'search': search})
+    if request.method=="POST":
+        search = request.POST.get('search')
+        print(search)
+        namebooks = Book.objects.filter(book_name__contains=search)
+        isbnbooks = Book.objects.filter(isbn__exact=search)
+        books = namebooks | isbnbooks
+        books = books.distinct()
+        print(books)
+        if books.exists() :
+            return render(request, 'searchresult.html', {'user': user, 'books': books, 'search': search})
+        else:
+            messages.info(request,"Book not found!")
+            return render(request, 'userhome.html',{'user': user})
     else:
-        messages.info(request,"Book not found!")
-        return render(request, 'userhome.html',{'user': user})
+        return render(request, 'userhome.html', {'user': user})
+
+
+@login_required()
+def mybooks(request):
+    user = request.user
+    books = perform_raw_sql("select * from user as U, my_books as MB, book as B where U.User_ID='"+str(user)+"' and U.User_ID=MB.User_ID and MB.ISBN=B.ISBN")
+    print(books)
+    if len(books)!=0:
+        return render(request, 'mybooks.html', {'user': user, 'books': books})
+    else:
+        messages.info(request,"No Book Added !")
+        books={}
+        return render(request, 'mybooks.html', {'user': user, 'books': books})
 
 
 @login_required()

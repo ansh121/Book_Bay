@@ -3,6 +3,11 @@
 {% block content %}
     {% load static %}
     <style>
+        #mybooks{
+            background-color: #666;
+            color: white;
+        }
+
         .small {
             transform: scale(0.9, 0.9);
             -ms-transform: scale(0.9, 0.9); /* IE 9 */
@@ -21,7 +26,7 @@
 
     <div class="small card p-1 mb-5 bg-white rounded" style="min-width: 50%;">
         <div class="header">
-            <h3>Search Results</h3>
+            <h3>My Books</h3>
         </div>
         <div id = "big" class="card-body"">
             {% for book in books %}
@@ -29,17 +34,18 @@
                     <div class="card shadow p-1 mb-5 bg-white rounded">
                         <img class="card-img-top" src="{% static 'img/BookBay.png' %}" alt="Card image" style="width:60%;align-self: center">
                         <div class="card-body" >
-                            <h3 class="center">{{ book.book_name}}</h3><br>
+                            <h3 class="center">{{ book.Book_Name}}</h3><br>
                             <h6>
-                                Genre: {{ book.genre }} <br>
-                                Author: {{ book.author }} <br>
-                                Edition : {{ book.edition }} <br>
-                                ISBN : {{ book.isbn }} <br>
+                                Genre: {{ book.Genre }} <br>
+                                Author: {{ book.Author }} <br>
+                                Edition : {{ book.Edition }} <br>
+                                ISBN : {{ book.ISBN }} <br>
                             </h6>
                             <br><br>
 
-                            <form action = "/bookdetail/" target = "_blank" method = "get">
-                                <button type = "submit" class="btn btn-info" style="width: 40%;position: center">View</button>
+                            <form action = "/bookedit/" target = "_blank" method = "get">
+                                <button type = "submit" class="btn btn-info" style="width: 40%;margin-left: 5%">View</button>
+                                <button type = "submit" class="btn btn-info" style="width: 40%;margin-left: 10%">Edit</button>
                             </form>
                             <br>
                         </div>
