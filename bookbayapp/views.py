@@ -33,6 +33,23 @@ def perform_raw_sql(sql):
         list.append(dict)
     return list
 
+
+@login_required()
+def myaccount(request):
+    userid = request.user
+    '''
+    user_det = User.objects.get(user_id__exact=userid)
+    password_det = LoginCredential.objects.get(user__exact=userid)
+    user_detail = user_det | password_det
+    return render(request,'myaccount.html',{'user': userid, 'userdetail': user_detail})
+    '''
+    userdetail = perform_raw_sql("select * from user as U, login_credential as LC where U.User_ID='" + str(userid) + "' and U.User_ID=LC.User_ID")
+    userdetail = userdetail[0]
+    userdetail['user'] = userid
+    print(userdetail)
+    return render(request, 'myaccount.html', userdetail)
+
+
 @login_required()
 def searchresult(request):
     user = request.user

@@ -28,7 +28,14 @@
         <div class="header">
             <h3>My Books</h3>
         </div>
-        <div id = "big" class="card-body"">
+        <div id = "big" class="card-body">
+            {% if messages %}
+                <ul class="messages">
+                    {% for message in messages %}
+                        <h4>{{ message }}</h4>
+                    {% endfor %}
+                </ul>
+            {% endif %}
             {% for book in books %}
                 <div class="column">
                     <div class="card shadow p-1 mb-5 bg-white rounded">
@@ -41,13 +48,15 @@
                                 Edition : {{ book.Edition }} <br>
                                 ISBN : {{ book.ISBN }} <br>
                             </h6>
-                            <br><br>
-
-                            <form action = "/bookedit/" target = "_blank" method = "get">
-                                <button type = "submit" class="btn btn-info" style="width: 40%;margin-left: 5%">View</button>
-                                <button type = "submit" class="btn btn-info" style="width: 40%;margin-left: 10%">Edit</button>
-                            </form>
                             <br>
+
+                            <form action = "/bookedit/" target = "_blank" method = "get" >
+                                <button type = "submit" class="btn btn-info" style="width: 40%;margin-left: 30%"><i class="fa fa-eye"></i>  View</button>
+                            </form>
+                            <form action = "/bookedit/" target = "_blank" method = "get" >
+                                <button type = "submit" class="btn btn-info" style="width: 40%;margin-left: 30%; background: #ff4500;margin-top: 7px"><i class="fa fa-remove"></i> Delete</button>
+                            </form>
+
                         </div>
 
                     </div>
@@ -55,5 +64,11 @@
 
             {% endfor %}
         </div>
+
+        <form action = "/addbook/" target = "_blank" method = "get" style="width: 20%;margin-left: 45%;">
+            <button type = "submit" class="btn btn-info" style="width: 40%;margin-left: 5%">Add Book</button>
+        </form>
+        <br>
     </div>
+
 {% endblock %}
