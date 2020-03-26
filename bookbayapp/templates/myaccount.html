@@ -13,131 +13,140 @@
 
         body {font-family: Arial, Helvetica, sans-serif;}
 
-        /* Full-width input fields */
-        input[type=text], input[type=password], input[type=email] {
-            width: 60%;
-            padding: 15px;
-            margin: 3px 0 10px 0;
-            display: inline-block;
-            border: black;
-            background: #f1f1f1;
-        }
-
-        /* Add a background color when the inputs get focus */
-        input[type=text]:focus, input[type=password]:focus, input[type=email]:focus {
-            background-color: #ddd;
-            outline: none;
-        }
-
-        /* Set a style for all buttons */
-        button {
-            background-color: #4CAF50;
-            color: white;
-            padding: 14px 20px;
-            margin: 8px 0;
-            border: none;
-            cursor: pointer;
-            width: 30%;
-            opacity: 0.9;
-        }
-
-        button:hover {
-            opacity:1;
-        }
-
-        .control-label{
-            font-size: medium;
-        }
-
-
-        /* Add padding to container elements */
-        .container {
-            padding: 16px;
-        }
-
         /* Style the horizontal ruler */
         hr {
             border: 1px solid #f1f1f1;
             margin-bottom: 25px;
         }
 
-        .control-label{
-            padding: 0%;
-            width: 40%;
-            margin-right: 5%;
+        .col-sm-7{
+            margin-right: 10px;
+            margin-top: 10px;
         }
 
+        .control-label{
+            margin-top: 15px;
+            font-size: medium;
+            font-family: lato;
+        }
     </style>
 
+    <div class="modal fade" id="changepassword" role="dialog">
+        <div class="modal-dialog">
 
-    <div class="small card p-1 mb-5 bg-white rounded" style="width: 40%;margin-left: 30%;margin-top: 4%;">
-        <form method="POST" id="register-form" class="post-form" action="/edituserdeatils/" >
+            <!-- Modal content-->
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h4 class="modal-title">Change Password</h4>
+                    <button type="button" class="close" data-dismiss="modal">&times;</button>
+                </div>
+                <div class="modal-body" >
+                    <form method="POST" class="post-form" action="/myaccount/">
+                        {% csrf_token %}
+                        <div>
+                            <h5>Please enter old and new password to continue.</h5>
+                            <div id="oldpassword" >
+                                <label class="lab" >Old Password</label>
+                                <input type="password"  name="oldpassword"  placeholder="Old Password" class="form-control" required>
+                            </div>
+                            <div id="newpassword" >
+                                <label class="lab" >New Password</label>
+                                <input type="password"  name="newpassword"  placeholder="New Password" class="form-control" required>
+                            </div>
+
+                            <div id="confirmnewpassword">
+                                <label class="lab" >Confirm New Password</label>
+                                <input type="password"  name="confirmnewpassword"  placeholder="Confirm New Password" class="form-control" required>
+                            </div>
+                            <div class="modal-footer">
+                                <button type="submit" name="changepassword" value="changepassword" class="btn btn-info" ><i class="fa fa-save"></i>   Change Password</button>
+                            </div>
+                        </div>
+                    </form>
+                </div>
+            </div>
+
+        </div>
+    </div>
+
+
+    <div class="small card p-1 mb-5 bg-white rounded" style="width: 40%;margin-left: 30%;margin-top: 4%;" align="middle">
+        <form method="POST" id="register-form" class="post-form" action="/myaccount/" >
             {% csrf_token %}
-            <div id="id01" class="container" align="middle">
+            <div >
 
-                <h3 align="center">Account Details</h3>
+                <h3>Account Details</h3>
                 <hr>
-
-                <div id="username" class="col-sm-8">
+                {% if messages %}
+                    <ul class="messages">
+                        {% for message in messages %}
+                            {% if message.level == DEFAULT_MESSAGE_LEVELS.SUCCESS %}
+                                <h4 style="color: green;align-self: center;">{{ message }}</h4>
+                            {% else %}
+                                <h4 style="color: red;">{{ message }}</h4>
+                            {% endif %}
+                        {% endfor %}
+                    </ul>
+                    <hr>
+                {% endif %}
+                <h5>Change details in the fields below to edit.</h5>
+                <div id="username">
                     <label class="col-sm-4 control-label" >Username</label>
-                    <input type="text"  name="username"  placeholder={{ User_ID }} class="form-control" readonly>
+                    <input type="text"  name="username"  value={{ User_ID }} class="form-control col-sm-7" readonly>
                 </div>
 
-                <div id="email"  class="col-sm-8">
+                <div id="email" >
                     <label class="col-sm-4 control-label" >Email</label>
-                    <input type="email"  name="email"  placeholder={{ Email_Address }} class="form-control" readonly>
+                    <input type="email"  name="email"  value={{ Email_Address }} class="form-control col-sm-7" >
                 </div>
 
-                <div  id="Name" class="col-sm-8">
+                <div  id="Name" >
                     <label class="col-sm-4 control-label" >Name</label>
-                    <input type="text"  name="name"  placeholder={{ Name }} class="form-control" readonly>
+                    <input type="text"  name="name"  value={{ Name }} class="form-control col-sm-7" >
                 </div>
 
-                <div  id="House_No" class="col-sm-8">
+                <div  id="House_No" >
                     <label class="col-sm-4 control-label" >House No</label>
-                    <input type="text"  name="house_no"  placeholder={{ House_Number }} class="form-control" readonly>
+                    <input type="text"  name="house_no"  value={{ House_Number }} class="form-control  col-sm-7" >
                 </div>
 
-                <div  id="Street" class="col-sm-8">
+                <div  id="Street" >
                     <label class="col-sm-4 control-label" >Street</label>
-                    <input type="text"  name="street"  placeholder={{ Street }} class="form-control" >
+                    <input type="text"  name="street"  value={{ Street }} class="form-control  col-sm-7" >
                 </div>
 
-                <div  id="Locality" class="col-sm-8">
+                <div  id="Locality" >
                     <label class="col-sm-4 control-label" >Locality</label>
-                    <input type="text"  name="locality"  placeholder={{ Locality }} class="form-control" readonly>
+                    <input type="text"  name="locality"  value={{ Locality }} class="form-control  col-sm-7" >
                 </div>
 
-                <div  id="Postal_Code" class="col-sm-8">
+                <div  id="Postal_Code" >
                     <label class="col-sm-4 control-label" >Postal Code</label>
-                    <input type="text"  name="postal_code"  placeholder={{ Postal_Code }} class="form-control" readonly>
+                    <input type="text"  name="postal_code"  value={{ Postal_Code }} class="form-control  col-sm-7" >
                 </div>
 
-                <div  id="Landmark" class="col-sm-8">
+                <div  id="Landmark" >
                     <label class="col-sm-4 control-label" >Landmark</label>
-                    <input type="text"  name="landmark"  placeholder={{ Landmark }} class="form-control">
+                    <input type="text"  name="landmark"  value={{ Landmark }} class="form-control  col-sm-7">
                 </div>
 
-                <div  id="City" class="col-sm-8">
+                <div  id="City" >
                     <label class="col-sm-4 control-label" >City</label>
-                    <input type="text"  name="city"  placeholder={{ City }} class="form-control" readonly>
+                    <input type="text"  name="city"  value={{ City }} class="form-control  col-sm-7" >
                 </div>
 
-                <div  id="State" class="col-sm-8">
+                <div  id="State">
                     <label class="col-sm-4 control-label" >State</label>
-                    <input type="text"  name="state"  placeholder={{ State }} class="form-control" readonly>
+                    <input type="text"  name="state"  value={{ State }} class="form-control  col-sm-7" >
                 </div>
 
                 <div>
-                    <button type="submit"  class="btn btn-info" style="background: #1f8c22">Edit Details</button>
+                    <button type="submit"  name="editdetails" value="editdetails" class="btn btn-info" style="background: #1f8c22; margin-top: 15px;">Edit Details</button>
                 </div>
             </div>
         </form>
-        <form method="POST" action="/changepassword/">
-            <div align="middle">
-                <button type="submit"  class="btn btn-info">Change Password</button>
-            </div>
-        </form>
+        <button align="middle" type="submit"  data-toggle="modal" data-target="#changepassword" class="btn btn-info" style="margin-top: 15px; width: 30%; margin-bottom: 10px;">Change Password</button>
+
     </div>
 
 {% endblock %}

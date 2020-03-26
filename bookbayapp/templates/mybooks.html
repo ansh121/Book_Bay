@@ -2,8 +2,7 @@
 
 {% block content %}
     {% load static %}
-    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/css/bootstrap.min.css">
-    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/js/bootstrap.min.js"></script>
+
     <style>
         #mybooks{
             background-color: #666;
@@ -24,13 +23,10 @@
             padding: 0 10px;
         }
 
-        .lab{
-            margin-top: 5px;
-        }
-
     </style>
-    <!-- Modals for view and delete -->
+    <!-- Modals for view, delete and edit-->
     {% for book in books %}
+        <!-- Modal for view -->
         <div class="modal fade" id="view{{ book.ISBN }}" role="dialog">
             <div class="modal-dialog">
 
@@ -52,10 +48,7 @@
                         <b>Security Money of Book</b> : Rs.{{ book.Security_Money_of_Book }}<br>
                     </div>
                     <div class="modal-footer">
-                        <form method="post" action="/editbook/">
-                            {% csrf_token %}
-                            <button type="submit" class="btn btn-info" ><i class="fa fa-edit"></i>  Edit</button>
-                        </form>
+                        <button type="submit" class="btn btn-info" data-toggle="modal" data-target="#editbook{{ book.ISBN }}" ><i class="fa fa-edit"></i>  Edit</button>
                         <button type="button" class="btn btn-default" data-dismiss="modal"><i class="fa fa-remove"></i>  Cancel</button>
                     </div>
                 </div>
@@ -63,6 +56,7 @@
             </div>
         </div>
 
+        <!-- Modal for delete Book-->
         <div class="modal fade" id="delete{{ book.ISBN }}" role="dialog">
             <div class="modal-dialog">
 
@@ -89,9 +83,78 @@
 
             </div>
         </div>
+
+        <!-- Modal for Edit Book-->
+        <div class="modal fade" id="editbook{{ book.ISBN }}" role="dialog">
+            <div class="modal-dialog">
+
+                <!-- Modal content-->
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <h4 class="modal-title">Edit Book</h4>
+                        <button type="button" class="close" data-dismiss="modal">x</button>
+                    </div>
+                    <div class="modal-body" >
+                        <form method="POST" class="post-form" action="/mybooks/">
+                            {% csrf_token %}
+                            <div>
+                                <h5>Please fill in this fields you want to change.</h5>
+                                <div id="title" >
+                                    <label class="lab">Title</label>
+                                    <input type="text"  name="title"  value={{ book.Book_Name }} class="form-control" readonly>
+                                </div>
+
+                                <div id="genre" >
+                                    <label class="lab" >Genre</label>
+                                    <input type="text"  name="genre"  value={{ book.Genre }} class="form-control">
+                                </div>
+
+                                <div  id="author">
+                                    <label class="lab" >Author</label>
+                                    <input type="text"  name="author"  value={{ book.Author }} class="form-control" >
+                                </div>
+
+                                <div  id="edition" >
+                                    <label class="lab" >Edition</label>
+                                    <input type="text"  name="edition"  value={{ book.Edition }} class="form-control">
+                                </div>
+
+                                <div  id="isbn" >
+                                    <label class="lab" >ISBN</label>
+                                    <input type="text"  name="isbn"  value={{ book.ISBN }} class="form-control" readonly>
+                                </div>
+
+                                <div  id="repaymentpolicy" >
+                                    <label class="lab" >Repayment Policy</label>
+                                    <input type="text"  name="repaymentpolicy"  value={{ book.Repayment_Policy }} class="form-control" >
+                                </div>
+
+                                <div  id="availability" >
+                                    <label class="lab" >Availability</label>
+                                    <input type="text"  name="availability"  value={{ book.Availability }} class="form-control" >
+                                </div>
+
+                                <div  id="otherspecifications" >
+                                    <label class="lab" >Other Specifications</label>
+                                    <input type="text"  name="otherspecifications"  value={{ book.Other_Specifications }} class="form-control" >
+                                </div>
+
+                                <div  id="securitymoneyofbook" >
+                                    <label class="lab" >Security Money of Book</label>
+                                    <input type="text"  name="securitymoneyofbook"  value={{ book.Security_Money_of_Book }} class="form-control" >
+                                </div>
+                                <br>
+                                <button type="submit" name="editbook" value="editbook" class="btn btn-info" ><i class="fa fa-save"></i>  Save</button>
+                            </div>
+                        </form>
+                    </div>
+                </div>
+
+            </div>
+        </div>
     {% endfor %}
 
-    <!-- Modls for Add Book-->
+    <!-- Modal for Add Book-->
     <div class="modal fade" id="addbook" role="dialog">
         <div class="modal-dialog">
 
@@ -103,56 +166,56 @@
                 </div>
                 <div class="modal-body" >
                     <form method="POST" class="post-form" action="/mybooks/">
-                    {% csrf_token %}
-                    <div>
-                        <h5>Please fill in this form to a add book.</h5>
-                        <div id="title" >
-                            <label class="lab">Title</label>
-                            <input type="text"  name="title"  placeholder="Title" class="form-control" required>
-                        </div>
+                        {% csrf_token %}
+                        <div>
+                            <h5>Please fill in this form to a add book.</h5>
+                            <div id="title" >
+                                <label class="lab">Title</label>
+                                <input type="text"  name="title"  placeholder="Title" class="form-control" required>
+                            </div>
 
-                        <div id="genre" >
-                            <label class="lab" >Genre</label>
-                            <input type="text"  name="genre"  placeholder="Genre" class="form-control">
-                        </div>
+                            <div id="genre" >
+                                <label class="lab" >Genre</label>
+                                <input type="text"  name="genre"  placeholder="Genre" class="form-control">
+                            </div>
 
-                        <div  id="author">
-                            <label class="lab" >Author</label>
-                            <input type="text"  name="author"  placeholder="Author" class="form-control" required>
-                        </div>
+                            <div  id="author">
+                                <label class="lab" >Author</label>
+                                <input type="text"  name="author"  placeholder="Author" class="form-control" required>
+                            </div>
 
-                        <div  id="edition" >
-                            <label class="lab" >Edition</label>
-                            <input type="text"  name="edition"  placeholder="Edition" class="form-control">
-                        </div>
+                            <div  id="edition" >
+                                <label class="lab" >Edition</label>
+                                <input type="text"  name="edition"  placeholder="Edition" class="form-control">
+                            </div>
 
-                        <div  id="isbn" >
-                            <label class="lab" >ISBN</label>
-                            <input type="text"  name="isbn"  placeholder="ISBN" class="form-control" required>
-                        </div>
+                            <div  id="isbn" >
+                                <label class="lab" >ISBN</label>
+                                <input type="text"  name="isbn"  placeholder="ISBN" class="form-control" required>
+                            </div>
 
-                        <div  id="repaymentpolicy" >
-                            <label class="lab" >Repayment Policy</label>
-                            <input type="text"  name="repaymentpolicy"  placeholder="In case of book loss, how would you like to repaid" class="form-control" >
-                        </div>
+                            <div  id="repaymentpolicy" >
+                                <label class="lab" >Repayment Policy</label>
+                                <input type="text"  name="repaymentpolicy"  placeholder="In case of book loss, how would you like to repaid" class="form-control" >
+                            </div>
 
-                        <div  id="availability" >
-                            <label class="lab" >Availability</label>
-                            <input type="text"  name="availability"  placeholder="if available to sahre then Yes else No" class="form-control" required>
-                        </div>
+                            <div  id="availability" >
+                                <label class="lab" >Availability</label>
+                                <input type="text"  name="availability"  placeholder="if available to sahre then Yes else No" class="form-control" required>
+                            </div>
 
-                        <div  id="otherspecifications" >
-                            <label class="lab" >Other Specifications</label>
-                            <input type="text"  name="otherspecifications"  placeholder="eg. book condition, marks, sharing terms, etc." class="form-control" >
-                        </div>
+                            <div  id="otherspecifications" >
+                                <label class="lab" >Other Specifications</label>
+                                <input type="text"  name="otherspecifications"  placeholder="eg. book condition, marks, sharing terms, etc." class="form-control" >
+                            </div>
 
-                        <div  id="securitymoneyofbook" >
-                            <label class="lab" >Security Money of Book</label>
-                            <input type="text"  name="securitymoneyofbook"  placeholder="Security Money of Book, Rs.0 by default" class="form-control" >
+                            <div  id="securitymoneyofbook" >
+                                <label class="lab" >Security Money of Book</label>
+                                <input type="text"  name="securitymoneyofbook"  placeholder="Security Money of Book, Rs.0 by default" class="form-control" >
+                            </div>
+                            <br>
+                            <button type="submit" name="addbook" value="addbook" class="btn btn-info" ><i class="fa fa-plus"></i>  Add Book</button>
                         </div>
-                        <br>
-                        <button type="submit" name="addbook" value="addbook" class="btn btn-info" ><i class="fa fa-plus"></i>  Add Book</button>
-                    </div>
                     </form>
                 </div>
             </div>
@@ -169,7 +232,7 @@
             {% if messages %}
                 <ul class="messages">
                     {% for message in messages %}
-                        <h4>{{ message }}</h4>
+                        <h4 style="color: red;">{{ message }}</h4>
                     {% endfor %}
                 </ul>
             {% endif %}
@@ -178,8 +241,8 @@
                     <div class="card shadow p-1 mb-5 bg-white rounded">
                         <img class="card-img-top" src="{% static 'img/BookBay.png' %}" alt="Card image" style="width:60%;align-self: center">
                         <div class="card-body" align="middle">
-                            <h3 class="center">{{ book.Book_Name}}</h3>
-                            <h5 >
+                            <h3 style="text-overflow: ellipsis;white-space: nowrap;overflow: hidden;">{{ book.Book_Name}}</h3>
+                            <h5>
                                 Genre: {{ book.Genre }} <br>
                                 Author: {{ book.Author }} <br>
                                 Edition : {{ book.Edition }} <br>
@@ -189,7 +252,7 @@
 
 
                             <button type = "submit" class="btn btn-info" data-toggle="modal" data-target="#view{{ book.ISBN }}" ><i class="fa fa-eye"></i>  View</button>
-                            <button type = "submit" class="btn btn-info" data-toggle="modal" data-target="#delete{{ book.ISBN }}"style="background: #ff4500;margin-left: 10px"><i class="fa fa-remove"></i> Delete</button>
+                            <button type = "submit" class="btn btn-danger" data-toggle="modal" data-target="#delete{{ book.ISBN }}" style="margin-left: 10px"><i class="fa fa-remove"></i> Delete</button>
 
                         </div>
 

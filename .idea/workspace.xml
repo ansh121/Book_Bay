@@ -2,12 +2,14 @@
 <project version="4">
   <component name="ChangeListManager">
     <list default="true" id="35c1aadb-d8ab-43b9-9243-23093cdcc78d" name="Default Changelist" comment="">
-      <change afterPath="$PROJECT_DIR$/.idea/vcs.xml" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/bookbayapp/templates/addbook.html" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/bookbayapp/models.py" beforeDir="false" afterPath="$PROJECT_DIR$/bookbayapp/models.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/bookbayapp/templates/addbook.html" beforeDir="false" />
       <change beforePath="$PROJECT_DIR$/bookbayapp/templates/myaccount.html" beforeDir="false" afterPath="$PROJECT_DIR$/bookbayapp/templates/myaccount.html" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/bookbayapp/templates/mybooks.html" beforeDir="false" afterPath="$PROJECT_DIR$/bookbayapp/templates/mybooks.html" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/bookbayapp/templates/searchresult.html" beforeDir="false" afterPath="$PROJECT_DIR$/bookbayapp/templates/searchresult.html" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/bookbayapp/templates/userbase.html" beforeDir="false" afterPath="$PROJECT_DIR$/bookbayapp/templates/userbase.html" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/bookbayapp/templates/userhome.html" beforeDir="false" afterPath="$PROJECT_DIR$/bookbayapp/templates/userhome.html" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/bookbayapp/views.py" beforeDir="false" afterPath="$PROJECT_DIR$/bookbayapp/views.py" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
@@ -110,12 +112,26 @@
       <workItem from="1584978151640" duration="19390000" />
       <workItem from="1585046478857" duration="34958000" />
       <workItem from="1585134390221" duration="6319000" />
-      <workItem from="1585211967229" duration="13445000" />
+      <workItem from="1585211967229" duration="13631000" />
+      <workItem from="1585239251467" duration="12636000" />
+      <workItem from="1585252063681" duration="73000" />
     </task>
+    <task id="LOCAL-00001" summary="My Books Updated">
+      <created>1585225790624</created>
+      <option name="number" value="00001" />
+      <option name="presentableId" value="LOCAL-00001" />
+      <option name="project" value="LOCAL" />
+      <updated>1585225790624</updated>
+    </task>
+    <option name="localTasksCounter" value="2" />
     <servers />
   </component>
   <component name="TypeScriptGeneratedFilesManager">
     <option name="version" value="1" />
+  </component>
+  <component name="VcsManagerConfiguration">
+    <MESSAGE value="My Books Updated" />
+    <option name="LAST_COMMIT_MESSAGE" value="My Books Updated" />
   </component>
   <component name="WindowStateProjectService">
     <state x="361" y="70" key="#com.intellij.execution.impl.EditConfigurationsDialog" timestamp="1584908907460">
@@ -130,25 +146,25 @@
       <screen x="0" y="0" width="1536" height="824" />
     </state>
     <state x="393" y="6" key="CommitChangelistDialog2/0.0.1536.824@0.0.1536.824" timestamp="1585225786758" />
-    <state width="1493" height="95" key="GridCell.Tab.0.bottom" timestamp="1585138990668">
+    <state width="1493" height="167" key="GridCell.Tab.0.bottom" timestamp="1585252150128">
       <screen x="0" y="0" width="1536" height="824" />
     </state>
-    <state width="1493" height="95" key="GridCell.Tab.0.bottom/0.0.1536.824@0.0.1536.824" timestamp="1585138990668" />
+    <state width="1493" height="167" key="GridCell.Tab.0.bottom/0.0.1536.824@0.0.1536.824" timestamp="1585252150128" />
     <state width="1807" height="296" key="GridCell.Tab.0.bottom/67.24.1853.1056@67.24.1853.1056" timestamp="1584817989585" />
-    <state width="1493" height="95" key="GridCell.Tab.0.center" timestamp="1585138990668">
+    <state width="1493" height="167" key="GridCell.Tab.0.center" timestamp="1585252150128">
       <screen x="0" y="0" width="1536" height="824" />
     </state>
-    <state width="1493" height="95" key="GridCell.Tab.0.center/0.0.1536.824@0.0.1536.824" timestamp="1585138990668" />
+    <state width="1493" height="167" key="GridCell.Tab.0.center/0.0.1536.824@0.0.1536.824" timestamp="1585252150128" />
     <state width="1807" height="296" key="GridCell.Tab.0.center/67.24.1853.1056@67.24.1853.1056" timestamp="1584817989583" />
-    <state width="1493" height="95" key="GridCell.Tab.0.left" timestamp="1585138990668">
+    <state width="1493" height="167" key="GridCell.Tab.0.left" timestamp="1585252150128">
       <screen x="0" y="0" width="1536" height="824" />
     </state>
-    <state width="1493" height="95" key="GridCell.Tab.0.left/0.0.1536.824@0.0.1536.824" timestamp="1585138990668" />
+    <state width="1493" height="167" key="GridCell.Tab.0.left/0.0.1536.824@0.0.1536.824" timestamp="1585252150128" />
     <state width="1807" height="296" key="GridCell.Tab.0.left/67.24.1853.1056@67.24.1853.1056" timestamp="1584817989583" />
-    <state width="1493" height="95" key="GridCell.Tab.0.right" timestamp="1585138990668">
+    <state width="1493" height="167" key="GridCell.Tab.0.right" timestamp="1585252150128">
       <screen x="0" y="0" width="1536" height="824" />
     </state>
-    <state width="1493" height="95" key="GridCell.Tab.0.right/0.0.1536.824@0.0.1536.824" timestamp="1585138990668" />
+    <state width="1493" height="167" key="GridCell.Tab.0.right/0.0.1536.824@0.0.1536.824" timestamp="1585252150128" />
     <state width="1807" height="296" key="GridCell.Tab.0.right/67.24.1853.1056@67.24.1853.1056" timestamp="1584817989584" />
     <state x="224" y="109" key="SettingsEditor" timestamp="1584908775842">
       <screen x="0" y="0" width="1536" height="824" />

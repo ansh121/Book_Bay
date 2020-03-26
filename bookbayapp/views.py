@@ -49,12 +49,50 @@ def perform_raw_sql(sql):
 @login_required()
 def myaccount(request):
     userid = request.user
-    '''
-    user_det = User.objects.get(user_id__exact=userid)
-    password_det = LoginCredential.objects.get(user__exact=userid)
-    user_detail = user_det | password_det
-    return render(request,'myaccount.html',{'user': userid, 'userdetail': user_detail})
-    '''
+
+    if request.POST.get("changepassword"):
+        oldpass=request.POST.get("oldpassword")
+        newpass=request.POST.get("newpassword")
+        confnewpass=request.POST.get("confirmnewpassword")
+
+        logcred=LoginCredential.objects.get(user=User.objects.get(user_id=userid))
+        if logcred.password==oldpass :
+            if newpass==confnewpass :
+                logcred.password=newpass
+                logcred.save()
+                messages.success(request,'Password updated successfully')
+            else:
+                messages.info(request,'Password did not match')
+        else:
+            messages.info(request,'Incorrect Password !')
+
+    if request.POST.get("editdetails"):
+        email = request.POST.get("email")
+        name = request.POST.get("name")
+        house_no = request.POST.get("house_no")
+        street = request.POST.get("street")
+        locality = request.POST.get("locality")
+        postal_code = request.POST.get("postal_code")
+        landmark = request.POST.get("landmark")
+        city = request.POST.get("city")
+        state = request.POST.get("state")
+
+        try:
+            u=User.objects.get(user_id=userid)
+            u.email_address = email
+            u.name = name
+            u.house_number = house_no
+            u.street = street
+            u.locality = locality
+            u.postal_code = postal_code
+            u.landmark = landmark
+            u.city = city
+            u.state = state
+            u.save()
+            print("User details updated successfully")
+        except:
+            print("User details update error")
+
     userdetail = perform_raw_sql("select * from user as U, login_credential as LC where U.User_ID='" + str(userid) + "' and U.User_ID=LC.User_ID")
     userdetail = userdetail[0]
     userdetail['user'] = userid
@@ -104,25 +142,50 @@ def mybooks(request):
         otherspec=request.POST.get('otherspecification')
         securitymoney=request.POST.get('securitymoneyofbook')
 
+        print(genre)
         try:
-            query="select * from my_books as MB where MB.User_ID='"+str(user)+"' and MB.ISBN="+str(isbn)
-            print(query)
-            already_added=perform_raw_sql(query)
-            print(already_added)
-            if len(already_added) > 0:
-                messages.info(request, "Book Already Added !")
-            else:
-                mybook=MyBooks(repayment_policy= repaypol,availability=availability,other_specifications=otherspec,security_money_of_book=securitymoney,user=user,isbn=isbn)
-                mybook.save()
-                print(mybook)
-                if Book.objects.filter(isbn__exact=isbn).exists():
-                    print('already exists')
-                else:
-                    book=Book.objects.create(isbn,bookname,edition,author,genre)
-                    print(book)
+            Book.objects.create(isbn=isbn,book_name=bookname,edition=int(edition),author=author,genre=genre)
+            print("new book added")
         except:
+            print("book already exists")
+
+        try:
+            MyBooks.objects.create(repayment_policy=repaypol, availability=int(availability),
+                                   other_specifications=otherspec,
+                                   security_money_of_book=int(securitymoney), user=User.objects.get(user_id=user),
+                                   isbn=Book.objects.get(isbn=isbn))
+            print("new book added to user : ", user)
+        except:
+            messages.info(request,"Book already exists !")
             print("Error in adding Book")
 
+    if request.POST.get("editbook"):
+        bookname = request.POST.get('title')
+        genre = request.POST.get('genre')
+        author = request.POST.get('author')
+        edition = request.POST.get('edition')
+        isbn = request.POST.get('isbn')
+        availability = request.POST.get('availability')
+        repaypol = request.POST.get('repaymentpolicy')
+        otherspec = request.POST.get('otherspecification')
+        securitymoney = request.POST.get('securitymoneyofbook')
+
+        try:
+            b=Book.objects.get(isbn=isbn)
+            b.edition=int(edition)
+            b.author=author
+            b.genre=genre
+            b.save()
+
+            mb=MyBooks.objects.get(isbn=isbn, user=user)
+            mb.repayment_policy = repaypol
+            mb.availability = int(availability)
+            mb.other_specifications = otherspec
+            mb.security_money_of_book = int(securitymoney)
+            mb.save()
+            print("book updated")
+        except:
+            print("book update error")
 
 
     books = perform_raw_sql("select * from user as U, my_books as MB, book as B where U.User_ID='"+str(user)+"' and U.User_ID=MB.User_ID and MB.ISBN=B.ISBN")

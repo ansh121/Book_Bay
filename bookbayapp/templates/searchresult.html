@@ -28,18 +28,18 @@
                 <div class="column">
                     <div class="card shadow p-1 mb-5 bg-white rounded">
                         <img class="card-img-top" src="{% static 'img/BookBay.png' %}" alt="Card image" style="width:60%;align-self: center">
-                        <div class="card-body" >
-                            <h3 class="center">{{ book.book_name}}</h3><br>
-                            <h6>
+                        <div class="card-body" align="middle">
+                            <h3 class="center" style="text-overflow: ellipsis;white-space: nowrap;overflow: hidden;">{{ book.book_name}}</h3>
+                            <h5>
                                 Genre: {{ book.genre }} <br>
                                 Author: {{ book.author }} <br>
                                 Edition : {{ book.edition }} <br>
                                 ISBN : {{ book.isbn }} <br>
-                            </h6>
+                            </h5>
                             <br>
 
                             <form action = "/bookdetail/" target = "_blank" method = "get">
-                                <button type = "submit" class="btn btn-info" style="width: 40%;margin-left: 30%">View</button>
+                                <button type = "submit" class="btn btn-info" >View</button>
                             </form>
                         </div>
 
