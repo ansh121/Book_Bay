@@ -1,7 +1,15 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <project version="4">
   <component name="ChangeListManager">
-    <list default="true" id="35c1aadb-d8ab-43b9-9243-23093cdcc78d" name="Default Changelist" comment="" />
+    <list default="true" id="35c1aadb-d8ab-43b9-9243-23093cdcc78d" name="Default Changelist" comment="">
+      <change afterPath="$PROJECT_DIR$/.idea/vcs.xml" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/bookbayapp/templates/addbook.html" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/bookbayapp/templates/myaccount.html" beforeDir="false" afterPath="$PROJECT_DIR$/bookbayapp/templates/myaccount.html" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/bookbayapp/templates/mybooks.html" beforeDir="false" afterPath="$PROJECT_DIR$/bookbayapp/templates/mybooks.html" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/bookbayapp/templates/searchresult.html" beforeDir="false" afterPath="$PROJECT_DIR$/bookbayapp/templates/searchresult.html" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/bookbayapp/views.py" beforeDir="false" afterPath="$PROJECT_DIR$/bookbayapp/views.py" afterDir="false" />
+    </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
     <option name="HIGHLIGHT_NON_ACTIVE_CHANGELIST" value="false" />
@@ -19,6 +27,9 @@
       </list>
     </option>
   </component>
+  <component name="Git.Settings">
+    <option name="RECENT_GIT_ROOT_PATH" value="$PROJECT_DIR$" />
+  </component>
   <component name="ProjectId" id="1ZRdn4Kegdo55Qv4xMBQtLgXscF" />
   <component name="ProjectViewState">
     <option name="hideEmptyMiddlePackages" value="true" />
@@ -28,8 +39,9 @@
   <component name="PropertiesComponent">
     <property name="DefaultHtmlFileTemplate" value="HTML File" />
     <property name="RunOnceActivity.ShowReadmeOnStart" value="true" />
+    <property name="SHARE_PROJECT_CONFIGURATION_FILES" value="true" />
     <property name="WebServerToolWindowFactoryState" value="false" />
-    <property name="last_opened_file_path" value="$PROJECT_DIR$/bookbayapp/templates" />
+    <property name="last_opened_file_path" value="$PROJECT_DIR$" />
     <property name="restartRequiresConfirmation" value="false" />
     <property name="settings.editor.selected.configurable" value="com.jetbrains.python.configuration.PyActiveSdkModuleConfigurable" />
   </component>
@@ -98,6 +110,7 @@
       <workItem from="1584978151640" duration="19390000" />
       <workItem from="1585046478857" duration="34958000" />
       <workItem from="1585134390221" duration="6319000" />
+      <workItem from="1585211967229" duration="13445000" />
     </task>
     <servers />
   </component>

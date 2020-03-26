@@ -1,21 +1,16 @@
-{% extends "userbase.html" %}
+{% extends "base.html" %}
 {% block content %}
 
     {# load static files #}
     {% load static %}
-    <!--script src="{% static 'js/register.js' %}"></script-->
+    <script src="{% static 'js/register.js' %}"></script>
 
     <style>
-        #myaccount{
-            background-color: #666;
-            color: white;
-        }
-
         body {font-family: Arial, Helvetica, sans-serif;}
 
         /* Full-width input fields */
         input[type=text], input[type=password], input[type=email] {
-            width: 60%;
+            width: 100%;
             padding: 15px;
             margin: 3px 0 10px 0;
             display: inline-block;
@@ -63,81 +58,86 @@
 
         .control-label{
             padding: 0%;
-            width: 40%;
-            margin-right: 5%;
         }
 
     </style>
 
 
-    <div class="small card p-1 mb-5 bg-white rounded" style="width: 40%;margin-left: 30%;margin-top: 4%;">
-        <form method="POST" id="register-form" class="post-form" action="/edituserdeatils/" >
+    <div class="small card p-1 mb-5 bg-white rounded" style="width: 40%;margin-left: 10%;margin-top: 4%;">
+        <form method="POST" id="register-form" class="post-form" >
             {% csrf_token %}
             <div id="id01" class="container" align="middle">
 
-                <h3 align="center">Account Details</h3>
+                <h1>Sign Up</h1>
+                <h6>Please fill in this form to create an account.</h6>
                 <hr>
 
                 <div id="username" class="col-sm-8">
                     <label class="col-sm-4 control-label" >Username</label>
-                    <input type="text"  name="username"  placeholder={{ User_ID }} class="form-control" readonly>
+                    <input type="text"  name="username"  placeholder="Username" class="form-control" required>
                 </div>
 
                 <div id="email"  class="col-sm-8">
                     <label class="col-sm-4 control-label" >Email</label>
-                    <input type="email"  name="email"  placeholder={{ Email_Address }} class="form-control" readonly>
+                    <input type="email"  name="email"  placeholder="Email" class="form-control" required>
                 </div>
 
                 <div  id="Name" class="col-sm-8">
                     <label class="col-sm-4 control-label" >Name</label>
-                    <input type="text"  name="name"  placeholder={{ Name }} class="form-control" readonly>
+                    <input type="text"  name="name"  placeholder="Name" class="form-control" required>
                 </div>
 
                 <div  id="House_No" class="col-sm-8">
                     <label class="col-sm-4 control-label" >House No</label>
-                    <input type="text"  name="house_no"  placeholder={{ House_Number }} class="form-control" readonly>
+                    <input type="text"  name="house_no"  placeholder="House No" class="form-control" required>
                 </div>
 
                 <div  id="Street" class="col-sm-8">
                     <label class="col-sm-4 control-label" >Street</label>
-                    <input type="text"  name="street"  placeholder={{ Street }} class="form-control" >
+                    <input type="text"  name="street"  placeholder="Street" class="form-control" >
                 </div>
 
                 <div  id="Locality" class="col-sm-8">
                     <label class="col-sm-4 control-label" >Locality</label>
-                    <input type="text"  name="locality"  placeholder={{ Locality }} class="form-control" readonly>
+                    <input type="text"  name="locality"  placeholder="Locality" class="form-control" required>
                 </div>
 
                 <div  id="Postal_Code" class="col-sm-8">
                     <label class="col-sm-4 control-label" >Postal Code</label>
-                    <input type="text"  name="postal_code"  placeholder={{ Postal_Code }} class="form-control" readonly>
+                    <input type="text"  name="postal_code"  placeholder="Postal Code" class="form-control" required>
                 </div>
 
                 <div  id="Landmark" class="col-sm-8">
                     <label class="col-sm-4 control-label" >Landmark</label>
-                    <input type="text"  name="landmark"  placeholder={{ Landmark }} class="form-control">
+                    <input type="text"  name="landmark"  placeholder="Landmark" class="form-control">
                 </div>
 
                 <div  id="City" class="col-sm-8">
                     <label class="col-sm-4 control-label" >City</label>
-                    <input type="text"  name="city"  placeholder={{ City }} class="form-control" readonly>
+                    <input type="text"  name="city"  placeholder="City" class="form-control" required>
                 </div>
 
                 <div  id="State" class="col-sm-8">
                     <label class="col-sm-4 control-label" >State</label>
-                    <input type="text"  name="state"  placeholder={{ State }} class="form-control" readonly>
+                    <input type="text"  name="state"  placeholder="State" class="form-control" required>
+                </div>
+
+                <div id="password" class="col-sm-8">
+                    <label class="col-sm-4 control-label" >Password</label>
+                    <input type="password"  name="password"  placeholder="Password" class="form-control" required>
+                </div>
+
+                <div id="confirm_password" class="col-sm-8">
+                    <label class="col-sm-4 control-label" >Confirm Password</label>
+                    <input type="password"  name="confirm_password"  placeholder="Password" class="form-control" required>
                 </div>
 
                 <div>
-                    <button type="submit"  class="btn btn-info" style="background: #1f8c22">Edit Details</button>
+                    <button type="submit"  class="signupbtn">Sign Up</button>
                 </div>
-            </div>
-        </form>
-        <form method="POST" action="/changepassword/">
-            <div align="middle">
-                <button type="submit"  class="btn btn-info">Change Password</button>
+
             </div>
         </form>
     </div>
 
-{% endblock %}
+{% endblock %}a

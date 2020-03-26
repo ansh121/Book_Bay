@@ -2,6 +2,8 @@
 
 {% block content %}
     {% load static %}
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/css/bootstrap.min.css">
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/js/bootstrap.min.js"></script>
     <style>
         #mybooks{
             background-color: #666;
@@ -22,11 +24,146 @@
             padding: 0 10px;
         }
 
-    </style>
+        .lab{
+            margin-top: 5px;
+        }
 
+    </style>
+    <!-- Modals for view and delete -->
+    {% for book in books %}
+        <div class="modal fade" id="view{{ book.ISBN }}" role="dialog">
+            <div class="modal-dialog">
+
+                <!-- Modal content-->
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <h4 class="modal-title">Book Details</h4>
+                        <button type="button" class="close" data-dismiss="modal">&times;</button>
+                    </div>
+                    <div class="modal-body" align="middle">
+                        <h4><b>Title</b> : {{ book.Book_Name }}</h4>
+                        <b>Genre</b> : {{ book.Genre }} <br>
+                        <b>Author</b> : {{ book.Author }} <br>
+                        <b>Edition</b> : {{ book.Edition }} <br>
+                        <b>ISBN</b> : {{ book.ISBN }} <br>
+                        <b>Repayment Policy</b> : {{ book.Repayment_Policy }}<br>
+                        <b>Availability</b> : {{ book.Availability }}<br>
+                        <b>Other Specifications</b> : {{ book.Other_Specifications }}<br>
+                        <b>Security Money of Book</b> : Rs.{{ book.Security_Money_of_Book }}<br>
+                    </div>
+                    <div class="modal-footer">
+                        <form method="post" action="/editbook/">
+                            {% csrf_token %}
+                            <button type="submit" class="btn btn-info" ><i class="fa fa-edit"></i>  Edit</button>
+                        </form>
+                        <button type="button" class="btn btn-default" data-dismiss="modal"><i class="fa fa-remove"></i>  Cancel</button>
+                    </div>
+                </div>
+
+            </div>
+        </div>
+
+        <div class="modal fade" id="delete{{ book.ISBN }}" role="dialog">
+            <div class="modal-dialog">
+
+                <!-- Modal content-->
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <h4 class="modal-title" >{{ book.Book_Name }}</h4>
+                        <button type="button" class="close" data-dismiss="modal">&times;</button>
+                    </div>
+
+                    <div class="modal-body">
+                        <p>Are you sure you want to delete '{{ book.Book_Name }}' from My Books.</p>
+                    </div>
+
+                    <div class="modal-footer">
+                        <form method="post" action="/mybooks/">
+                            {% csrf_token %}
+                            <input id="isbn" name="isbn" value="{{ book.ISBN }}" type="hidden">
+                            <button type="submit" name="delete"  value="delete" class="btn btn-warning" ><i class="fa fa-remove"></i>  Delete</button>
+                        </form>
+                        <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+                    </div>
+                </div>
+
+            </div>
+        </div>
+    {% endfor %}
+
+    <!-- Modls for Add Book-->
+    <div class="modal fade" id="addbook" role="dialog">
+        <div class="modal-dialog">
+
+            <!-- Modal content-->
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h4 class="modal-title">Add Book</h4>
+                    <button type="button" class="close" data-dismiss="modal">&times;</button>
+                </div>
+                <div class="modal-body" >
+                    <form method="POST" class="post-form" action="/mybooks/">
+                    {% csrf_token %}
+                    <div>
+                        <h5>Please fill in this form to a add book.</h5>
+                        <div id="title" >
+                            <label class="lab">Title</label>
+                            <input type="text"  name="title"  placeholder="Title" class="form-control" required>
+                        </div>
+
+                        <div id="genre" >
+                            <label class="lab" >Genre</label>
+                            <input type="text"  name="genre"  placeholder="Genre" class="form-control">
+                        </div>
+
+                        <div  id="author">
+                            <label class="lab" >Author</label>
+                            <input type="text"  name="author"  placeholder="Author" class="form-control" required>
+                        </div>
+
+                        <div  id="edition" >
+                            <label class="lab" >Edition</label>
+                            <input type="text"  name="edition"  placeholder="Edition" class="form-control">
+                        </div>
+
+                        <div  id="isbn" >
+                            <label class="lab" >ISBN</label>
+                            <input type="text"  name="isbn"  placeholder="ISBN" class="form-control" required>
+                        </div>
+
+                        <div  id="repaymentpolicy" >
+                            <label class="lab" >Repayment Policy</label>
+                            <input type="text"  name="repaymentpolicy"  placeholder="In case of book loss, how would you like to repaid" class="form-control" >
+                        </div>
+
+                        <div  id="availability" >
+                            <label class="lab" >Availability</label>
+                            <input type="text"  name="availability"  placeholder="if available to sahre then Yes else No" class="form-control" required>
+                        </div>
+
+                        <div  id="otherspecifications" >
+                            <label class="lab" >Other Specifications</label>
+                            <input type="text"  name="otherspecifications"  placeholder="eg. book condition, marks, sharing terms, etc." class="form-control" >
+                        </div>
+
+                        <div  id="securitymoneyofbook" >
+                            <label class="lab" >Security Money of Book</label>
+                            <input type="text"  name="securitymoneyofbook"  placeholder="Security Money of Book, Rs.0 by default" class="form-control" >
+                        </div>
+                        <br>
+                        <button type="submit" name="addbook" value="addbook" class="btn btn-info" ><i class="fa fa-plus"></i>  Add Book</button>
+                    </div>
+                    </form>
+                </div>
+            </div>
+
+        </div>
+    </div>
+
+    <!-- My books Section-->
     <div class="small card p-1 mb-5 bg-white rounded" style="min-width: 50%;">
         <div class="header">
-            <h3>My Books</h3>
+            <h2>My Books</h2>
         </div>
         <div id = "big" class="card-body">
             {% if messages %}
@@ -40,22 +177,19 @@
                 <div class="column">
                     <div class="card shadow p-1 mb-5 bg-white rounded">
                         <img class="card-img-top" src="{% static 'img/BookBay.png' %}" alt="Card image" style="width:60%;align-self: center">
-                        <div class="card-body" >
-                            <h3 class="center">{{ book.Book_Name}}</h3><br>
-                            <h6>
+                        <div class="card-body" align="middle">
+                            <h3 class="center">{{ book.Book_Name}}</h3>
+                            <h5 >
                                 Genre: {{ book.Genre }} <br>
                                 Author: {{ book.Author }} <br>
                                 Edition : {{ book.Edition }} <br>
                                 ISBN : {{ book.ISBN }} <br>
-                            </h6>
+                            </h5>
                             <br>
 
-                            <form action = "/bookedit/" target = "_blank" method = "get" >
-                                <button type = "submit" class="btn btn-info" style="width: 40%;margin-left: 30%"><i class="fa fa-eye"></i>  View</button>
-                            </form>
-                            <form action = "/bookedit/" target = "_blank" method = "get" >
-                                <button type = "submit" class="btn btn-info" style="width: 40%;margin-left: 30%; background: #ff4500;margin-top: 7px"><i class="fa fa-remove"></i> Delete</button>
-                            </form>
+
+                            <button type = "submit" class="btn btn-info" data-toggle="modal" data-target="#view{{ book.ISBN }}" ><i class="fa fa-eye"></i>  View</button>
+                            <button type = "submit" class="btn btn-info" data-toggle="modal" data-target="#delete{{ book.ISBN }}"style="background: #ff4500;margin-left: 10px"><i class="fa fa-remove"></i> Delete</button>
 
                         </div>
 
@@ -65,9 +199,11 @@
             {% endfor %}
         </div>
 
-        <form action = "/addbook/" target = "_blank" method = "get" style="width: 20%;margin-left: 45%;">
-            <button type = "submit" class="btn btn-info" style="width: 40%;margin-left: 5%">Add Book</button>
-        </form>
+
+        <div align="middle">
+            <button type = "submit" class="btn btn-info" data-toggle="modal" data-target="#addbook" style="width: 10%;">Add Book</button>
+        </div>
+
         <br>
     </div>
 

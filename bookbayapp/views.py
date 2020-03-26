@@ -14,9 +14,21 @@ from django.contrib import messages
 from django.db import connection, transaction
 
 
+def execute_only_raw_sql(sql):
+    cursor = connection.cursor()
+    try:
+        cursor.execute(sql)
+        return True
+    except:
+        return False
+
+
 def perform_raw_sql(sql):
     cursor = connection.cursor()
-    cursor.execute(sql)
+    try:
+        cursor.execute(sql)
+    except:
+        print('error in sql')
     results = cursor.fetchall()
     list = []
     i = 0
@@ -73,6 +85,46 @@ def searchresult(request):
 @login_required()
 def mybooks(request):
     user = request.user
+    if request.POST.get("delete"):
+        delete_isbn=request.POST.get('isbn')
+        flag=execute_only_raw_sql("delete from my_books as MB where MB.User_ID='"+str(user)+"' and MB.ISBN="+str(delete_isbn))
+        if flag==False:
+            print('Error in delete : ',delete_isbn)
+        else:
+            print('Deleted isbn: ', delete_isbn, ' from user:',user)
+
+    if request.POST.get("addbook"):
+        bookname=request.POST.get('title')
+        genre=request.POST.get('genre')
+        author=request.POST.get('author')
+        edition=request.POST.get('edition')
+        isbn=request.POST.get('isbn')
+        availability=request.POST.get('availability')
+        repaypol=request.POST.get('repaymentpolicy')
+        otherspec=request.POST.get('otherspecification')
+        securitymoney=request.POST.get('securitymoneyofbook')
+
+        try:
+            query="select * from my_books as MB where MB.User_ID='"+str(user)+"' and MB.ISBN="+str(isbn)
+            print(query)
+            already_added=perform_raw_sql(query)
+            print(already_added)
+            if len(already_added) > 0:
+                messages.info(request, "Book Already Added !")
+            else:
+                mybook=MyBooks(repayment_policy= repaypol,availability=availability,other_specifications=otherspec,security_money_of_book=securitymoney,user=user,isbn=isbn)
+                mybook.save()
+                print(mybook)
+                if Book.objects.filter(isbn__exact=isbn).exists():
+                    print('already exists')
+                else:
+                    book=Book.objects.create(isbn,bookname,edition,author,genre)
+                    print(book)
+        except:
+            print("Error in adding Book")
+
+
+
     books = perform_raw_sql("select * from user as U, my_books as MB, book as B where U.User_ID='"+str(user)+"' and U.User_ID=MB.User_ID and MB.ISBN=B.ISBN")
     print(books)
     if len(books)!=0:
