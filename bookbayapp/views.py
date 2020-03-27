@@ -24,6 +24,7 @@ def execute_only_raw_sql(sql):
 
 
 def perform_raw_sql(sql):
+    print('sql - ', sql)
     cursor = connection.cursor()
     try:
         cursor.execute(sql)
@@ -45,6 +46,23 @@ def perform_raw_sql(sql):
         list.append(dict)
     return list
 
+@login_required()
+def bookdetail(request):
+    user = request.user
+    if request.method == "POST":
+        isbn=request.POST.get("isbn")
+        book=Book.objects.get(isbn=isbn)
+        print(book)
+
+        users=perform_raw_sql("select * from my_books as MB, user as U where U.User_Id=MB.User_ID and MB.ISBN='"+str(isbn)+"'")
+        dict={}
+        dict['users']=users
+        print(dict)
+        dict['book']=book
+        dict['user']=user
+
+        return render(request, 'bookdetail.html', dict)
+    return render(request, 'bookdetail.html', {'user': user})
 
 @login_required()
 def myaccount(request):

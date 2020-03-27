@@ -1,0 +1,76 @@
+{% extends "userbase.html" %}
+
+{% block content %}
+    {% load static %}
+    <style>
+        .small {
+            transform: scale(0.9, 0.9);
+            -ms-transform: scale(0.9, 0.9); /* IE 9 */
+            -webkit-transform: scale(0.9, 0.9); /* Safari and Chrome */
+            -o-transform: scale(0.9, 0.9); /* Opera */
+            -moz-transform: scale(0.9, 0.9); /* Firefox */
+        }
+
+    </style>
+
+    <div class="small card p-1 mb-5 bg-white rounded" style="min-width: 50%;margin-top: 0px;">
+        <div class="header">
+            <h2 style="margin-top: 5px;">Book Details</h2>
+        </div>
+        <div class="card-body" >
+            <div class="card" style="width: 20%; float:left; height: inherit">
+                <div align="middle">
+                    <img class="card-img-top" src="{% static 'img/BookBay.png' %}" alt="Card image" style="width:60%;align-self: center">
+                    <h3 class="center" style="text-overflow: ellipsis;white-space: nowrap;overflow: hidden;">{{ book.book_name}}</h3>
+                    <h5>
+                        Genre: {{ book.genre }} <br>
+                        Author: {{ book.author }} <br>
+                        Edition : {{ book.edition }} <br>
+                        <div id="bookdetail" name="bookdetail" value={{ book.book.isbn }}>ISBN : {{ book.isbn }}</div> <br>
+                    </h5>
+                </div>
+            </div>
+            <div class="card p-1 mb-5 bg-white rounded" style="width: 79%;float:right;  ">
+                <div class="card p-1 mb-5 bg-white rounded">
+                    <div class="card-header" style="background-color: #ffca4f">
+                        <h4 style="margin: 5px;">Users with book</h4>
+                    </div>
+                    <div class="card-body">
+                        <form action = "/bookdetail/" target = "_blank" method = "POST">
+                            {% csrf_token %}
+                            <table class="table table-striped" style="font-size: 14px" >
+                                <thead>
+                                <tr>
+                                    <th>Name</th>
+                                    <th>Username</th>
+                                    <th>Email</th>
+                                    <th>Available</th>
+                                    <th>security Money</th>
+                                    <th>View Details</th>
+                                </tr>
+                                </thead>
+                                <tbody>
+                                {% for user in users %}
+                                    <tr>
+                                    <td>{{ user.Name }}</td>
+                                    <td>{{ user.User_ID }}</td>
+                                    <td>{{ user.Email_Address }}</td>
+                                    {% if user.Available == 1 %}
+                                        <td>Yes</td>
+                                    {% else %}
+                                        <td>No</td>
+                                    {% endif %}
+                                    <td>Rs. {{ user.Security_Money_of_Book }}</td>
+                                    <td><button type = "submit" class="btn btn-info" data-toggle="modal" data-target="#view{{ book.User_ID }}">View</button></td>
+                                    </tr>
+                                {% endfor %}
+                                </tbody>
+                            </table>
+                        </form>
+                    </div>
+
+                </div>
+            </div>
+        </div>
+    </div>
+{% endblock %}

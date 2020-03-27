@@ -23,12 +23,14 @@
         <div class="header">
             <h3>Search Results</h3>
         </div>
-        <div id = "big" class="card-body"">
-            {% for book in books %}
-                <div class="column">
-                    <div class="card shadow p-1 mb-5 bg-white rounded">
-                        <img class="card-img-top" src="{% static 'img/BookBay.png' %}" alt="Card image" style="width:60%;align-self: center">
-                        <div class="card-body" align="middle">
+        <div id = "big" class="card-body">
+        {% for book in books %}
+            <div class="column">
+                <div class="card shadow p-1 mb-5 bg-white rounded">
+                    <img class="card-img-top" src="{% static 'img/BookBay.png' %}" alt="Card image" style="width:60%;align-self: center">
+                    <div class="card-body" align="middle">
+                        <form action = "/bookdetail/" target = "_blank" method = "POST">
+                            {% csrf_token %}
                             <h3 class="center" style="text-overflow: ellipsis;white-space: nowrap;overflow: hidden;">{{ book.book_name}}</h3>
                             <h5>
                                 Genre: {{ book.genre }} <br>
@@ -36,17 +38,15 @@
                                 Edition : {{ book.edition }} <br>
                                 ISBN : {{ book.isbn }} <br>
                             </h5>
-                            <br>
-
-                            <form action = "/bookdetail/" target = "_blank" method = "get">
-                                <button type = "submit" class="btn btn-info" >View</button>
-                            </form>
-                        </div>
-
+                            <input  id="isbn" name="isbn" value="{{ book.isbn }}" style="visibility: hidden; height: 0px; width: 0px;"  >
+                            <button type = "submit" class="btn btn-info" >View</button>
+                        </form>
                     </div>
-                </div>
 
-            {% endfor %}
-        </div>
+                </div>
+            </div>
+
+        {% endfor %}
+    </div>
     </div>
 {% endblock %}
