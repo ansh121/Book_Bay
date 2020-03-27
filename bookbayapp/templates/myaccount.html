@@ -81,9 +81,9 @@
                     <ul class="messages">
                         {% for message in messages %}
                             {% if message.level == DEFAULT_MESSAGE_LEVELS.SUCCESS %}
-                                <h4 style="color: green;align-self: center;">{{ message }}</h4>
+                                <h3 style="color: green;align-self: center;">{{ message }}</h3>
                             {% else %}
-                                <h4 style="color: red;">{{ message }}</h4>
+                                <h3 style="color: red;">{{ message }}</h3>
                             {% endif %}
                         {% endfor %}
                     </ul>

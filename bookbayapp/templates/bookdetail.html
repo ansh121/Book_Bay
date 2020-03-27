@@ -3,6 +3,7 @@
 {% block content %}
     {% load static %}
     <style>
+
         .small {
             transform: scale(0.9, 0.9);
             -ms-transform: scale(0.9, 0.9); /* IE 9 */
@@ -11,23 +12,198 @@
             -moz-transform: scale(0.9, 0.9); /* Firefox */
         }
 
+        .col-sm-7{
+            margin-top: 5px;
+            margin-bottom: 5px;
+        }
+
+        .control-label{
+            margin-top: 10px;
+            font-family: lato;
+        }
+
+        .fa-star{
+            font-size: 20px;
+        }
+
+        .checked {
+            color: gold;
+        }
+
+        @import url(//netdna.bootstrapcdn.com/font-awesome/3.2.1/css/font-awesome.css);
+
+        fieldset, label { margin: 0; padding: 0; }
+
+        /****** Style Star Rating Widget *****/
+
+        .rating {
+            border: none;
+        }
+
+        .rating > input { display: none; }
+        .rating > label:before {
+            margin: 5px;
+            font-size: 1.25em;
+            font-family: FontAwesome;
+            display: inline-block;
+            content: "\f005";
+        }
+
+        .rating > .half:before {
+            content: "\f089";
+            position: absolute;
+        }
+
+        .rating > label {
+            color: #ddd;
+            float: right;
+        }
+
+        /***** CSS Magic to Highlight Stars on Hover *****/
+
+        .rating > input:checked ~ label, /* show gold star when clicked */
+        .rating:not(:checked) > label:hover, /* hover current star */
+        .rating:not(:checked) > label:hover ~ label { color: #FFD700;  } /* hover previous stars in list */
+
+        .rating > input:checked + label:hover, /* hover current star when changing rating */
+        .rating > input:checked ~ label:hover,
+        .rating > label:hover ~ input:checked ~ label, /* lighten current selection */
+        .rating > input:checked ~ label:hover ~ label { color: #FFED85;  }
+
     </style>
 
+    <!-- Modal for Give Review -->
+    <div class="modal fade" id="review" role="dialog">
+        <div class="modal-dialog">
+            <!-- Modal content-->
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h4 class="modal-title">Add Review Details</h4>
+                    <button type="button" class="close" data-dismiss="modal">&times;</button>
+                </div>
+
+                <div class="modal-body">
+                    <form method="POST" class="post-form" action="/bookdetail/">
+                        {% csrf_token %}
+                        <div align="middle">
+                            <h4><b>Book Title</b> : {{ book.book_name }}</h4>
+                            <div align="middle">
+                                <h4><b>Rating  :  </b></h4>
+                                <fieldset class="rating" style="margin-right: 35%">
+                                    <input type="radio" id="star5" name="rating" value="5" /><label class = "full" for="star5" title="Awesome - 5 stars"></label>
+                                    <input type="radio" id="star4" name="rating" value="4" /><label class = "full" for="star4" title="Pretty good - 4 stars"></label>
+                                    <input type="radio" id="star3" name="rating" value="3" /><label class = "full" for="star3" title="Meh - 3 stars"></label>
+                                    <input type="radio" id="star2" name="rating" value="2" /><label class = "full" for="star2" title="Kinda bad - 2 stars"></label>
+                                    <input type="radio" id="star1" name="rating" value="1" /><label class = "full" for="star1" title="Sucks big time - 1 star"></label>
+                                </fieldset>
+                            </div>
+                            <div id="review">
+                                <label class="control-label" ><h4><b>Review :</b></h4></label>
+                                <input type="text"  name="review" class="form-control" required>
+                            </div>
+                            <div class="modal-footer">
+                                <input type="text" style="width: 0px;height: 0px;visibility: hidden;" name="isbn" value="{{ book.isbn }}">
+                                <button type="submit" name="addreview" value="addreview"  class="btn btn-info" ><i class="fa fa-plus"></i>  Add Review</button>
+                                <button type="button" class="btn btn-default" data-dismiss="modal"><i class="fa fa-remove"></i>  Cancel</button>
+                            </div>
+                        </div>
+                    </form>
+                </div>
+
+
+            </div>
+
+        </div>
+    </div>
+
+    <!-- Modals for view-->
+    {% for user in users %}
+        <!-- Modal for view -->
+        <div class="modal fade" id="view{{ user.User_ID }}" role="dialog">
+            <div class="modal-dialog">
+                <!-- Modal content-->
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <h4 class="modal-title">Book and User Details</h4>
+                        <button type="button" class="close" data-dismiss="modal">&times;</button>
+                    </div>
+
+                    <div class="modal-body" align="middle">
+                        <form method="POST" class="post-form" action="/bookdetail/">
+                            {% csrf_token %}
+                            <div>
+                                <h4><b>Book Title</b> : {{ book.book_name }}</h4>
+                                <h4><b>Owner</b> : {{ user.Name }}</h4><hr>
+                                <b>Genre</b> : {{ book.genre }} <br>
+                                <b>Author</b> : {{ book.author }} <br>
+                                <b>Edition</b> : {{ book.edition }} <br>
+                                <b>ISBN</b> : {{ book.isbn }} <br>
+                                <b>Repayment Method</b> : {{ user.Repayment_Policy }}   (if lost)<br>
+                                <b>Available for sharing</b> : {% if user.Availability == '1' %}
+                                Yes
+                            {% else %}
+                                No
+                            {% endif %}<br>
+                                <b>Other Specifications</b> : {{ user.Other_Specifications }}<br>
+                                <b>Security Money of Book</b> : Rs.{{ user.Security_Money_of_Book }}<br>
+                                {% if user.Availability == '1' %}
+                                    <div id="borrowduration">
+                                        <label class="col-sm-4 control-label" >Borrow Duration</label>
+                                        <input type="int"  name="borrowduration" placeholder="duration in days" class="form-control col-sm-7" required>
+                                    </div>
+                                    <div id="message">
+                                        <label class="col-sm-4 control-label" >Message (if any)</label>
+                                        <input type="text"  name="message" class="form-control col-sm-7" >
+                                    </div>
+
+                                {% endif %}
+                                {% if user.Availability == '1' %}
+                                    <button type="submit" name="makerequest" value="makerequest"  class="btn btn-info" ><i class="fa fa-edit"></i>  Make Request</button>
+                                {% else %}
+                                    <p style="color: #e74c3c;">Book not available for sharing by the user.</p>
+                                {% endif %}
+                                <button type="button" class="btn btn-default" data-dismiss="modal"><i class="fa fa-remove"></i>  Cancel</button>
+                                <input type="text" style="width: 0px;height: 0px;visibility: hidden;" name="isbn" value="{{ book.isbn }}">
+                                <input type="text" style="width: 0px;height: 0px;visibility: hidden;" name="ownerid" value="{{ user.User_ID }}">
+                            </div>
+                        </form>
+                    </div>
+
+
+                </div>
+
+            </div>
+        </div>
+    {% endfor %}
+
+    <!-- Main Body -->
     <div class="small card p-1 mb-5 bg-white rounded" style="min-width: 50%;margin-top: 0px;">
         <div class="header">
             <h2 style="margin-top: 5px;">Book Details</h2>
         </div>
+        {% if messages %}
+            <div align="middle" >
+                {% for message in messages %}
+                    {% if message.level == DEFAULT_MESSAGE_LEVELS.SUCCESS %}
+                        <h3 style="color: green;align-self: center;margin-bottom: 5px;">{{ message }}</h3>
+                    {% else %}
+                        <h3 style="color: red;margin-bottom: 5px;">{{ message }}</h3>
+                    {% endif %}
+                {% endfor %}
+            </div>
+        {% endif %}
         <div class="card-body" >
-            <div class="card" style="width: 20%; float:left; height: inherit">
+            <div class="card" style="width: 20%; float:left;">
                 <div align="middle">
-                    <img class="card-img-top" src="{% static 'img/BookBay.png' %}" alt="Card image" style="width:60%;align-self: center">
+                    <img class="card-img-top" src="{% static 'img/BookBay.png' %}" alt="Card image" style="width:60%;align-self: center;margin-top: 10px">
                     <h3 class="center" style="text-overflow: ellipsis;white-space: nowrap;overflow: hidden;">{{ book.book_name}}</h3>
                     <h5>
                         Genre: {{ book.genre }} <br>
                         Author: {{ book.author }} <br>
                         Edition : {{ book.edition }} <br>
-                        <div id="bookdetail" name="bookdetail" value={{ book.book.isbn }}>ISBN : {{ book.isbn }}</div> <br>
+                        <div id="bookdetail" name="bookdetail" value={{ book.book.isbn }}>ISBN : {{ book.isbn }}</div>
                     </h5>
+                    <button type = "submit" class="btn btn-info" data-toggle="modal" data-target="#review" style="margin-bottom: 10px;"><i class="fa fa-plus"></i>   Add Review</button><br>
                 </div>
             </div>
             <div class="card p-1 mb-5 bg-white rounded" style="width: 79%;float:right;  ">
@@ -36,41 +212,96 @@
                         <h4 style="margin: 5px;">Users with book</h4>
                     </div>
                     <div class="card-body">
-                        <form action = "/bookdetail/" target = "_blank" method = "POST">
-                            {% csrf_token %}
-                            <table class="table table-striped" style="font-size: 14px" >
-                                <thead>
+                        <table class="table table-striped" style="font-size: 14px" >
+                            <thead>
+                            <tr>
+                                <th>Name</th>
+                                <th>Username</th>
+                                <th>Email</th>
+                                <th>Available</th>
+                                <th>security Money</th>
+                                <th>View Details</th>
+                            </tr>
+                            </thead>
+                            <tbody>
+                            {% for user in users %}
                                 <tr>
-                                    <th>Name</th>
-                                    <th>Username</th>
-                                    <th>Email</th>
-                                    <th>Available</th>
-                                    <th>security Money</th>
-                                    <th>View Details</th>
-                                </tr>
-                                </thead>
-                                <tbody>
-                                {% for user in users %}
-                                    <tr>
                                     <td>{{ user.Name }}</td>
                                     <td>{{ user.User_ID }}</td>
                                     <td>{{ user.Email_Address }}</td>
-                                    {% if user.Available == 1 %}
+                                    {% if user.Availability == '1' %}
                                         <td>Yes</td>
                                     {% else %}
                                         <td>No</td>
                                     {% endif %}
                                     <td>Rs. {{ user.Security_Money_of_Book }}</td>
-                                    <td><button type = "submit" class="btn btn-info" data-toggle="modal" data-target="#view{{ book.User_ID }}">View</button></td>
-                                    </tr>
-                                {% endfor %}
-                                </tbody>
-                            </table>
-                        </form>
+                                    <td><button type = "submit" class="btn btn-info" data-toggle="modal" data-target="#view{{ user.User_ID }}">View</button></td>
+                                </tr>
+                            {% endfor %}
+                            </tbody>
+                        </table>
                     </div>
 
                 </div>
+                <div class="card p-1 mb-5 bg-white rounded">
+                    <div class="card-header" style="background-color: #ffca4f">
+                        <h4 style="margin: 5px;">Book Reviews</h4>
+                    </div>
+                    <div class="card-body">
+                        {% for review in reviews %}
+                            <div class="card p-1 mb-5 bg-white rounded">
+                                <div class="card-header" >
+                                    <h5 style="margin: 5px; width: 50%;float: left"><b>{{ review.Name }}  ({{ review.User_ID }})</b></h5>
+                                    <div align="right" >
+                                        {% if review.Rating == '0' %}
+                                            <span class="fa fa-star"></span>
+                                            <span class="fa fa-star"></span>
+                                            <span class="fa fa-star"></span>
+                                            <span class="fa fa-star"></span>
+                                            <span class="fa fa-star"></span>
+                                        {% elif review.Rating == '1' %}
+                                            <span class="fa fa-star checked"></span>
+                                            <span class="fa fa-star"></span>
+                                            <span class="fa fa-star"></span>
+                                            <span class="fa fa-star"></span>
+                                            <span class="fa fa-star"></span>
+                                        {% elif review.Rating == '2' %}
+                                            <span class="fa fa-star checked"></span>
+                                            <span class="fa fa-star checked"></span>
+                                            <span class="fa fa-star"></span>
+                                            <span class="fa fa-star"></span>
+                                            <span class="fa fa-star"></span>
+                                        {% elif review.Rating == '3' %}
+                                            <span class="fa fa-star checked"></span>
+                                            <span class="fa fa-star checked"></span>
+                                            <span class="fa fa-star checked"></span>
+                                            <span class="fa fa-star"></span>
+                                            <span class="fa fa-star"></span>
+                                        {% elif review.Rating == '4' %}
+                                            <span class="fa fa-star checked"></span>
+                                            <span class="fa fa-star checked"></span>
+                                            <span class="fa fa-star checked"></span>
+                                            <span class="fa fa-star checked"></span>
+                                            <span class="fa fa-star"></span>
+                                        {% else %}
+                                            <span class="fa fa-star checked"></span>
+                                            <span class="fa fa-star checked"></span>
+                                            <span class="fa fa-star checked"></span>
+                                            <span class="fa fa-star checked"></span>
+                                            <span class="fa fa-star checked"></span>
+                                        {% endif %}
+                                    </div>
+                                </div>
+                                <div class="card-body">
+                                    <p>{{ review.Review }}</p>
+                                </div>
+                            </div>
+                        {% endfor %}
+                        <button type = "submit" class="btn btn-info" data-toggle="modal" data-target="#review" style="margin-bottom: 10px;"><i class="fa fa-plus"></i>   Add Review</button>
+                    </div>
+                </div>
             </div>
         </div>
+    </div>
     </div>
 {% endblock %}

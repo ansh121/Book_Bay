@@ -1,9 +1,3 @@
--- MySQL dump 10.13  Distrib 5.1.51, for pc-linux-gnu (i686)
---
--- Host: 127.0.0.1    Database: world
--- ------------------------------------------------------
--- Server version       5.1.51-debug-log
-
 /*!40101 SET @OLD_CHARACTER_SET_CLIENT=@@CHARACTER_SET_CLIENT */;
 /*!40101 SET @OLD_CHARACTER_SET_RESULTS=@@CHARACTER_SET_RESULTS */;
 /*!40101 SET @OLD_COLLATION_CONNECTION=@@COLLATION_CONNECTION */;
@@ -65,15 +59,14 @@ CREATE TABLE book
 
 CREATE TABLE request
 (
-  Date_of_Request DATE NOT NULL,
+  Date_of_Request DATETIME NOT NULL,
   Request_Message VARCHAR(100),
   Request_ID INT NOT NULL AUTO_INCREMENT,
-  time_of_request INT NOT NULL,
   borrow_time_duration INT NOT NULL,
   completion_flag INT NOT NULL,
   User_ID VARCHAR(20) NOT NULL,
   ISBN VARCHAR(30) NOT NULL,
-  approved_requestUser_ID VARCHAR(20),
+  Requested_User_ID VARCHAR(20),
   PRIMARY KEY (Request_ID),
   FOREIGN KEY (User_ID) REFERENCES User(User_ID),
   FOREIGN KEY (ISBN) REFERENCES Book(ISBN),

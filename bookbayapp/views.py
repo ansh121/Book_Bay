@@ -13,6 +13,8 @@ from django.contrib.auth.models import User as djUser
 from django.contrib import messages
 from django.db import connection, transaction
 
+from datetime import datetime
+
 
 def execute_only_raw_sql(sql):
     cursor = connection.cursor()
@@ -49,20 +51,53 @@ def perform_raw_sql(sql):
 @login_required()
 def bookdetail(request):
     user = request.user
-    if request.method == "POST":
+
+    if request.POST.get("addreview"):
+        rating = request.POST.get("rating")
+        review = request.POST.get("review")
+        isbn = request.POST.get("isbn")
+        already_exist=BookReview.objects.filter(user=User.objects.get(user_id=user),isbn=Book.objects.get(isbn=isbn))
+        if already_exist.exists():
+            BookReview.objects.update(rating=rating,review=review,user=User.objects.get(user_id=user),isbn=Book.objects.get(isbn=isbn))
+        else:
+            BookReview.objects.create(rating=rating, review=review, user=User.objects.get(user_id=user),isbn=Book.objects.get(isbn=isbn))
+        print("Review Added/Updated Successfully")
+        messages.success(request,"Review Added/Updated Successfully")
+
+    if request.POST.get("makerequest"):
+        borrowduration=request.POST.get("borrowduration")
+        message=request.POST.get("message")
+        isbn=request.POST.get("isbn")
+        requesteduserid=request.POST.get("ownerid")
+        date=datetime.today()
+        complete=0
+
+        already_requested=Request.objects.filter(user=User.objects.get(user_id=user),isbn=Book.objects.get(isbn=isbn),requesteduser=User.objects.get(user_id=requesteduserid))
+        if already_requested.count() != 0:
+            messages.info(request,"Book already requested from the user, please delete previous requests to make another one.")
+            print("Book already requested")
+        else:
+            Request.objects.create(borrow_time_duration=borrowduration,date_of_request=date,request_message=message,completion_flag=complete,user=User.objects.get(user_id=user),isbn=Book.objects.get(isbn=isbn),requesteduser=User.objects.get(user_id=requesteduserid))
+            messages.success(request,"Book Request Submitted Successfully")
+            print("Book Request Successful")
+
+    try:
         isbn=request.POST.get("isbn")
         book=Book.objects.get(isbn=isbn)
         print(book)
 
         users=perform_raw_sql("select * from my_books as MB, user as U where U.User_Id=MB.User_ID and MB.ISBN='"+str(isbn)+"'")
+        reviews=perform_raw_sql("select * from book_review as BR, user as U where BR.ISBN='"+str(isbn)+"' and BR.User_ID=U.User_ID")
         dict={}
         dict['users']=users
         print(dict)
         dict['book']=book
         dict['user']=user
-
+        dict['reviews']=reviews
+        print(reviews)
         return render(request, 'bookdetail.html', dict)
-    return render(request, 'bookdetail.html', {'user': user})
+    except:
+        return render(request, 'bookdetail.html', {'user': user})
 
 @login_required()
 def myaccount(request):

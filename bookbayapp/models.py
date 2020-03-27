@@ -92,15 +92,14 @@ class History(models.Model):
 
 
 class Request(models.Model):
-    date_of_request = models.DateField(db_column='Date_of_Request')  # Field name made lowercase.
+    date_of_request = models.DateTimeField(db_column='Date_of_Request')  # Field name made lowercase.
     request_message = models.CharField(db_column='Request_Message', max_length=100, blank=True, null=True)  # Field name made lowercase.
     request_id = models.AutoField(db_column='Request_ID', primary_key=True)  # Field name made lowercase.
-    time_of_request = models.IntegerField()
     borrow_time_duration = models.IntegerField()
     completion_flag = models.IntegerField()
     user = models.ForeignKey(User, models.DO_NOTHING, db_column='User_ID')  # Field name made lowercase.
     isbn = models.ForeignKey(Book, models.DO_NOTHING, db_column='ISBN')  # Field name made lowercase.
-    approved_requestuser = models.ForeignKey(User, models.DO_NOTHING, db_column='approved_requestUser_ID',related_name= 'approved_requestUser_ID',blank=True, null=True)  # Field name made lowercase.
+    requesteduser = models.ForeignKey(User, models.DO_NOTHING, db_column='Requested_User_ID',related_name= 'Requested_User_ID',blank=True, null=True)  # Field name made lowercase.
 
     class Meta:
         managed = False
