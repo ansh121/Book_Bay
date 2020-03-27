@@ -21,16 +21,16 @@ CREATE SCHEMA book_bay;
 USE book_bay;
 SET AUTOCOMMIT=0;
 
-drop table if exists User;
-drop table if exists Login_Credential;
-drop table if exists Book;
+drop table if exists user;
+drop table if exists login_credential;
+drop table if exists book;
 drop table if exists request;
-drop table if exists My_Books;
-drop table if exists Book_Review;
+drop table if exists my_books;
+drop table if exists book_review;
 drop table if exists history;
-drop table if exists User_Phone_Number;
+drop table if exists user_phone_number;
 
-CREATE TABLE User
+CREATE TABLE user
 (
   User_ID VARCHAR(20) NOT NULL,
   Name VARCHAR(20) NOT NULL,
@@ -45,7 +45,7 @@ CREATE TABLE User
   PRIMARY KEY (User_ID)
 );
 
-CREATE TABLE Login_Credential
+CREATE TABLE login_credential
 (
   Password VARCHAR(30) NOT NULL,
   User_ID VARCHAR(20) NOT NULL,
@@ -53,7 +53,7 @@ CREATE TABLE Login_Credential
   FOREIGN KEY (User_ID) REFERENCES User(User_ID)
 );
 
-CREATE TABLE Book
+CREATE TABLE book
 (
   ISBN VARCHAR(30) NOT NULL,
   Book_Name VARCHAR(200) NOT NULL,
@@ -80,7 +80,7 @@ CREATE TABLE request
   FOREIGN KEY (approved_requestUser_ID) REFERENCES User(User_ID)
 );
 
-CREATE TABLE My_Books
+CREATE TABLE my_books
 (
   Repayment_Policy VARCHAR(1000) NOT NULL,
   Availability INT NOT NULL,
@@ -93,7 +93,7 @@ CREATE TABLE My_Books
   FOREIGN KEY (ISBN) REFERENCES Book(ISBN)
 );
 
-CREATE TABLE Book_Review
+CREATE TABLE book_review
 (
   Rating INT NOT NULL,
   Review VARCHAR(5000),
@@ -113,7 +113,7 @@ CREATE TABLE history
   FOREIGN KEY (ISBN) REFERENCES Book(ISBN)
 );
 
-CREATE TABLE User_Phone_Number
+CREATE TABLE user_phone_number
 (
   Phone_Number NUMERIC(10) NOT NULL,
   User_ID VARCHAR(20) NOT NULL,
