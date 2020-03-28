@@ -2,12 +2,14 @@
 <project version="4">
   <component name="ChangeListManager">
     <list default="true" id="35c1aadb-d8ab-43b9-9243-23093cdcc78d" name="Default Changelist" comment="">
+      <change afterPath="$PROJECT_DIR$/bookbayapp/templates/history.html" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/bookbayapp/templates/pendingrequest.html" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/book_bay/urls.py" beforeDir="false" afterPath="$PROJECT_DIR$/book_bay/urls.py" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/bookbayapp/models.py" beforeDir="false" afterPath="$PROJECT_DIR$/bookbayapp/models.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/bookbayapp/templates/bookdetail.html" beforeDir="false" afterPath="$PROJECT_DIR$/bookbayapp/templates/bookdetail.html" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/bookbayapp/templates/myaccount.html" beforeDir="false" afterPath="$PROJECT_DIR$/bookbayapp/templates/myaccount.html" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/bookbayapp/templates/searchresult.html" beforeDir="false" afterPath="$PROJECT_DIR$/bookbayapp/templates/searchresult.html" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/bookbayapp/templates/userbase.html" beforeDir="false" afterPath="$PROJECT_DIR$/bookbayapp/templates/userbase.html" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/bookbayapp/views.py" beforeDir="false" afterPath="$PROJECT_DIR$/bookbayapp/views.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/schema.sql" beforeDir="false" afterPath="$PROJECT_DIR$/schema.sql" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -114,6 +116,7 @@
       <workItem from="1585252063681" duration="73000" />
       <workItem from="1585301241062" duration="8092000" />
       <workItem from="1585321026389" duration="18968000" />
+      <workItem from="1585369594506" duration="11117000" />
     </task>
     <task id="LOCAL-00001" summary="My Books Updated">
       <created>1585225790624</created>

@@ -1,0 +1,296 @@
+{% extends "userbase.html" %}
+
+{% block content %}
+    {% load static %}
+    <style>
+
+        .small {
+            transform: scale(0.9, 0.9);
+            -ms-transform: scale(0.9, 0.9); /* IE 9 */
+            -webkit-transform: scale(0.9, 0.9); /* Safari and Chrome */
+            -o-transform: scale(0.9, 0.9); /* Opera */
+            -moz-transform: scale(0.9, 0.9); /* Firefox */
+        }
+
+        .col-sm-7{
+            margin-top: 5px;
+            margin-bottom: 5px;
+        }
+
+        .control-label{
+            margin-top: 10px;
+            font-family: lato;
+        }
+
+        .fa-star{
+            font-size: 20px;
+        }
+
+        .checked {
+            color: gold;
+        }
+
+        @import url(//netdna.bootstrapcdn.com/font-awesome/3.2.1/css/font-awesome.css);
+
+        fieldset, label { margin: 0; padding: 0; }
+
+        /****** Style Star Rating Widget *****/
+
+        .rating {
+            border: none;
+        }
+
+        .rating > input { display: none; }
+        .rating > label:before {
+            margin: 5px;
+            font-size: 1.25em;
+            font-family: FontAwesome;
+            display: inline-block;
+            content: "\f005";
+        }
+
+        .rating > .half:before {
+            content: "\f089";
+            position: absolute;
+        }
+
+        .rating > label {
+            color: #ddd;
+            float: right;
+        }
+
+        /***** CSS Magic to Highlight Stars on Hover *****/
+
+        .rating > input:checked ~ label, /* show gold star when clicked */
+        .rating:not(:checked) > label:hover, /* hover current star */
+        .rating:not(:checked) > label:hover ~ label { color: #FFD700;  } /* hover previous stars in list */
+
+        .rating > input:checked + label:hover, /* hover current star when changing rating */
+        .rating > input:checked ~ label:hover,
+        .rating > label:hover ~ input:checked ~ label, /* lighten current selection */
+        .rating > input:checked ~ label:hover ~ label { color: #FFED85;  }
+
+    </style>
+
+
+    <!-- Modals for incoming requests-->
+    {% for request in incomingrequests %}
+        <!-- Modal for view -->
+        <div class="modal fade" id="incomingview{{ request.Request_ID }}" role="dialog">
+            <div class="modal-dialog">
+                <!-- Modal content-->
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <h4 class="modal-title">Request Details</h4>
+                        <button type="button" class="close" data-dismiss="modal">&times;</button>
+                    </div>
+
+                    <div class="modal-body" align="middle">
+
+                        <div>
+                            <h3>Book Detail</h3>
+                            <b>Book Title</b> : {{ request.Book_Name }}<br>
+                            <b>Genre</b> : {{ request.Genre }} <br>
+                            <b>Author</b> : {{ request.Author }} <br>
+                            <b>Edition</b> : {{ request.Edition }} <br>
+                            <b>ISBN</b> : {{ request.ISBN }} <br>
+                            <b>Repayment Method</b> : {{ request.Repayment_Policy }}   (if lost)<br>
+                            <b>Available for sharing</b> : {% if request.Availability == '1' %}
+                            Yes
+                        {% else %}
+                            No
+                        {% endif %}<br>
+                            <b>Other Specifications</b> : {{ request.Other_Specifications }}<br>
+                            <b>Security Money of Book</b> : Rs.{{ request.Security_Money_of_Book }}<br>
+                            <hr>
+                            <h3>User Request Detail</h3>
+                            <b>User</b> : {{ request.Name }}<br>
+                            <b>User ID</b> : {{ request.User_ID }}<br>
+                            <b>Request ID</b> : {{ request.Request_ID }}<br>
+                            <b>Date of Request</b> : {{ request.Date_of_Request }}<br>
+                            <b>Borrow Duration</b> : {{ request.borrow_time_duration }} days<br>
+                            <b>Message </b> : {{ request.Request_Message }}
+                            <br><br>
+                            <div class="modal-footer">
+                                <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+                            </div>
+                        </div>
+                    </div>
+
+
+                </div>
+
+            </div>
+        </div>
+    {% endfor %}
+
+    <!-- Modals for outgoing requests-->
+    {% for request in outgoingrequests %}
+        <!-- Modal for view -->
+        <div class="modal fade" id="outgoingview{{ request.Request_ID }}" role="dialog">
+            <div class="modal-dialog">
+                <!-- Modal content-->
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <h4 class="modal-title">Request Details</h4>
+                        <button type="button" class="close" data-dismiss="modal">&times;</button>
+                    </div>
+
+                    <div class="modal-body" align="middle">
+                        <div>
+                            <h3>Book Detail</h3>
+                            <b>Book Title</b> : {{ request.Book_Name }}<br>
+                            <b>Genre</b> : {{ request.Genre }} <br>
+                            <b>Author</b> : {{ request.Author }} <br>
+                            <b>Edition</b> : {{ request.Edition }} <br>
+                            <b>ISBN</b> : {{ request.ISBN }} <br>
+                            <b>Repayment Method</b> : {{ request.Repayment_Policy }}   (if lost)<br>
+                            <b>Available for sharing</b> : {% if request.Availability == '1' %}
+                            Yes
+                        {% else %}
+                            No
+                        {% endif %}<br>
+                            <b>Other Specifications</b> : {{ request.Other_Specifications }}<br>
+                            <b>Security Money of Book</b> : Rs.{{ request.Security_Money_of_Book }}<br>
+                            <hr>
+                            <h3>User Request Detail</h3>
+                            <b>User</b> : {{ request.Name }}<br>
+                            <b>User ID</b> : {{ request.User_ID }}<br>
+                            <b>Request ID</b> : {{ request.Request_ID }}<br>
+                            <b>Date of Request</b> : {{ request.Date_of_Request }}<br>
+                            <b>Borrow Duration</b> : {{ request.borrow_time_duration }} days<br>
+                            <b>Message </b> : {{ request.Request_Message }}<br><br>
+                            <div class="modal-footer">
+                                <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+                            </div>
+                        </div>
+                    </div>
+
+
+                </div>
+
+            </div>
+        </div>
+    {% endfor %}
+
+    <!-- Main Body -->
+    <div class="small card p-1 mb-5 bg-white rounded" style="min-width: 50%;margin-top: 0px;">
+        <div class="header">
+            <h2 style="margin-top: 5px;">Request History</h2>
+        </div>
+        {% if messages %}
+            <div align="middle" >
+                {% for message in messages %}
+                    {% if message.level == DEFAULT_MESSAGE_LEVELS.SUCCESS %}
+                        <h3 style="color: green;align-self: center;margin-bottom: 5px;">{{ message }}</h3>
+                    {% else %}
+                        <h3 style="color: red;margin-bottom: 5px;">{{ message }}</h3>
+                    {% endif %}
+                {% endfor %}
+            </div>
+        {% endif %}
+        <div class="card-body" >
+            <div class="card p-1 mb-5 bg-white rounded">
+                <div class="card-header" style="background-color: #ffca4f">
+                    <h4 style="margin: 5px;">Incoming Request History</h4>
+                </div>
+                <div class="card-body">
+                    <table class="table table-striped" style="font-size: 14px" >
+                        <thead>
+                        <tr>
+                            <th>Request ID</th>
+                            <th>Book Name</th>
+                            <th>ISBN</th>
+                            <th>Requested User Name</th>
+                            <th>Requested User ID</th>
+                            <th>Date of Request</th>
+                            <th>Borrow Duration</th>
+                            <th>Remark</th>
+                            <th>View Request</th>
+                        </tr>
+                        </thead>
+                        <tbody>
+                        {% for request in incomingrequests %}
+                            <tr>
+                                <td>{{ request.Request_ID }}</td>
+                                <td>{{ request.Book_Name }}</td>
+                                <td>{{ request.ISBN }}</td>
+                                <td>{{ request.Name }}</td>
+                                <td>{{ request.User_ID }}</td>
+                                <td>{{ request.Date_of_Request }}</td>
+                                <td>{{ request.borrow_time_duration }} days</td>
+                                <td><b>{% if request.completion_flag == '1' %}
+                                    Request accepted by you
+                                {% elif request.completion_flag == '-1' %}
+                                    Request withdrawn from user end
+                                {% elif request.completion_flag == '-2' %}
+                                    Request declined by you
+                                {% endif %}</b></td>
+                                <td><button type = "submit" class="btn btn-info" data-toggle="modal" data-target="#incomingview{{ request.Request_ID }}">View</button></td>
+                            </tr>
+                        {% endfor %}
+                        </tbody>
+                    </table>
+                </div>
+
+            </div>
+            <div class="card p-1 mb-5 bg-white rounded">
+                <div class="card-header" style="background-color: #ffca4f">
+                    <h4 style="margin: 5px;">Outgoing Requests History</h4>
+                </div>
+                <div class="card-body">
+                    <table class="table table-striped" style="font-size: 14px" >
+                        <thead>
+                        <tr>
+                            <th>Request ID</th>
+                            <th>Book Name</th>
+                            <th>ISBN</th>
+                            <th>Requested User Name</th>
+                            <th>Requested User ID</th>
+                            <th>Date of Request</th>
+                            <th>Borrow Duration</th>
+                            <th>Remark</th>
+                            <th>View Request</th>
+                        </tr>
+                        </thead>
+                        <tbody>
+                        {% for request in outgoingrequests %}
+                            <tr>
+                                <td>{{ request.Request_ID }}</td>
+                                <td>{{ request.Book_Name }}</td>
+                                <td>{{ request.ISBN }}</td>
+                                <td>{{ request.Name }}</td>
+                                <td>{{ request.User_ID }}</td>
+                                <td>{{ request.Date_of_Request }}</td>
+                                <td>{{ request.borrow_time_duration }} days</td>
+                                <td><b>{% if request.completion_flag == '1' %}
+                                    Request accepted by you
+                                {% elif request.completion_flag == '-1' %}
+                                    Request withdrawn from user end
+                                {% elif request.completion_flag == '-2' %}
+                                    Request declined by you
+                                {% endif %}</b></td>
+                                <td><button type = "submit" class="btn btn-info" data-toggle="modal" data-target="#outgoingview{{ request.Request_ID }}">View</button></td>
+                            </tr>
+                        {% endfor %}
+                        </tbody>
+                    </table>
+
+                </div>
+            </div>
+            <div style="float: left;width: 18%;">
+                <form method="post" action="/userhome/">
+                    {% csrf_token %}
+                    <button type = "submit" class="btn btn-info">Search Book and Make New Request  <i class="fa fa-arrow-right"></i></button>
+                </form>
+            </div>
+            <div style="float: left;width: 20%;">
+                <form method="post" action="/pendingrequest/">
+                    {% csrf_token %}
+                    <button type = "submit" class="btn btn-success">Pending Requests  <i class="fa fa-arrow-right"></i></button>
+                </form>
+            </div>
+        </div>
+    </div>
+    </div>
+{% endblock %}

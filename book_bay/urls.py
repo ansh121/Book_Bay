@@ -28,6 +28,8 @@ urlpatterns = [
     path('mybooks/', views.mybooks, name='mybooks'),
     path('myaccount/', views.myaccount, name='myaccount'),
     path('bookdetail/', views.bookdetail, name='bookdetail'),
+    path('pendingrequest/',views.pendingrequest, name='pendingrequest'),
+    path('history/', views.history, name='history'),
     path('', views.home, name='home'),
     #path('userdetails/', views.userdetails),
 ]

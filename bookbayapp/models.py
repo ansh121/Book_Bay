@@ -21,7 +21,7 @@ class Book(models.Model):
 
 class BookReview(models.Model):
     rating = models.IntegerField(db_column='Rating')  # Field name made lowercase.
-    review = models.CharField(db_column='Review', max_length=5000, blank=True, null=True)  # Field name made lowercase.
+    review = models.TextField(db_column='Review', max_length=5000, blank=True, null=True)  # Field name made lowercase.
     user = models.ForeignKey('User', models.DO_NOTHING, db_column='User_ID', primary_key=True)  # Field name made lowercase.
     isbn = models.ForeignKey(Book, models.DO_NOTHING, db_column='ISBN')  # Field name made lowercase.
 

@@ -48,6 +48,58 @@ def perform_raw_sql(sql):
         list.append(dict)
     return list
 
+
+@login_required()
+def history(request):
+    user = request.user
+    try:
+        incomingrequests=perform_raw_sql("select * from my_books as MB, request as R, user as U, User as RU, book as B where MB.ISBN=B.ISBN and B.ISBN=R.ISBN and R.Requested_User_ID='"+str(user)+"' and R.User_ID=RU.User_ID and U.User_ID=R.Requested_User_ID and R.completion_flag <> "+str(0)+" order by R.ISBN")
+        outgoingrequests=perform_raw_sql("select * from my_books as MB, request as R, user as U, User as RU, book as B where MB.ISBN=B.ISBN and B.ISBN=R.ISBN and R.User_ID='"+str(user)+"' and R.Requested_User_ID=RU.User_ID and U.User_ID=R.User_ID and R.completion_flag <> "+str(0)+" order by R.ISBN")
+        dict={}
+        dict['incomingrequests']=incomingrequests
+        dict['outgoingrequests']=outgoingrequests
+        dict['user']=user
+        print(incomingrequests)
+        print(outgoingrequests)
+        return render(request, 'history.html', dict)
+    except:
+        print('Error in Pending Request!')
+        return render(request, 'history.html', {'user': user})
+
+
+@login_required()
+def pendingrequest(request):
+    user = request.user
+    if request.POST.get("decline"):
+        requestid=request.POST.get("requestid")
+        bool=execute_only_raw_sql("UPDATE request SET completion_flag=-2 WHERE Request_ID = "+str(requestid))
+
+    if request.POST.get("cancel"):
+        requestid = request.POST.get("requestid")
+        bool=execute_only_raw_sql("UPDATE request SET completion_flag=-1 WHERE Request_ID = "+str(requestid))
+
+    if request.POST.get("accept"):
+        requestid = request.POST.get("requestid")
+        bool=execute_only_raw_sql("UPDATE request SET completion_flag=1 WHERE Request_ID = "+str(requestid))
+        req = Request.objects.get(request_id=requestid)
+        bool=bool and execute_only_raw_sql("UPDATE my_books SET Avaliability = 0 WHERE ISBN='"+str(req.isbn)+"' and User_ID = '"+str(req.requesteduser)+"'")
+        print(bool)
+
+    try:
+        incomingrequests=perform_raw_sql("select * from my_books as MB, request as R, user as U, User as RU, book as B where MB.ISBN=B.ISBN and B.ISBN=R.ISBN and R.Requested_User_ID='"+str(user)+"' and R.User_ID=RU.User_ID and U.User_ID=R.Requested_User_ID and R.completion_flag="+str(0)+" order by R.ISBN")
+        outgoingrequests=perform_raw_sql("select * from my_books as MB, request as R, user as U, User as RU, book as B where MB.ISBN=B.ISBN and B.ISBN=R.ISBN and R.User_ID='"+str(user)+"' and R.Requested_User_ID=RU.User_ID and U.User_ID=R.User_ID and R.completion_flag="+str(0)+" order by R.ISBN")
+        dict={}
+        dict['incomingrequests']=incomingrequests
+        dict['outgoingrequests']=outgoingrequests
+        dict['user']=user
+        print(incomingrequests)
+        print(outgoingrequests)
+        return render(request, 'pendingrequest.html', dict)
+    except:
+        print('Error in Pending Request!')
+        return render(request, 'pendingrequest.html', {'user': user})
+
+
 @login_required()
 def bookdetail(request):
     user = request.user
