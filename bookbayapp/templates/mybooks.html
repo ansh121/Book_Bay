@@ -23,6 +23,16 @@
             padding: 0 10px;
         }
 
+    .bd {
+        background-image: url({% static 'img/3.jpg' %});
+        height: 100%;
+
+        /* Center and scale the image nicely */
+        background-position: center;
+        background-repeat: no-repeat;
+        background-size: cover;
+    }
+
     </style>
     <!-- Modals for view, delete and edit-->
     {% for book in books %}

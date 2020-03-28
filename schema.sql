@@ -27,15 +27,15 @@ drop table if exists user_phone_number;
 CREATE TABLE user
 (
   User_ID VARCHAR(20) NOT NULL,
-  Name VARCHAR(20) NOT NULL,
-  Email_Address VARCHAR(30) NOT NULL,
+  Name TEXT NOT NULL,
+  Email_Address VARCHAR(40) NOT NULL,
   House_Number VARCHAR(10) ,
-  Street VARCHAR(20) NOT NULL,
-  Locality VARCHAR(30) NOT NULL,
+  Street TEXT NOT NULL,
+  Locality TEXT NOT NULL,
   Postal_Code NUMERIC(6) NOT NULL,
-  Landmark VARCHAR(30) ,
-  City VARCHAR(30) NOT NULL,
-  State VARCHAR(30) NOT NULL,
+  Landmark TEXT ,
+  City TEXT NOT NULL,
+  State TEXT NOT NULL,
   PRIMARY KEY (User_ID)
 );
 
@@ -50,17 +50,17 @@ CREATE TABLE login_credential
 CREATE TABLE book
 (
   ISBN VARCHAR(30) NOT NULL,
-  Book_Name VARCHAR(200) NOT NULL,
+  Book_Name TEXT NOT NULL,
   Edition INT NOT NULL,
-  Author VARCHAR(100) NOT NULL,
-  Genre VARCHAR(100),
+  Author TEXT NOT NULL,
+  Genre TEXT,
   PRIMARY KEY (ISBN)
 );
 
 CREATE TABLE request
 (
   Date_of_Request DATETIME NOT NULL,
-  Request_Message VARCHAR(100),
+  Request_Message TEXT,
   Request_ID INT NOT NULL AUTO_INCREMENT,
   borrow_time_duration INT NOT NULL,
   completion_flag INT NOT NULL,
@@ -70,17 +70,18 @@ CREATE TABLE request
   PRIMARY KEY (Request_ID),
   FOREIGN KEY (User_ID) REFERENCES User(User_ID),
   FOREIGN KEY (ISBN) REFERENCES Book(ISBN),
-  FOREIGN KEY (approved_requestUser_ID) REFERENCES User(User_ID)
+  FOREIGN KEY (Requested_User_ID) REFERENCES User(User_ID)
 );
 
 CREATE TABLE my_books
 (
-  Repayment_Policy VARCHAR(1000) NOT NULL,
+  Repayment_Policy TEXT NOT NULL,
   Availability INT NOT NULL,
-  Other_Specifications VARCHAR(1000),
+  Other_Specifications TEXT,
   Security_Money_of_Book INT NOT NULL,
   User_ID VARCHAR(20) NOT NULL,
   ISBN VARCHAR(30) NOT NULL,
+  CHECK (Availability in (0,1)),
   PRIMARY KEY (User_ID, ISBN),
   FOREIGN KEY (User_ID) REFERENCES User(User_ID),
   FOREIGN KEY (ISBN) REFERENCES Book(ISBN)
@@ -89,7 +90,7 @@ CREATE TABLE my_books
 CREATE TABLE book_review
 (
   Rating INT NOT NULL,
-  Review VARCHAR(5000),
+  Review TEXT,
   User_ID VARCHAR(20) NOT NULL,
   ISBN VARCHAR(30) NOT NULL,
   PRIMARY KEY (User_ID, ISBN),
