@@ -274,11 +274,11 @@
                                 <td>{{ request.Date_of_Request }}</td>
                                 <td>{{ request.borrow_time_duration }} days</td>
                                 <td><b>{% if request.completion_flag == '1' %}
-                                    Request accepted by you
+                                    Request accepted by user
                                 {% elif request.completion_flag == '-1' %}
-                                    Request withdrawn from user end
+                                    Request withdrawn by you    
                                 {% elif request.completion_flag == '-2' %}
-                                    Request declined by you
+                                    Request declined by user
                                 {% endif %}</b></td>
                                 <td><button type = "submit" class="btn btn-info" data-toggle="modal" data-target="#outgoingview{{ request.Request_ID }}">View</button></td>
                             </tr>
