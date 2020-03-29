@@ -31,14 +31,14 @@
         }
 
         .bd {
-        background-image: url({% static 'img/6.jpg' %});
-        height: 100%;
+            background-image: url({% static 'img/6.jpg' %});
+            height: 100%;
 
-        /* Center and scale the image nicely */
-        background-position: center;
-        background-repeat: no-repeat;
-        background-size: cover;
-    }
+            /* Center and scale the image nicely */
+            background-position: center;
+            background-repeat: no-repeat;
+            background-size: cover;
+        }
 
         @import url(//netdna.bootstrapcdn.com/font-awesome/3.2.1/css/font-awesome.css);
 
@@ -85,6 +85,43 @@
 
     <!-- Modals for incoming requests-->
     {% for request in incomingrequests %}
+        <!-- Modal for contact details -->
+        <div class="modal fade" id="contactdetails{{ request.Request_ID }}" role="dialog">
+            <div class="modal-dialog">
+                <!-- Modal content-->
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <h4 class="modal-title">Contact Details</h4>
+                        <button type="button" class="close" data-dismiss="modal">&times;</button>
+                    </div>
+
+                    <div class="modal-body" align="middle">
+
+                        <div>
+                            <b>User</b> : {{ request.Name }}<br>
+                            <b>User ID</b> : {{ request.User_ID }}<br>
+                            <b>Email</b> : {{ request.Email_Address }}<br>
+                            <b>House No</b> : {{ request.House_Number }}<br>
+                            <b>Street</b> : {{ request.Street }}<br>
+                            <b>Locality</b> : {{ request.Postal_Code }}<br>
+                            <b>Landmark</b> : {{ request.City }}<br>
+                            <b>State</b> : {{ request.State }}<br>
+                            <b>Mobile No.</b> : |  {% for p in request.Phone_Numbers %}
+                                {{ p }}  |  {% endfor %}<br>
+                            <br><br>
+                            <div class="modal-footer">
+                                <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+                            </div>
+                        </div>
+                    </div>
+
+
+                </div>
+
+            </div>
+        </div>
+
+
         <!-- Modal for view -->
         <div class="modal fade" id="incomingview{{ request.Request_ID }}" role="dialog">
             <div class="modal-dialog">
@@ -136,6 +173,43 @@
 
     <!-- Modals for outgoing requests-->
     {% for request in outgoingrequests %}
+
+        <!-- Modal for contact details -->
+        <div class="modal fade" id="contactdetails{{ request.Request_ID }}" role="dialog">
+            <div class="modal-dialog">
+                <!-- Modal content-->
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <h4 class="modal-title">Contact Details</h4>
+                        <button type="button" class="close" data-dismiss="modal">&times;</button>
+                    </div>
+
+                    <div class="modal-body" align="middle">
+
+                        <div>
+                            <b>User</b> : {{ request.Name }}<br>
+                            <b>User ID</b> : {{ request.User_ID }}<br>
+                            <b>Email</b> : {{ request.Email_Address }}<br>
+                            <b>House No</b> : {{ request.House_Number }}<br>
+                            <b>Street</b> : {{ request.Street }}<br>
+                            <b>Locality</b> : {{ request.Postal_Code }}<br>
+                            <b>Landmark</b> : {{ request.City }}<br>
+                            <b>State</b> : {{ request.State }}<br>
+                            <b>Mobile No.</b> : |  {% for p in request.Phone_Numbers %}
+                                {{ p }}  |  {% endfor %}<br>
+                            <br><br>
+                            <div class="modal-footer">
+                                <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+                            </div>
+                        </div>
+                    </div>
+
+
+                </div>
+
+            </div>
+        </div>
+
         <!-- Modal for view -->
         <div class="modal fade" id="outgoingview{{ request.Request_ID }}" role="dialog">
             <div class="modal-dialog">
@@ -235,8 +309,15 @@
                                     Request withdrawn from user end
                                 {% elif request.completion_flag == '-2' %}
                                     Request declined by you
+                                {% elif request.completion_flag == '0' %}
+                                    Pending
                                 {% endif %}</b></td>
-                                <td><button type = "submit" class="btn btn-info" data-toggle="modal" data-target="#incomingview{{ request.Request_ID }}">View</button></td>
+                                <td>
+                                        <button type = "submit" class="btn btn-info" data-toggle="modal" data-target="#incomingview{{ request.Request_ID }}">View</button>
+                                    {% if request.completion_flag == '1' %}
+                                        <button type = "submit" class="btn btn-success" data-toggle="modal" data-target="#contactdetails{{ request.Request_ID }}">Contact Details</button>
+                                    {% endif %}
+                                </td>
                             </tr>
                         {% endfor %}
                         </tbody>
@@ -276,11 +357,17 @@
                                 <td><b>{% if request.completion_flag == '1' %}
                                     Request accepted by user
                                 {% elif request.completion_flag == '-1' %}
-                                    Request withdrawn by you    
+                                    Request withdrawn by you
                                 {% elif request.completion_flag == '-2' %}
                                     Request declined by user
+                                {% elif request.completion_flag == '0' %}
+                                    Pending
                                 {% endif %}</b></td>
-                                <td><button type = "submit" class="btn btn-info" data-toggle="modal" data-target="#outgoingview{{ request.Request_ID }}">View</button></td>
+                                <td><button type = "submit" class="btn btn-info" data-toggle="modal" data-target="#outgoingview{{ request.Request_ID }}">View</button>
+                                    {% if request.completion_flag == '1' %}
+                                        <button type = "submit" class="btn btn-success" data-toggle="modal" data-target="#contactdetails{{ request.Request_ID }}">Contact Details</button>
+                                    {% endif %}
+                                </td>
                             </tr>
                         {% endfor %}
                         </tbody>

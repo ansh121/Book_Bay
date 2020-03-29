@@ -53,13 +53,25 @@ def perform_raw_sql(sql):
 def history(request):
     user = request.user
     try:
-        incomingrequests=perform_raw_sql("select * from my_books as MB, request as R, user as U, user as RU, book as B where MB.ISBN=B.ISBN and B.ISBN=R.ISBN and R.Requested_User_ID='"+str(user)+"' and R.User_ID=RU.User_ID and U.User_ID=R.Requested_User_ID and R.completion_flag <> "+str(0)+" order by R.ISBN")
-        outgoingrequests=perform_raw_sql("select * from my_books as MB, request as R, user as U, user as RU, book as B where MB.ISBN=B.ISBN and B.ISBN=R.ISBN and R.User_ID='"+str(user)+"' and R.Requested_User_ID=RU.User_ID and U.User_ID=R.User_ID and R.completion_flag <> "+str(0)+" order by R.ISBN")
+        incomingrequests=perform_raw_sql("select * from my_books as MB, request as R, user as U, user as RU, book as B where MB.ISBN=B.ISBN and B.ISBN=R.ISBN and R.Requested_User_ID='"+str(user)+"' and R.User_ID=RU.User_ID and U.User_ID=R.Requested_User_ID order by R.Date_of_Request")
+        outgoingrequests=perform_raw_sql("select * from my_books as MB, request as R, user as U, user as RU, book as B where MB.ISBN=B.ISBN and B.ISBN=R.ISBN and R.User_ID='"+str(user)+"' and R.Requested_User_ID=RU.User_ID and U.User_ID=R.User_ID order by R.Date_of_Request")
         dict={}
         dict['incomingrequests']=incomingrequests
         dict['outgoingrequests']=outgoingrequests
         dict['user']=user
+        for req in incomingrequests:
+            numbers = perform_raw_sql("select p.Phone_Number from user_phone_number as p where p.User_ID='"+str(req['User_ID'])+"'")
+            l = []
+            for p in numbers:
+                l.append(p['Phone_Number'])
+            req['Phone_Numbers']=l
         print(incomingrequests)
+        for req in outgoingrequests:
+            numbers = perform_raw_sql("select p.Phone_Number from user_phone_number as p where p.User_ID='"+str(req['User_ID'])+"'")
+            l = []
+            for p in numbers:
+                l.append(p['Phone_Number'])
+            req['Phone_Numbers']=l
         print(outgoingrequests)
         return render(request, 'history.html', dict)
     except:
@@ -155,6 +167,28 @@ def bookdetail(request):
 def myaccount(request):
     userid = request.user
 
+    if request.POST.get("removenumber"):
+        number = request.POST.get("phone")
+        flag = execute_only_raw_sql("DELETE from user_phone_number as p where p.User_ID='"+str(userid)+"' and p.Phone_Number='"+str(number)+"'")
+        print('phone number delition - ',flag)
+
+    if request.POST.get("addphoneno"):
+        newno=request.POST.get("phoneno")
+        password = request.POST.get("password")
+
+        logcred = LoginCredential.objects.get(user=User.objects.get(user_id=userid))
+        if logcred.password == password:
+            alreadyexist = perform_raw_sql("select p.Phone_Number from user_phone_number as p where p.User_ID='"+str(userid)+"'")
+            l = []
+            for p in alreadyexist:
+                l.append(p['Phone_Number'])
+            if newno in l:
+                messages.info(request,"Number Already Exists !")
+            else:
+                messages.success(request,"Mobile No added successfully")
+                contact = UserPhoneNumber.objects.create(user=User.objects.get(user_id=userid), phone_number=newno, isprimary=0)
+                contact.save()
+
     if request.POST.get("changepassword"):
         oldpass=request.POST.get("oldpassword")
         newpass=request.POST.get("newpassword")
@@ -200,7 +234,15 @@ def myaccount(request):
 
     userdetail = perform_raw_sql("select * from user as U, login_credential as LC where U.User_ID='" + str(userid) + "' and U.User_ID=LC.User_ID")
     userdetail = userdetail[0]
+    phonenoprimary = perform_raw_sql("select upn.Phone_Number from user_phone_number as upn where upn.User_ID='"+str(userid)+"' and Is_Primary=1")
+    phonenosecondary = perform_raw_sql("select upn.Phone_Number from user_phone_number as upn where upn.User_ID='" + str(userid) + "' and Is_Primary=0")
+    print(phonenoprimary, phonenosecondary)
     userdetail['user'] = userid
+    userdetail['phonenoprimary']=phonenoprimary[0]['Phone_Number']
+    l = []
+    for p in phonenosecondary:
+        l.append(p['Phone_Number'])
+    userdetail['phonenosecondary'] = l
     print(userdetail)
     return render(request, 'myaccount.html', userdetail)
 
@@ -259,6 +301,7 @@ def mybooks(request):
                                    other_specifications=otherspec,
                                    security_money_of_book=int(securitymoney), user=User.objects.get(user_id=user),
                                    isbn=Book.objects.get(isbn=isbn))
+            messages.success(request,"Book Added Successfully !!!")
             print("new book added to user : ", user)
         except:
             messages.info(request,"Book already exists !")
@@ -356,6 +399,7 @@ def userdetails(request):
         landmark = request.POST.get("landmark")
         city = request.POST.get("city")
         state = request.POST.get("state")
+        mobileno = request.POST.get("mobileno")
         password = request.POST.get("password")
 
         message=""
@@ -375,6 +419,9 @@ def userdetails(request):
                 user = User.objects.create(user_id = userid ,email_address = email,name = name,house_number = house_no,street = street,locality = locality,postal_code = postal_code,landmark = landmark,city = city,state = state)
                 new_credentials = LoginCredential(user=user, password=password)
                 new_credentials.save()
+
+                contact = UserPhoneNumber.objects.create(user=user,phone_number=mobileno,isprimary=1)
+                contact.save()
 
             except:
                 return print('error')

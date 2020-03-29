@@ -99,6 +99,7 @@ class User(models.Model):
 class UserPhoneNumber(models.Model):
     phone_number = models.DecimalField(db_column='Phone_Number', primary_key=True, max_digits=10, decimal_places=0)  # Field name made lowercase.
     user = models.ForeignKey(User, models.DO_NOTHING, db_column='User_ID')  # Field name made lowercase.
+    isprimary = models.IntegerField(db_column='Is_Primary')
 
     class Meta:
         managed = False

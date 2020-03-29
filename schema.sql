@@ -111,6 +111,7 @@ CREATE TABLE user_phone_number
 (
   Phone_Number NUMERIC(10) NOT NULL,
   User_ID VARCHAR(20) NOT NULL,
+  Is_Primary INT NOT NULL,
   PRIMARY KEY (Phone_Number, User_ID),
   FOREIGN KEY (User_ID) REFERENCES User(User_ID)
 );

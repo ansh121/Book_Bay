@@ -23,15 +23,15 @@
             padding: 0 10px;
         }
 
-    .bd {
-        background-image: url({% static 'img/3.jpg' %});
-        height: 100%;
+        .bd {
+            background-image: url({% static 'img/3.jpg' %});
+            height: 100%;
 
-        /* Center and scale the image nicely */
-        background-position: center;
-        background-repeat: no-repeat;
-        background-size: cover;
-    }
+            /* Center and scale the image nicely */
+            background-position: center;
+            background-repeat: no-repeat;
+            background-size: cover;
+        }
 
     </style>
     <!-- Modals for view, delete and edit-->
@@ -257,7 +257,11 @@
             {% if messages %}
                 <ul class="messages">
                     {% for message in messages %}
-                        <h4 style="color: red;">{{ message }}</h4>
+                        {% if message.level == DEFAULT_MESSAGE_LEVELS.SUCCESS %}
+                            <h3 style="color: green;align-self: center;margin-bottom: 5px;">{{ message }}</h3>
+                        {% else %}
+                            <h3 style="color: red;margin-bottom: 5px;">{{ message }}</h3>
+                        {% endif %}
                     {% endfor %}
                 </ul>
             {% endif %}
