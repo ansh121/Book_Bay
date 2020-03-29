@@ -141,7 +141,18 @@
 
                                 <div  id="availability" >
                                     <label class="lab" >Availability</label>
-                                    <input type="text"  name="availability"  value={{ book.Availability }} class="form-control" >
+                                    {% if book.Availability == "0" %}
+                                        <select type="text" name="availability" class="form-control" required>
+                                            <option value="0" selected>Not Available(N/A)</option>
+                                            <option value="1">Available</option>
+                                        </select>
+                                    {% else %}
+                                        <select type="text" name="availability" class="form-control" required>
+                                            <option value="0" >Not Available(N/A)</option>
+                                            <option value="1" selected>Available</option>
+                                        </select>
+                                    {% endif %}
+                                    <!--input type="text"  name="availability"  value={{ book.Availability }} class="form-control" -->
                                 </div>
 
                                 <div  id="otherspecifications" >
@@ -211,7 +222,11 @@
 
                             <div  id="availability" >
                                 <label class="lab" >Availability</label>
-                                <input type="text"  name="availability"  placeholder="if available to sahre then Yes else No" class="form-control" required>
+                                <!--input type="text"  name="availability"  placeholder="if available to sahre then Yes else No" class="form-control" required-->
+                                <select id="cars" type="text" name="availability" class="form-control" required>
+                                    <option value="0">Not Available(N/A)</option>
+                                    <option value="1">Available</option>
+                                </select>
                             </div>
 
                             <div  id="otherspecifications" >

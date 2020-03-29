@@ -53,8 +53,8 @@ def perform_raw_sql(sql):
 def history(request):
     user = request.user
     try:
-        incomingrequests=perform_raw_sql("select * from my_books as MB, request as R, user as U, User as RU, book as B where MB.ISBN=B.ISBN and B.ISBN=R.ISBN and R.Requested_User_ID='"+str(user)+"' and R.User_ID=RU.User_ID and U.User_ID=R.Requested_User_ID and R.completion_flag <> "+str(0)+" order by R.ISBN")
-        outgoingrequests=perform_raw_sql("select * from my_books as MB, request as R, user as U, User as RU, book as B where MB.ISBN=B.ISBN and B.ISBN=R.ISBN and R.User_ID='"+str(user)+"' and R.Requested_User_ID=RU.User_ID and U.User_ID=R.User_ID and R.completion_flag <> "+str(0)+" order by R.ISBN")
+        incomingrequests=perform_raw_sql("select * from my_books as MB, request as R, user as U, user as RU, book as B where MB.ISBN=B.ISBN and B.ISBN=R.ISBN and R.Requested_User_ID='"+str(user)+"' and R.User_ID=RU.User_ID and U.User_ID=R.Requested_User_ID and R.completion_flag <> "+str(0)+" order by R.ISBN")
+        outgoingrequests=perform_raw_sql("select * from my_books as MB, request as R, user as U, user as RU, book as B where MB.ISBN=B.ISBN and B.ISBN=R.ISBN and R.User_ID='"+str(user)+"' and R.Requested_User_ID=RU.User_ID and U.User_ID=R.User_ID and R.completion_flag <> "+str(0)+" order by R.ISBN")
         dict={}
         dict['incomingrequests']=incomingrequests
         dict['outgoingrequests']=outgoingrequests
@@ -82,12 +82,12 @@ def pendingrequest(request):
         requestid = request.POST.get("requestid")
         bool=execute_only_raw_sql("UPDATE request SET completion_flag=1 WHERE Request_ID = "+str(requestid))
         req = Request.objects.get(request_id=requestid)
-        bool=bool and execute_only_raw_sql("UPDATE my_books SET Avaliability = 0 WHERE ISBN='"+str(req.isbn)+"' and User_ID = '"+str(req.requesteduser)+"'")
+        bool=bool and execute_only_raw_sql("UPDATE my_books SET Avaliability = 0 WHERE ISBN='"+str(req.isbn)+"' and User_ID = '"+str(req.requested_user)+"'")
         print(bool)
 
     try:
-        incomingrequests=perform_raw_sql("select * from my_books as MB, request as R, user as U, User as RU, book as B where MB.ISBN=B.ISBN and B.ISBN=R.ISBN and R.Requested_User_ID='"+str(user)+"' and R.User_ID=RU.User_ID and U.User_ID=R.Requested_User_ID and R.completion_flag="+str(0)+" order by R.ISBN")
-        outgoingrequests=perform_raw_sql("select * from my_books as MB, request as R, user as U, User as RU, book as B where MB.ISBN=B.ISBN and B.ISBN=R.ISBN and R.User_ID='"+str(user)+"' and R.Requested_User_ID=RU.User_ID and U.User_ID=R.User_ID and R.completion_flag="+str(0)+" order by R.ISBN")
+        incomingrequests=perform_raw_sql("select * from my_books as MB, request as R, user as U, user as RU, book as B where MB.ISBN=B.ISBN and B.ISBN=R.ISBN and R.Requested_User_ID='"+str(user)+"' and R.User_ID=RU.User_ID and U.User_ID=R.Requested_User_ID and R.completion_flag="+str(0)+" order by R.ISBN")
+        outgoingrequests=perform_raw_sql("select * from my_books as MB, request as R, user as U, user as RU, book as B where MB.ISBN=B.ISBN and B.ISBN=R.ISBN and R.User_ID='"+str(user)+"' and R.Requested_User_ID=RU.User_ID and U.User_ID=R.User_ID and R.completion_flag="+str(0)+" order by R.ISBN")
         dict={}
         dict['incomingrequests']=incomingrequests
         dict['outgoingrequests']=outgoingrequests
@@ -124,12 +124,12 @@ def bookdetail(request):
         date=datetime.today()
         complete=0
 
-        already_requested=Request.objects.filter(user=User.objects.get(user_id=user),isbn=Book.objects.get(isbn=isbn),requesteduser=User.objects.get(user_id=requesteduserid))
+        already_requested=Request.objects.filter(user=User.objects.get(user_id=user),isbn=Book.objects.get(isbn=isbn),requested_user=User.objects.get(user_id=requesteduserid), completion_flag=0)
         if already_requested.count() != 0:
             messages.info(request,"Book already requested from the user, please delete previous requests to make another one.")
             print("Book already requested")
         else:
-            Request.objects.create(borrow_time_duration=borrowduration,date_of_request=date,request_message=message,completion_flag=complete,user=User.objects.get(user_id=user),isbn=Book.objects.get(isbn=isbn),requesteduser=User.objects.get(user_id=requesteduserid))
+            Request.objects.create(borrow_time_duration=borrowduration,date_of_request=date,request_message=message,completion_flag=complete,user=User.objects.get(user_id=user),isbn=Book.objects.get(isbn=isbn),requested_user=User.objects.get(user_id=requesteduserid))
             messages.success(request,"Book Request Submitted Successfully")
             print("Book Request Successful")
 
@@ -211,7 +211,7 @@ def searchresult(request):
     if request.method=="POST":
         search = request.POST.get('search')
         print(search)
-        namebooks = Book.objects.filter(book_name__contains=search)
+        namebooks = Book.objects.filter(book_name__icontains=search)
         isbnbooks = Book.objects.filter(isbn__exact=search)
         books = namebooks | isbnbooks
         books = books.distinct()
@@ -281,12 +281,17 @@ def mybooks(request):
             b.author=author
             b.genre=genre
             b.save()
+            #print(user)
+            #print(availability)
 
-            mb=MyBooks.objects.get(isbn=isbn, user=user)
+            mb = MyBooks.objects.get(isbn=isbn, user=User.objects.get(user_id=user))
+            #print(mb)
             mb.repayment_policy = repaypol
+
             mb.availability = int(availability)
             mb.other_specifications = otherspec
             mb.security_money_of_book = int(securitymoney)
+
             mb.save()
             print("book updated")
         except:
