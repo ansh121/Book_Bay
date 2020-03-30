@@ -61,6 +61,20 @@ def perform_raw_sql(sql):
     return list
 
 
+def contact(request):
+    if request.user.is_authenticated:
+        return render (request,'logincontact.html')
+    else:
+        return render (request,'contact.html')
+
+def about(request):
+    if request.user.is_authenticated:
+        return render (request,'loginabout.html')
+    else:
+        return render (request,'about.html')
+
+
+
 @login_required()
 def history(request):
     user = request.user
