@@ -1,0 +1,44 @@
+{% extends "base.html" %}
+{% block content %}
+
+    {# load static files #}
+    {% load static %}
+    <!--script src="{% static 'js/register.js' %}"></script-->
+
+    <style>
+        #about{
+            background-color: #666;
+            color: white;
+        }
+
+        body {font-family: Arial, Helvetica, sans-serif;}
+
+        /* Style the horizontal ruler */
+        hr {
+            border: 1px solid #f1f1f1;
+            margin-bottom: 25px;
+        }
+
+    .bd {
+        background-image: url({% static 'img/4.jpg' %});
+        height: 100%;
+
+        /* Center and scale the image nicely */
+        background-position: center;
+        background-repeat: no-repeat;
+        background-size: cover;
+    }
+    </style>
+
+
+    <div class="small card p-1 mb-5 bg-white rounded" style="width: 40%;margin-left: 30%;margin-top: 4%;" align="middle">
+        <h3><b>About</b></h3>
+        <hr>
+        <p style="font-size: medium">
+            This website is made for the bookaholics. <br>
+            Happy sharing and reading.<br>
+            For any clarification, <a href="{% url 'contact' %}">contact us</a>
+        </p>
+    </div>
+
+{% endblock %}

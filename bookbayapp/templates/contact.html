@@ -1,0 +1,90 @@
+{% extends "base.html" %}
+
+{% block content %}
+    {% load static %}
+
+    <style>
+        #contact{
+            background-color: #666;
+            color: white;
+        }
+
+        .small {
+            transform: scale(0.9, 0.9);
+            -ms-transform: scale(0.9, 0.9); /* IE 9 */
+            -webkit-transform: scale(0.9, 0.9); /* Safari and Chrome */
+            -o-transform: scale(0.9, 0.9); /* Opera */
+            -moz-transform: scale(0.9, 0.9); /* Firefox */
+        }
+
+        .column {
+            float: left;
+            width: 20%;
+            padding: 0 10px;
+        }
+
+    .bd {
+        background-image: url({% static 'img/3.jpg' %});
+        height: 100%;
+
+        /* Center and scale the image nicely */
+        background-position: center;
+        background-repeat: no-repeat;
+        background-size: cover;
+    }
+
+    </style>
+    <div class="small card p-1 mb-4 bg-white rounded" style="min-width: 50%;">
+        <div class="header">
+            <h2>Contact Developers</h2>
+        </div>
+        <div class="container">
+            <br>
+            <div class="row">
+                <div class="col-sm-3">
+                    <div class="card">
+                        <img class="card-img-top" src="{% static 'img/BookBay.png' %}" alt="Card image" style="width:60%;align-self: center">
+                        <div class="card-block">
+                            <br>
+                            <h3 class="card-title" style="text-align: center">Ayush Kumar</h3>
+                            <h5 style="text-align: center" >aimayush@gmail.com</h5>
+                            <h5 style="text-align: center">Mob : 7001668075</h5>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-sm-3">
+                    <div class="card">
+                        <img class="card-img-top" src="{% static 'img/BookBay.png' %}" alt="Card image" style="width:60%;align-self: center">
+                        <div class="card-block"><br>
+                            <h3 class="card-title" style="text-align: center">Ayush Kumar</h3>
+                            <h5 style="text-align: center" >aimayush@gmail.com</h5>
+                            <h5 style="text-align: center">Mob : 7001668075</h5>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-sm-3">
+                    <div class="card">
+                        <img class="card-img-top" src="{% static 'img/BookBay.png' %}" alt="Card image" style="width:60%;align-self: center">
+                        <div class="card-block"><br>
+                            <h3 class="card-title" style="text-align: center">Ayush Kumar</h3>
+                            <h5 style="text-align: center" >aimayush@gmail.com</h5>
+                            <h5 style="text-align: center">Mob : 7001668075</h5>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-sm-3">
+                    <div class="card">
+                        <img class="card-img-top" src="{% static 'img/BookBay.png' %}" alt="Card image" style="width:60%;align-self: center">
+                        <div class="card-block"><br>
+                            <h3 class="card-title" style="text-align: center">Ayush Kumar</h3>
+                            <h5 style="text-align: center" >aimayush@gmail.com</h5>
+                            <h5 style="text-align: center">Mob : 7001668075</h5>
+                        </div>
+                    </div>
+                </div>
+
+            </div>
+            <br>
+        </div>
+    </div>
+{% endblock %}

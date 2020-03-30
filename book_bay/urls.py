@@ -31,6 +31,8 @@ urlpatterns = [
     path('pendingrequest/',views.pendingrequest, name='pendingrequest'),
     path('history/', views.history, name='history'),
     path('', views.home, name='home'),
+    path('contact/', views.contact, name='contact'),
+    path('about/', views.about, name='about'),
     #path('userdetails/', views.userdetails),
 ]
 

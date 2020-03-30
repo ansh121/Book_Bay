@@ -77,8 +77,8 @@
     <a id="mybooks" href="{% url 'mybooks' %}" ><i class="fa fa-fw fa-book"></i> My Books</a>
     <a id="pendingrequest" href="{% url 'pendingrequest' %}" ><i class="fa fa-fw fa-send"></i> Pending Request</a>
     <a id="history" href="{% url 'history' %}" ><i class="fa fa-fw fa-download"></i> History</a>
-    <a id="contact" href="#" ><i class="fa fa-fw fa-connectdevelop"></i> Contact</a>
-    <a id="about" href="#" ><i class="fa fa-fw fa-info-circle"></i> About</a>
+    <a id="contact" href="{% url 'contact' %}" ><i class="fa fa-fw fa-connectdevelop"></i> Contact</a>
+    <a id="about" href="{% url 'about' %}" ><i class="fa fa-fw fa-info-circle"></i> About</a>
     <a id="logout" href="{% url 'login' %}" class="right"> <i class="fa fa-fw fa-user"></i> Log Out</a>
     <a class="right" style="color: white">Welcome {{ user }}</a>
 </div>
