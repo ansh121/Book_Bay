@@ -3,15 +3,7 @@
   <component name="ChangeListManager">
     <list default="true" id="35c1aadb-d8ab-43b9-9243-23093cdcc78d" name="Default Changelist" comment="">
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/bookbayapp/models.py" beforeDir="false" afterPath="$PROJECT_DIR$/bookbayapp/models.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/bookbayapp/templates/bookdetail.html" beforeDir="false" afterPath="$PROJECT_DIR$/bookbayapp/templates/bookdetail.html" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/bookbayapp/templates/history.html" beforeDir="false" afterPath="$PROJECT_DIR$/bookbayapp/templates/history.html" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/bookbayapp/templates/mybooks.html" beforeDir="false" afterPath="$PROJECT_DIR$/bookbayapp/templates/mybooks.html" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/bookbayapp/templates/pendingrequest.html" beforeDir="false" afterPath="$PROJECT_DIR$/bookbayapp/templates/pendingrequest.html" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/bookbayapp/templates/searchresult.html" beforeDir="false" afterPath="$PROJECT_DIR$/bookbayapp/templates/searchresult.html" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/bookbayapp/textisbn.py" beforeDir="false" afterPath="$PROJECT_DIR$/bookbayapp/textisbn.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/bookbayapp/views.py" beforeDir="false" afterPath="$PROJECT_DIR$/bookbayapp/views.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/schema.sql" beforeDir="false" afterPath="$PROJECT_DIR$/schema.sql" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/bookbayapp/templates/base.html" beforeDir="false" afterPath="$PROJECT_DIR$/bookbayapp/templates/base.html" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -123,7 +115,7 @@
       <workItem from="1585410524027" duration="479000" />
       <workItem from="1585514462026" duration="712000" />
       <workItem from="1585555327118" duration="17283000" />
-      <workItem from="1585572783189" duration="2512000" />
+      <workItem from="1585572783189" duration="2880000" />
     </task>
     <task id="LOCAL-00001" summary="My Books Updated">
       <created>1585225790624</created>
