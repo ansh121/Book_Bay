@@ -10,9 +10,9 @@
 /*!40111 SET @OLD_SQL_NOTES=@@SQL_NOTES, SQL_NOTES=0 */;
 
 
-DROP SCHEMA IF EXISTS book_bay;
-CREATE SCHEMA book_bay;
-USE book_bay;
+DROP SCHEMA IF EXISTS book_bay2;
+CREATE SCHEMA book_bay2;
+USE book_bay2;
 SET AUTOCOMMIT=0;
 
 drop table if exists user;

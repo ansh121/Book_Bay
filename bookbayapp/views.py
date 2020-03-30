@@ -21,11 +21,16 @@ from isbnlib.registry import bibformatters
 
 import os
 
-proxy = 'http://172.16.2.30:8080'
-os.environ['http_proxy'] = proxy
-os.environ['HTTP_PROXY'] = proxy
-os.environ['https_proxy'] = proxy
-os.environ['HTTPS_PROXY'] = proxy
+try:
+    proxy = 'http://172.16.2.30:8080'
+    os.environ['http_proxy'] = proxy
+    os.environ['HTTP_PROXY'] = proxy
+    os.environ['https_proxy'] = proxy
+    os.environ['HTTPS_PROXY'] = proxy
+    os.environ['NO_PROXY'] = '127.0.0.1'
+except:
+    print ("proxy error")
+
 
 def execute_only_raw_sql(sql):
     print('sql - ', sql)
@@ -211,9 +216,9 @@ def myaccount(request):
             if newno in l:
                 messages.info(request,"Number Already Exists !")
             else:
-                messages.success(request,"Mobile No added successfully")
                 contact = UserPhoneNumber.objects.create(user=User.objects.get(user_id=userid), phone_number=newno, isprimary=0)
                 contact.save()
+                messages.success(request,"Mobile No added successfully")
 
     if request.POST.get("changepassword"):
         oldpass=request.POST.get("oldpassword")
