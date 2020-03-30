@@ -127,9 +127,9 @@
     </div>
 
     <!-- Modals for view-->
-    {% for user in users %}
+    {% for u in users %}
         <!-- Modal for view -->
-        <div class="modal fade" id="view{{ user.User_ID }}" role="dialog">
+        <div class="modal fade" id="view{{ u.User_ID }}" role="dialog">
             <div class="modal-dialog">
                 <!-- Modal content-->
                 <div class="modal-content">
@@ -143,21 +143,23 @@
                             {% csrf_token %}
                             <div>
                                 <h4><b>Book Title</b> : {{ book.book_name }}</h4>
-                                <h4><b>Owner</b> : {{ user.Name }}</h4><hr>
+                                <h4><b>Owner</b> : {{ u.Name }}</h4><hr>
                                 <b>Author</b> : {{ book.author }} <br>
                                 <b>ISBN</b> : {{ book.isbn }} <br>
                                 <b>Year</b> : {{ book.year }} <br>
                                 <b>Language</b> : {{ book.language }} <br>
-                                <b>Repayment Method</b> : {{ user.Repayment_Policy }}   (if lost)<br>
-                                <b>Available for sharing</b> : {% if user.Availability == '1' %}
+                                <b>Repayment Method</b> : {{ u.Repayment_Policy }}   (if lost)<br>
+                                <b>Available for sharing</b> : {% if u.Availability == '1' %}
                                 Yes
                             {% else %}
                                 No
                             {% endif %}<br>
-                                <b>Other Specifications</b> : {{ user.Other_Specifications }}<br>
-                                <b>Security Money of Book</b> : Rs.{{ user.Security_Money_of_Book }}<br>
-                                {% if user.User_ID == user %}
-                                    {% if user.Availability == '1' %}
+                                <b>Other Specifications</b> : {{ u.Other_Specifications }}<br>
+                                <b>Security Money of Book</b> : Rs.{{ u.Security_Money_of_Book }}<br>
+                                {% if u.User_ID == user %}
+                                    <br>
+                                {% else %}
+                                    {% if u.Availability == '1' %}
                                         <div id="borrowduration">
                                             <label class="col-sm-4 control-label" >Borrow Duration</label>
                                             <input type="int"  name="borrowduration" placeholder="duration in days" class="form-control col-sm-7" required>
@@ -167,20 +169,18 @@
                                             <input type="text"  name="message" class="form-control col-sm-7" >
                                         </div>
                                     {% endif %}
-                                {% else %}
-                                    <br>
-                                {% endif %}
+                                {% endif%}
 
-                                {% if user.User_ID == user %}
+                                {% if u.User_ID == user %}
                                     <p style="color: green;">You are the owner of this book.</p>
-                                {% elif user.Availability == '1' %}
+                                {% elif u.Availability == '1' %}
                                     <button type="submit" name="makerequest" value="makerequest"  class="btn btn-info" ><i class="fa fa-edit"></i>  Make Request</button>
                                 {% else %}
-                                    <p style="color: #e74c3c;">Book not available for sharing by the user.</p>
+                                    <p style="color: #e74c3c;">Book not available for sharing by the u.</p>
                                 {% endif %}
                                 <button type="button" class="btn btn-default" data-dismiss="modal"><i class="fa fa-remove"></i>  Cancel</button>
                                 <input type="text" style="width: 0px;height: 0px;visibility: hidden;" name="isbn" value="{{ book.isbn }}">
-                                <input type="text" style="width: 0px;height: 0px;visibility: hidden;" name="ownerid" value="{{ user.User_ID }}">
+                                <input type="text" style="width: 0px;height: 0px;visibility: hidden;" name="ownerid" value="{{ u.User_ID }}">
                             </div>
                         </form>
                     </div>
@@ -240,18 +240,18 @@
                             </tr>
                             </thead>
                             <tbody>
-                            {% for user in users %}
+                            {% for u in users %}
                                 <tr>
-                                    <td>{{ user.Name }}</td>
-                                    <td>{{ user.User_ID }}</td>
-                                    <td>{{ user.Email_Address }}</td>
-                                    {% if user.Availability == '1' %}
+                                    <td>{{ u.Name }}</td>
+                                    <td>{{ u.User_ID }}</td>
+                                    <td>{{ u.Email_Address }}</td>
+                                    {% if u.Availability == '1' %}
                                         <td>Yes</td>
                                     {% else %}
                                         <td>No</td>
                                     {% endif %}
-                                    <td>Rs. {{ user.Security_Money_of_Book }}</td>
-                                    <td><button type = "submit" class="btn btn-info" data-toggle="modal" data-target="#view{{ user.User_ID }}">View</button></td>
+                                    <td>Rs. {{ u.Security_Money_of_Book }}</td>
+                                    <td><button type = "submit" class="btn btn-info" data-toggle="modal" data-target="#view{{ u.User_ID }}">View</button></td>
                                 </tr>
                             {% endfor %}
                             </tbody>

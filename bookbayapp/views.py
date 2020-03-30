@@ -14,7 +14,7 @@ from django.db import connection
 
 from datetime import datetime
 
-from isbnlib import meta
+from isbnlib import meta, cover
 from isbnlib.config import add_apikey
 
 import os
@@ -183,11 +183,10 @@ def bookdetail(request):
         reviews=perform_raw_sql("select * from book_review as BR, user as U where BR.ISBN='"+str(isbn)+"' and BR.User_ID=U.User_ID")
         dict={}
         dict['users']=users
-        print(dict)
         dict['book']=book
-        dict['user']=user
+        dict['user']=str(user)
         dict['reviews']=reviews
-        print(reviews)
+        print(dict)
         return render(request, 'bookdetail.html', dict)
     except:
         return render(request, 'bookdetail.html', {'user': user})
