@@ -36,6 +36,7 @@
     </style>
     <!-- Modals for view, delete and edit-->
     {% for book in books %}
+
         <!-- Modal for view -->
         <div class="modal fade" id="view{{ book.ISBN }}" role="dialog">
             <div class="modal-dialog">
@@ -48,10 +49,10 @@
                     </div>
                     <div class="modal-body" align="middle">
                         <h4><b>Title</b> : {{ book.Book_Name }}</h4>
-                        <b>Genre</b> : {{ book.Genre }} <br>
                         <b>Author</b> : {{ book.Author }} <br>
-                        <b>Edition</b> : {{ book.Edition }} <br>
                         <b>ISBN</b> : {{ book.ISBN }} <br>
+                        <b>Year</b> : {{ book.Year }} <br>
+                        <b>Language</b> : {{ book.Language }} <br>
                         <b>Repayment Policy</b> : {{ book.Repayment_Policy }}<br>
                         <b>Availability</b> : {% if book.Availability == '1' %}
                         Yes
@@ -83,11 +84,11 @@
                     <form method="post" action="/mybooks/">
                         {% csrf_token %}
                         <div class="modal-body" align="middle">
-                              <label class="lab" >Available for sharing</label>
-                                <select id="available" type="text" name="available" class="form-control" required>
-                                    <option value="0" {% if book.Availability == "0" %}selected{% endif %}>Not Available</option>
-                                    <option value="1" {% if book.Availability == "1" %}selected{% endif %}>Available</option>
-                                </select></div>
+                            <label class="lab" >Available for sharing</label>
+                            <select id="available" type="text" name="available" class="form-control" required>
+                                <option value="0" {% if book.Availability == "0" %}selected{% endif %}>Not Available</option>
+                                <option value="1" {% if book.Availability == "1" %}selected{% endif %}>Available</option>
+                            </select></div>
 
                         <div class="modal-footer">
                             <input id="isbn" name="isbn" value="{{ book.ISBN }}" type="hidden">
@@ -147,21 +148,6 @@
                                 <div id="title" >
                                     <label class="lab">Title</label>
                                     <input type="text"  name="title"  value={{ book.Book_Name }} class="form-control" readonly>
-                                </div>
-
-                                <div id="genre" >
-                                    <label class="lab" >Genre</label>
-                                    <input type="text"  name="genre"  value={{ book.Genre }} class="form-control">
-                                </div>
-
-                                <div  id="author">
-                                    <label class="lab" >Author</label>
-                                    <input type="text"  name="author"  value={{ book.Author }} class="form-control" >
-                                </div>
-
-                                <div  id="edition" >
-                                    <label class="lab" >Edition</label>
-                                    <input type="text"  name="edition"  value={{ book.Edition }} class="form-control">
                                 </div>
 
                                 <div  id="isbn" >
@@ -225,33 +211,14 @@
                         {% csrf_token %}
                         <div>
                             <h5>Please fill in this form to a add book.</h5>
-                            <div id="title" >
-                                <label class="lab">Title</label>
-                                <input type="text"  name="title"  placeholder="Title" class="form-control" required>
-                            </div>
-
-                            <div id="genre" >
-                                <label class="lab" >Genre</label>
-                                <input type="text"  name="genre"  placeholder="Genre" class="form-control">
-                            </div>
-
-                            <div  id="author">
-                                <label class="lab" >Author</label>
-                                <input type="text"  name="author"  placeholder="Author" class="form-control" required>
-                            </div>
-
-                            <div  id="edition" >
-                                <label class="lab" >Edition</label>
-                                <input type="text"  name="edition"  placeholder="Edition" class="form-control">
-                            </div>
 
                             <div  id="isbn" >
-                                <label class="lab" >ISBN</label>
+                                <label class="lab" >ISBN Number</label>
                                 <input type="text"  name="isbn"  placeholder="ISBN" class="form-control" required>
                             </div>
 
                             <div  id="repaymentpolicy" >
-                                <label class="lab" >Repayment Policy</label>
+                                <label class="lab" >Repayment Method</label>
                                 <input type="text"  name="repaymentpolicy"  placeholder="In case of book loss, how would you like to repaid" class="form-control" >
                             </div>
 
@@ -306,12 +273,12 @@
                         <img class="card-img-top" src="{% static 'img/BookBay.png' %}" alt="Card image" style="width:60%;align-self: center">
                         <div class="card-body" align="middle">
                             <h3 style="text-overflow: ellipsis;white-space: nowrap;overflow: hidden;">{{ book.Book_Name}}</h3>
-                            <h5 >
-                                Genre: {{ book.Genre }} <br>
-                                Author: {{ book.Author }} <br>
-                                Edition : {{ book.Edition }} <br>
-                                ISBN : {{ book.ISBN }} <br><br>
-                                Available for sharing :
+                            <h5 style="text-overflow: ellipsis;white-space: nowrap;overflow: hidden;"   >
+                                <b>Author</b> : {{ book.Author }} <br>
+                                <b>ISBN</b> : {{ book.ISBN }} <br>
+                                <b>Year</b> : {{ book.Year }} <br>
+                                <b>Language</b> : {{ book.Language }} <br>
+                                <b>Available for sharing</b> :
                                 {% if book.Availability == '1' %}
                                     Yes
                                 {% else %}

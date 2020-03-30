@@ -31,14 +31,14 @@
         }
 
         .bd {
-        background-image: url({% static 'img/5.jpg' %});
-        height: 100%;
+            background-image: url({% static 'img/5.jpg' %});
+            height: 100%;
 
-        /* Center and scale the image nicely */
-        background-position: center;
-        background-repeat: no-repeat;
-        background-size: cover;
-    }
+            /* Center and scale the image nicely */
+            background-position: center;
+            background-repeat: no-repeat;
+            background-size: cover;
+        }
 
         @import url(//netdna.bootstrapcdn.com/font-awesome/3.2.1/css/font-awesome.css);
 
@@ -100,10 +100,10 @@
                         <div>
                             <h3>Book Detail</h3>
                             <b>Book Title</b> : {{ request.Book_Name }}<br>
-                            <b>Genre</b> : {{ request.Genre }} <br>
                             <b>Author</b> : {{ request.Author }} <br>
-                            <b>Edition</b> : {{ request.Edition }} <br>
                             <b>ISBN</b> : {{ request.ISBN }} <br>
+                            <b>Year</b> : {{ request.Year }} <br>
+                            <b>Language</b> : {{ request.Language }} <br>
                             <b>Repayment Method</b> : {{ request.Repayment_Policy }}   (if lost)<br>
                             <b>Available for sharing</b> : {% if request.Availability == '1' %}
                             Yes
@@ -208,10 +208,10 @@
                         <div>
                             <h3>Book Detail</h3>
                             <b>Book Title</b> : {{ request.Book_Name }}<br>
-                            <b>Genre</b> : {{ request.Genre }} <br>
                             <b>Author</b> : {{ request.Author }} <br>
-                            <b>Edition</b> : {{ request.Edition }} <br>
                             <b>ISBN</b> : {{ request.ISBN }} <br>
+                            <b>Year</b> : {{ request.Year }} <br>
+                            <b>Language</b> : {{ request.Language }} <br>
                             <b>Repayment Method</b> : {{ request.Repayment_Policy }}   (if lost)<br>
                             <b>Available for sharing</b> : {% if request.Availability == '1' %}
                             Yes
@@ -361,7 +361,7 @@
                     </table>
                 </div>
             </div>
-        <div style="float: left;width: 18%;">
+            <div style="float: left;width: 18%;">
                 <form method="post" action="/userhome/">
                     {% csrf_token %}
                     <button type = "submit" class="btn btn-info">Search Book and Make New Request  <i class="fa fa-arrow-right"></i></button>

@@ -107,7 +107,7 @@
                             <b>Landmark</b> : {{ request.City }}<br>
                             <b>State</b> : {{ request.State }}<br>
                             <b>Mobile No.</b> : |  {% for p in request.Phone_Numbers %}
-                                {{ p }}  |  {% endfor %}<br>
+                            {{ p }}  |  {% endfor %}<br>
                             <br><br>
                             <div class="modal-footer">
                                 <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
@@ -137,10 +137,10 @@
                         <div>
                             <h3>Book Detail</h3>
                             <b>Book Title</b> : {{ request.Book_Name }}<br>
-                            <b>Genre</b> : {{ request.Genre }} <br>
                             <b>Author</b> : {{ request.Author }} <br>
-                            <b>Edition</b> : {{ request.Edition }} <br>
                             <b>ISBN</b> : {{ request.ISBN }} <br>
+                            <b>Year</b> : {{ request.Year }} <br>
+                            <b>Language</b> : {{ request.Language }} <br>
                             <b>Repayment Method</b> : {{ request.Repayment_Policy }}   (if lost)<br>
                             <b>Available for sharing</b> : {% if request.Availability == '1' %}
                             Yes
@@ -196,7 +196,7 @@
                             <b>Landmark</b> : {{ request.City }}<br>
                             <b>State</b> : {{ request.State }}<br>
                             <b>Mobile No.</b> : |  {% for p in request.Phone_Numbers %}
-                                {{ p }}  |  {% endfor %}<br>
+                            {{ p }}  |  {% endfor %}<br>
                             <br><br>
                             <div class="modal-footer">
                                 <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
@@ -224,10 +224,10 @@
                         <div>
                             <h3>Book Detail</h3>
                             <b>Book Title</b> : {{ request.Book_Name }}<br>
-                            <b>Genre</b> : {{ request.Genre }} <br>
                             <b>Author</b> : {{ request.Author }} <br>
-                            <b>Edition</b> : {{ request.Edition }} <br>
                             <b>ISBN</b> : {{ request.ISBN }} <br>
+                            <b>Year</b> : {{ request.Year }} <br>
+                            <b>Language</b> : {{ request.Language }} <br>
                             <b>Repayment Method</b> : {{ request.Repayment_Policy }}   (if lost)<br>
                             <b>Available for sharing</b> : {% if request.Availability == '1' %}
                             Yes
@@ -313,7 +313,7 @@
                                     Pending
                                 {% endif %}</b></td>
                                 <td>
-                                        <button type = "submit" class="btn btn-info" data-toggle="modal" data-target="#incomingview{{ request.Request_ID }}">View</button>
+                                    <button type = "submit" class="btn btn-info" data-toggle="modal" data-target="#incomingview{{ request.Request_ID }}">View</button>
                                     {% if request.completion_flag == '1' %}
                                         <button type = "submit" class="btn btn-success" data-toggle="modal" data-target="#contactdetails{{ request.Request_ID }}">Contact Details</button>
                                     {% endif %}

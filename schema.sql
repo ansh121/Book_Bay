@@ -51,9 +51,9 @@ CREATE TABLE book
 (
   ISBN VARCHAR(13) NOT NULL,
   Book_Name TEXT NOT NULL,
-  Edition INT NOT NULL,
-  Author TEXT NOT NULL,
-  Genre TEXT,
+  Year INT(4),
+  Author TEXT,
+  Language CHAR(30),
   PRIMARY KEY (ISBN)
 );
 

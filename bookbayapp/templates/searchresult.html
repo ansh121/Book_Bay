@@ -42,11 +42,11 @@
                             <form action = "/bookdetail/" target = "_blank" method = "POST">
                                 {% csrf_token %}
                                 <h3 class="center" style="text-overflow: ellipsis;white-space: nowrap;overflow: hidden;">{{ book.book_name}}</h3>
-                                <h5>
-                                    Genre: {{ book.genre }} <br>
-                                    Author: {{ book.author }} <br>
-                                    Edition : {{ book.edition }} <br>
-                                    ISBN : {{ book.isbn }} <br>
+                                <h5 style="text-overflow: ellipsis;white-space: nowrap;overflow: hidden;"   >
+                                    <b>Author</b> : {{ book.author }} <br>
+                                    <b>ISBN</b> : {{ book.isbn }} <br>
+                                    <b>Year</b> : {{ book.year }} <br>
+                                    <b>Language</b> : {{ book.language }} <br>
                                 </h5>
                                 <input  id="isbn" name="isbn" value="{{ book.isbn }}" style="visibility: hidden; height: 0px; width: 0px;"  >
                                 <button type = "submit" class="btn btn-info" >View</button>

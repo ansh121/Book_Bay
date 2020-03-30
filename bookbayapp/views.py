@@ -27,7 +27,6 @@ os.environ['HTTP_PROXY'] = proxy
 os.environ['https_proxy'] = proxy
 os.environ['HTTPS_PROXY'] = proxy
 
-
 def execute_only_raw_sql(sql):
     print('sql - ', sql)
     cursor = connection.cursor()
@@ -267,7 +266,7 @@ def searchresult(request):
         search = request.POST.get('search')
         print(search)
         namebooks = Book.objects.filter(book_name__icontains=search)
-        isbnbooks = Book.objects.filter(isbn__exact=search)
+        isbnbooks = Book.objects.filter(isbn__icontains=search)
         books = namebooks | isbnbooks
         books = books.distinct()
         print(books)
@@ -293,53 +292,58 @@ def mybooks(request):
 
     if request.POST.get("delete"):
         delete_isbn=request.POST.get('isbn')
-        flag=execute_only_raw_sql("delete from my_books as MB where MB.User_ID='"+str(user)+"' and MB.ISBN="+str(delete_isbn))
+        flag=execute_only_raw_sql("delete from my_books as MB where MB.User_ID='"+str(user)+"' and MB.ISBN='"+str(delete_isbn)+"'")
         if flag==False:
             print('Error in delete : ',delete_isbn)
         else:
             print('Deleted isbn: ', delete_isbn, ' from user:',user)
 
     if request.POST.get("addbook"):
-        bookname=request.POST.get('title')
-        genre=request.POST.get('genre')
-        author=request.POST.get('author')
-        edition=request.POST.get('edition')
         isbn=request.POST.get('isbn')
         availability=request.POST.get('availability')
         repaypol=request.POST.get('repaymentpolicy')
         otherspec=request.POST.get('otherspecifications')
         securitymoney=request.POST.get('securitymoneyofbook')
 
-        SERVICE = 'isbndb'
-        APIKEY = 'temp475675837'  # <-- replace with YOUR key
+        # APIKEY = 'temp475675837'  # <-- replace with YOUR key
         # register your key
-        #add_apikey(SERVICE, APIKEY)
-        bibtex = bibformatters['bibtex']
-        print(meta(isbn))
-
-        print(genre)
+        # add_apikey(SERVICE, APIKEY)
         try:
-            Book.objects.create(isbn=isbn,book_name=bookname,edition=int(edition),author=author,genre=genre)
-            print("new book added")
-        except:
-            print("book already exists")
+            book=meta(isbn)
+            print(book)
+            try:
+                auth=""
+                for a in book['Authors']:
+                    auth=auth+','+a
+                auth=auth[1:]
+                try:
+                    year=int(book['Year'])
+                except:
+                    year=None
+                Book.objects.create(isbn=isbn, book_name=book['Title'],author=auth,language= book['Language'],year=year )
+                print("new book added")
 
-        try:
-            MyBooks.objects.create(repayment_policy=repaypol, availability=int(availability),
-                                   other_specifications=otherspec,
-                                   security_money_of_book=int(securitymoney), user=User.objects.get(user_id=user),
-                                   isbn=Book.objects.get(isbn=isbn))
-            messages.success(request,"Book Added Successfully !!!")
-            print("new book added to user : ", user)
-        except:
-            messages.info(request,"Book already exists !")
-            print("Error in adding Book")
+            except Exception as e:
+                print(e)
+                print("book already exists")
+
+            try:
+                MyBooks.objects.create(repayment_policy=repaypol, availability=int(availability),
+                                       other_specifications=otherspec,
+                                       security_money_of_book=int(securitymoney), user=User.objects.get(user_id=user),
+                                       isbn=Book.objects.get(isbn=isbn))
+                messages.success(request, "Book Added Successfully !!!")
+                print("new book added to user : ", user)
+            except Exception as e:
+                print(e)
+                messages.info(request, "Book already exists !")
+                print("Error in adding Book")
+        except Exception as e:
+            print(e)
+            messages.ERROR(request,"Wrong ISBN Entered !!!")
+
 
     if request.POST.get("editbook"):
-        bookname = request.POST.get('title')
-        genre = request.POST.get('genre')
-        author = request.POST.get('author')
-        edition = request.POST.get('edition')
         isbn = request.POST.get('isbn')
         availability = request.POST.get('availability')
         repaypol = request.POST.get('repaymentpolicy')
@@ -347,25 +351,15 @@ def mybooks(request):
         securitymoney = request.POST.get('securitymoneyofbook')
 
         try:
-            b=Book.objects.get(isbn=isbn)
-            b.edition=int(edition)
-            b.author=author
-            b.genre=genre
-            b.save()
-            #print(user)
-            #print(availability)
-
             mb = MyBooks.objects.get(isbn=isbn, user=User.objects.get(user_id=user))
-            #print(mb)
             mb.repayment_policy = repaypol
-
             mb.availability = int(availability)
             mb.other_specifications = otherspec
             mb.security_money_of_book = int(securitymoney)
-
             mb.save()
             print("book updated")
-        except:
+        except Exception as e:
+            print(e)
             print("book update error")
 
 
@@ -439,19 +433,23 @@ def userdetails(request):
 
         if not message:
             try:
+                user = User.objects.create(user_id=userid, email_address=email, name=name, house_number=house_no,
+                                           street=street, locality=locality, postal_code=postal_code, landmark=landmark,
+                                           city=city, state=state)
+
                 new_user = djUser.objects.create_user(
                     username=userid, email="", password=password,
                     first_name="",
                     last_name=""
                 )
-                user = User.objects.create(user_id = userid ,email_address = email,name = name,house_number = house_no,street = street,locality = locality,postal_code = postal_code,landmark = landmark,city = city,state = state)
                 new_credentials = LoginCredential(user=user, password=password)
                 new_credentials.save()
 
                 contact = UserPhoneNumber.objects.create(user=user,phone_number=mobileno,isprimary=1)
                 contact.save()
 
-            except:
+            except Exception as e:
+                print(e)
                 return print('error')
 
             message = "no_error"
@@ -459,3 +457,5 @@ def userdetails(request):
 
     else:
         return render(request, 'register.html')
+
+

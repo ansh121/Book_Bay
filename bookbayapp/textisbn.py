@@ -21,4 +21,5 @@ add_apikey(SERVICE, APIKEY)
 # now you can use the service
 isbn = '9780262033848'
 bibtex = bibformatters['bibtex']
-print(meta(isbn))
+b=meta(isbn)
+print(b)

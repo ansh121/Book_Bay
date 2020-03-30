@@ -4,7 +4,7 @@
     {% load static %}
     <style>
 
-    .bd {
+        .bd {
             background-image: url({% static 'img/3.jpg' %});
             height: 100%;
 
@@ -144,10 +144,10 @@
                             <div>
                                 <h4><b>Book Title</b> : {{ book.book_name }}</h4>
                                 <h4><b>Owner</b> : {{ user.Name }}</h4><hr>
-                                <b>Genre</b> : {{ book.genre }} <br>
                                 <b>Author</b> : {{ book.author }} <br>
-                                <b>Edition</b> : {{ book.edition }} <br>
                                 <b>ISBN</b> : {{ book.isbn }} <br>
+                                <b>Year</b> : {{ book.year }} <br>
+                                <b>Language</b> : {{ book.language }} <br>
                                 <b>Repayment Method</b> : {{ user.Repayment_Policy }}   (if lost)<br>
                                 <b>Available for sharing</b> : {% if user.Availability == '1' %}
                                 Yes
@@ -206,12 +206,12 @@
             <div class="card" style="width: 20%; float:left;">
                 <div align="middle">
                     <img class="card-img-top" src="{% static 'img/BookBay.png' %}" alt="Card image" style="width:60%;align-self: center;margin-top: 10px">
-                    <h3 class="center" style="text-overflow: ellipsis;white-space: nowrap;overflow: hidden;">{{ book.book_name}}</h3>
+                    <h3 class="center" >{{ book.book_name}}</h3>
                     <h5>
-                        Genre: {{ book.genre }} <br>
-                        Author: {{ book.author }} <br>
-                        Edition : {{ book.edition }} <br>
-                        <div id="bookdetail" name="bookdetail" value={{ book.book.isbn }}>ISBN : {{ book.isbn }}</div>
+                        <b>Author</b> : {{ book.author }} <br>
+                        <div id="bookdetail" name="bookdetail" value={{ book.book.isbn }}><b>ISBN</b> : {{ book.isbn }} <br></div>
+                        <b>Year</b> : {{ book.year }} <br>
+                        <b>Language</b> : {{ book.language }} <br>
                     </h5>
                     <button type = "submit" class="btn btn-info" data-toggle="modal" data-target="#review" style="margin-bottom: 10px;"><i class="fa fa-plus"></i>   Add Review</button><br>
                 </div>
