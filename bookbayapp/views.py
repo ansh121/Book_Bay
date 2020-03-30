@@ -456,11 +456,10 @@ def userdetails(request):
                     first_name="",
                     last_name=""
                 )
-                new_credentials = LoginCredential(user=user, password=password)
-                new_credentials.save()
-
-                contact = UserPhoneNumber.objects.create(user=user,phone_number=mobileno,isprimary=1)
-                contact.save()
+                b = execute_only_raw_sql("insert into login_credential values ('"+str(password)+"', '"+str(userid)+"')")
+                b = execute_only_raw_sql("insert into user_phone_number values ("+str(mobileno)+", '"+str(userid)+"', "+str(1)+")")
+                #b = UserPhoneNumber.objects.create(user=user,phone_number=mobileno,isprimary=1)
+                #contact.save()
 
             except Exception as e:
                 print(e)

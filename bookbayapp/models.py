@@ -2,17 +2,18 @@
 # You'll have to do the following manually to clean this up:
 #   * Rearrange models' order
 #   * Make sure each model has one field with primary_key=True
-#   * Make sure each ForeignKey and OneToOneField has `on_delete` set to the desired behavior
+#   * Make sure each ForeignKey has `on_delete` set to the desired behavior.
 #   * Remove `managed = False` lines if you wish to allow Django to create, modify, and delete the table
 # Feel free to rename the models, but don't rename db_table values or field names.
 from django.db import models
 
+
 class Book(models.Model):
     isbn = models.CharField(db_column='ISBN', primary_key=True, max_length=13)  # Field name made lowercase.
     book_name = models.TextField(db_column='Book_Name')  # Field name made lowercase.
-    language = models.CharField(db_column='Language', blank=True, null=True, max_length=30)  # Field name made lowercase.
-    author = models.TextField(db_column='Author', blank=True, null=True)  # Field name made lowercase.
     year = models.IntegerField(db_column='Year', blank=True, null=True)  # Field name made lowercase.
+    author = models.TextField(db_column='Author', blank=True, null=True)  # Field name made lowercase.
+    language = models.CharField(db_column='Language', max_length=30, blank=True, null=True)  # Field name made lowercase.
 
     class Meta:
         managed = False
@@ -22,7 +23,7 @@ class Book(models.Model):
 class BookReview(models.Model):
     rating = models.IntegerField(db_column='Rating')  # Field name made lowercase.
     review = models.TextField(db_column='Review', blank=True, null=True)  # Field name made lowercase.
-    user = models.OneToOneField('User', models.DO_NOTHING, db_column='User_ID', primary_key=True)  # Field name made lowercase.
+    user = models.ForeignKey('User', models.DO_NOTHING, db_column='User_ID', primary_key=True)  # Field name made lowercase.
     isbn = models.ForeignKey(Book, models.DO_NOTHING, db_column='ISBN')  # Field name made lowercase.
 
     class Meta:
@@ -32,7 +33,7 @@ class BookReview(models.Model):
 
 
 class History(models.Model):
-    user = models.OneToOneField('User', models.DO_NOTHING, db_column='User_ID', primary_key=True)  # Field name made lowercase.
+    user = models.ForeignKey('User', models.DO_NOTHING, db_column='User_ID', primary_key=True)  # Field name made lowercase.
     isbn = models.ForeignKey(Book, models.DO_NOTHING, db_column='ISBN')  # Field name made lowercase.
 
     class Meta:
@@ -43,7 +44,7 @@ class History(models.Model):
 
 class LoginCredential(models.Model):
     password = models.CharField(db_column='Password', max_length=30)  # Field name made lowercase.
-    user = models.OneToOneField('User', models.DO_NOTHING, db_column='User_ID', primary_key=True)  # Field name made lowercase.
+    user = models.ForeignKey('User', models.DO_NOTHING, db_column='User_ID', primary_key=True)  # Field name made lowercase.
 
     class Meta:
         managed = False
@@ -55,7 +56,7 @@ class MyBooks(models.Model):
     availability = models.IntegerField(db_column='Availability')  # Field name made lowercase.
     other_specifications = models.TextField(db_column='Other_Specifications', blank=True, null=True)  # Field name made lowercase.
     security_money_of_book = models.IntegerField(db_column='Security_Money_of_Book')  # Field name made lowercase.
-    user = models.OneToOneField('User', models.DO_NOTHING, db_column='User_ID', primary_key=True)  # Field name made lowercase.
+    user = models.ForeignKey('User', models.DO_NOTHING, db_column='User_ID', primary_key=True)  # Field name made lowercase.
     isbn = models.ForeignKey(Book, models.DO_NOTHING, db_column='ISBN')  # Field name made lowercase.
 
     class Meta:
@@ -72,7 +73,7 @@ class Request(models.Model):
     completion_flag = models.IntegerField()
     user = models.ForeignKey('User', models.DO_NOTHING, db_column='User_ID')  # Field name made lowercase.
     isbn = models.ForeignKey(Book, models.DO_NOTHING, db_column='ISBN')  # Field name made lowercase.
-    requested_user = models.ForeignKey('User', models.DO_NOTHING, db_column='Requested_User_ID',related_name= 'Requested_User_ID', blank=True, null=True)  # Field name made lowercase.
+    requested_user = models.ForeignKey('User', models.DO_NOTHING, db_column='Requested_User_ID', related_name= 'Requested_User_ID', blank=True, null=True)  # Field name made lowercase.
 
     class Meta:
         managed = False
@@ -99,7 +100,7 @@ class User(models.Model):
 class UserPhoneNumber(models.Model):
     phone_number = models.DecimalField(db_column='Phone_Number', primary_key=True, max_digits=10, decimal_places=0)  # Field name made lowercase.
     user = models.ForeignKey(User, models.DO_NOTHING, db_column='User_ID')  # Field name made lowercase.
-    isprimary = models.IntegerField(db_column='Is_Primary')
+    is_primary = models.IntegerField(db_column='Is_Primary')  # Field name made lowercase.
 
     class Meta:
         managed = False
