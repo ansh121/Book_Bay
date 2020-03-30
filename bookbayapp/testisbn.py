@@ -19,7 +19,7 @@ APIKEY = 'temp475675837'  # <-- replace with YOUR key
 # register your key
 add_apikey(SERVICE, APIKEY)
 
-isbn='9780394423296'
+isbn='9780141199610'
 book=meta(isbn)
 print(book)
 print(cover(isbn))
