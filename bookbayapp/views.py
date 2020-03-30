@@ -15,8 +15,21 @@ from django.db import connection, transaction
 
 from datetime import datetime
 
+from isbnlib import meta
+from isbnlib.config import add_apikey
+from isbnlib.registry import bibformatters
+
+import os
+
+proxy = 'http://172.16.2.30:8080'
+os.environ['http_proxy'] = proxy
+os.environ['HTTP_PROXY'] = proxy
+os.environ['https_proxy'] = proxy
+os.environ['HTTPS_PROXY'] = proxy
+
 
 def execute_only_raw_sql(sql):
+    print('sql - ', sql)
     cursor = connection.cursor()
     try:
         cursor.execute(sql)
@@ -93,8 +106,8 @@ def pendingrequest(request):
     if request.POST.get("accept"):
         requestid = request.POST.get("requestid")
         bool=execute_only_raw_sql("UPDATE request SET completion_flag=1 WHERE Request_ID = "+str(requestid))
-        req = Request.objects.get(request_id=requestid)
-        bool=bool and execute_only_raw_sql("UPDATE my_books SET Avaliability = 0 WHERE ISBN='"+str(req.isbn)+"' and User_ID = '"+str(req.requested_user)+"'")
+        req=perform_raw_sql("SELECT * from request as r where r.Request_ID ="+str(requestid))
+        bool=bool and execute_only_raw_sql("UPDATE my_books SET Availability = 0 WHERE ISBN='"+str(req[0]['ISBN'])+"' and User_ID = '"+str(user)+"'")
         print(bool)
 
     try:
@@ -270,6 +283,14 @@ def searchresult(request):
 @login_required()
 def mybooks(request):
     user = request.user
+
+    if request.POST.get("changeavailable"):
+        availability=request.POST.get("available")
+        isbn = request.POST.get('isbn')
+        bool=execute_only_raw_sql("UPDATE my_books SET Availability="+str(availability)+" where User_ID='"+str(user)+"' and ISBN='"+str(isbn)+"'")
+        print(bool)
+        messages.success(request,"Availability Changed Successfully !!!")
+
     if request.POST.get("delete"):
         delete_isbn=request.POST.get('isbn')
         flag=execute_only_raw_sql("delete from my_books as MB where MB.User_ID='"+str(user)+"' and MB.ISBN="+str(delete_isbn))
@@ -286,8 +307,15 @@ def mybooks(request):
         isbn=request.POST.get('isbn')
         availability=request.POST.get('availability')
         repaypol=request.POST.get('repaymentpolicy')
-        otherspec=request.POST.get('otherspecification')
+        otherspec=request.POST.get('otherspecifications')
         securitymoney=request.POST.get('securitymoneyofbook')
+
+        SERVICE = 'isbndb'
+        APIKEY = 'temp475675837'  # <-- replace with YOUR key
+        # register your key
+        #add_apikey(SERVICE, APIKEY)
+        bibtex = bibformatters['bibtex']
+        print(meta(isbn))
 
         print(genre)
         try:

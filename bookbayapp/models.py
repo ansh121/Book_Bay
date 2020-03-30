@@ -8,7 +8,7 @@
 from django.db import models
 
 class Book(models.Model):
-    isbn = models.CharField(db_column='ISBN', primary_key=True, max_length=30)  # Field name made lowercase.
+    isbn = models.CharField(db_column='ISBN', primary_key=True, max_length=13)  # Field name made lowercase.
     book_name = models.TextField(db_column='Book_Name')  # Field name made lowercase.
     edition = models.IntegerField(db_column='Edition')  # Field name made lowercase.
     author = models.TextField(db_column='Author')  # Field name made lowercase.

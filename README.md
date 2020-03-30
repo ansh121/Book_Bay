@@ -12,6 +12,7 @@
   * source envs/bin/activate
   * pip install Django
   * pip install mysql
+  * pip install isbnlib==3.6.1
   * git clone "https://github.com/Anshul718/Book_Bay.git"
   * open terminal in root directory of project
   * login to mysql account

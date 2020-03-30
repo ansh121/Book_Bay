@@ -17,6 +17,16 @@
             padding: 0 10px;
         }
 
+        .bd {
+            background-image: url({% static 'img/4.jpg' %});
+            height: 100%;
+
+            /* Center and scale the image nicely */
+            background-position: center;
+            background-repeat: no-repeat;
+            background-size: cover;
+        }
+
     </style>
 
     <div class="small card p-1 mb-5 bg-white rounded" style="min-width: 50%;">
@@ -24,29 +34,39 @@
             <h2 style="padding: 0px;margin-top: 5px">Search Result</h2>
         </div>
         <div id = "big" class="card-body">
-        {% for book in books %}
-            <div class="column">
-                <div class="card shadow p-1 mb-5 bg-white rounded">
-                    <img class="card-img-top" src="{% static 'img/BookBay.png' %}" alt="Card image" style="width:60%;align-self: center">
-                    <div class="card-body" align="middle">
-                        <form action = "/bookdetail/" target = "_blank" method = "POST">
-                            {% csrf_token %}
-                            <h3 class="center" style="text-overflow: ellipsis;white-space: nowrap;overflow: hidden;">{{ book.book_name}}</h3>
-                            <h5>
-                                Genre: {{ book.genre }} <br>
-                                Author: {{ book.author }} <br>
-                                Edition : {{ book.edition }} <br>
-                                ISBN : {{ book.isbn }} <br>
-                            </h5>
-                            <input  id="isbn" name="isbn" value="{{ book.isbn }}" style="visibility: hidden; height: 0px; width: 0px;"  >
-                            <button type = "submit" class="btn btn-info" >View</button>
-                        </form>
+            {% for book in books %}
+                <div class="column">
+                    <div class="card shadow p-1 mb-5 bg-white rounded">
+                        <img class="card-img-top" src="{% static 'img/BookBay.png' %}" alt="Card image" style="width:60%;align-self: center">
+                        <div class="card-body" align="middle">
+                            <form action = "/bookdetail/" target = "_blank" method = "POST">
+                                {% csrf_token %}
+                                <h3 class="center" style="text-overflow: ellipsis;white-space: nowrap;overflow: hidden;">{{ book.book_name}}</h3>
+                                <h5>
+                                    Genre: {{ book.genre }} <br>
+                                    Author: {{ book.author }} <br>
+                                    Edition : {{ book.edition }} <br>
+                                    ISBN : {{ book.isbn }} <br>
+                                </h5>
+                                <input  id="isbn" name="isbn" value="{{ book.isbn }}" style="visibility: hidden; height: 0px; width: 0px;"  >
+                                <button type = "submit" class="btn btn-info" >View</button>
+                            </form>
+                        </div>
+
                     </div>
-
                 </div>
-            </div>
 
-        {% endfor %}
+            {% endfor %}
+        </div>
+        <div align="middle" style="margin-bottom: 15px">
+            <div>
+                <form method="post" action="/userhome/">
+                    {% csrf_token %}
+                    <button type = "submit" class="btn btn-info">Search Again   <i style="margin-left: 10px;" class="fa fa-refresh"></i></button>
+                </form>
+            </div>
+        </div>
+
     </div>
     </div>
 {% endblock %}

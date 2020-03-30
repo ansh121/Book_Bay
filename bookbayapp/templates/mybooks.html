@@ -2,7 +2,6 @@
 
 {% block content %}
     {% load static %}
-
     <style>
         #mybooks{
             background-color: #666;
@@ -33,6 +32,7 @@
             background-size: cover;
         }
 
+
     </style>
     <!-- Modals for view, delete and edit-->
     {% for book in books %}
@@ -53,7 +53,11 @@
                         <b>Edition</b> : {{ book.Edition }} <br>
                         <b>ISBN</b> : {{ book.ISBN }} <br>
                         <b>Repayment Policy</b> : {{ book.Repayment_Policy }}<br>
-                        <b>Availability</b> : {{ book.Availability }}<br>
+                        <b>Availability</b> : {% if book.Availability == '1' %}
+                        Yes
+                    {% else %}
+                        No
+                    {% endif %}<br>
                         <b>Other Specifications</b> : {{ book.Other_Specifications }}<br>
                         <b>Security Money of Book</b> : Rs.{{ book.Security_Money_of_Book }}<br>
                     </div>
@@ -65,6 +69,37 @@
 
             </div>
         </div>
+
+        <!-- Modal to change Availability-->
+        <div class="modal fade" id="availability{{ book.ISBN }}" role="dialog">
+            <div class="modal-dialog">
+
+                <!-- Modal content-->
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <h4 class="modal-title" >{{ book.Book_Name }}</h4>
+                        <button type="button" class="close" data-dismiss="modal">&times;</button>
+                    </div>
+                    <form method="post" action="/mybooks/">
+                        {% csrf_token %}
+                        <div class="modal-body" align="middle">
+                              <label class="lab" >Available for sharing</label>
+                                <select id="available" type="text" name="available" class="form-control" required>
+                                    <option value="0" {% if book.Availability == "0" %}selected{% endif %}>Not Available</option>
+                                    <option value="1" {% if book.Availability == "1" %}selected{% endif %}>Available</option>
+                                </select></div>
+
+                        <div class="modal-footer">
+                            <input id="isbn" name="isbn" value="{{ book.ISBN }}" type="hidden">
+                            <button type="submit" name="changeavailable"  value="changeavailable" class="btn btn-info" >Change</button>
+                    </form>
+                    <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+                </div>
+            </div>
+
+        </div>
+        </div>
+
 
         <!-- Modal for delete Book-->
         <div class="modal fade" id="delete{{ book.ISBN }}" role="dialog">
@@ -271,15 +306,17 @@
                         <img class="card-img-top" src="{% static 'img/BookBay.png' %}" alt="Card image" style="width:60%;align-self: center">
                         <div class="card-body" align="middle">
                             <h3 style="text-overflow: ellipsis;white-space: nowrap;overflow: hidden;">{{ book.Book_Name}}</h3>
-                            <h5>
+                            <h5 >
                                 Genre: {{ book.Genre }} <br>
                                 Author: {{ book.Author }} <br>
                                 Edition : {{ book.Edition }} <br>
-                                ISBN : {{ book.ISBN }} <br>
-                            </h5>
-                            <br>
-
-
+                                ISBN : {{ book.ISBN }} <br><br>
+                                Available for sharing :
+                                {% if book.Availability == '1' %}
+                                    Yes
+                                {% else %}
+                                    No
+                                {% endif %}&ensp;<button type = "submit" class="btn btn-info" data-toggle="modal" data-target="#availability{{ book.ISBN }}" style="padding: 2px;margin: 0px">Change</button><br></h5>
                             <button type = "submit" class="btn btn-info" data-toggle="modal" data-target="#view{{ book.ISBN }}" ><i class="fa fa-eye"></i>  View</button>
                             <button type = "submit" class="btn btn-danger" data-toggle="modal" data-target="#delete{{ book.ISBN }}" style="margin-left: 10px"><i class="fa fa-remove"></i> Delete</button>
 
@@ -298,5 +335,4 @@
 
         <br>
     </div>
-
 {% endblock %}
