@@ -156,18 +156,24 @@
                             {% endif %}<br>
                                 <b>Other Specifications</b> : {{ user.Other_Specifications }}<br>
                                 <b>Security Money of Book</b> : Rs.{{ user.Security_Money_of_Book }}<br>
-                                {% if user.Availability == '1' %}
-                                    <div id="borrowduration">
-                                        <label class="col-sm-4 control-label" >Borrow Duration</label>
-                                        <input type="int"  name="borrowduration" placeholder="duration in days" class="form-control col-sm-7" required>
-                                    </div>
-                                    <div id="message">
-                                        <label class="col-sm-4 control-label" >Message (if any)</label>
-                                        <input type="text"  name="message" class="form-control col-sm-7" >
-                                    </div>
-
+                                {% if user.User_ID == user %}
+                                    {% if user.Availability == '1' %}
+                                        <div id="borrowduration">
+                                            <label class="col-sm-4 control-label" >Borrow Duration</label>
+                                            <input type="int"  name="borrowduration" placeholder="duration in days" class="form-control col-sm-7" required>
+                                        </div>
+                                        <div id="message">
+                                            <label class="col-sm-4 control-label" >Message (if any)</label>
+                                            <input type="text"  name="message" class="form-control col-sm-7" >
+                                        </div>
+                                    {% endif %}
+                                {% else %}
+                                    <br>
                                 {% endif %}
-                                {% if user.Availability == '1' %}
+
+                                {% if user.User_ID == user %}
+                                    <p style="color: green;">You are the owner of this book.</p>
+                                {% elif user.Availability == '1' %}
                                     <button type="submit" name="makerequest" value="makerequest"  class="btn btn-info" ><i class="fa fa-edit"></i>  Make Request</button>
                                 {% else %}
                                     <p style="color: #e74c3c;">Book not available for sharing by the user.</p>

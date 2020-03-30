@@ -1,5 +1,4 @@
-from django.shortcuts import render, redirect
-from bookbayapp.forms import *
+from django.shortcuts import render
 from bookbayapp.models import *
 from django.http import HttpResponse
 
@@ -11,13 +10,12 @@ from django.contrib.auth.decorators import login_required
 from django.contrib.auth.models import User as djUser
 
 from django.contrib import messages
-from django.db import connection, transaction
+from django.db import connection
 
 from datetime import datetime
 
 from isbnlib import meta
 from isbnlib.config import add_apikey
-from isbnlib.registry import bibformatters
 
 import os
 
@@ -27,9 +25,9 @@ try:
     os.environ['HTTP_PROXY'] = proxy
     os.environ['https_proxy'] = proxy
     os.environ['HTTPS_PROXY'] = proxy
-    os.environ['NO_PROXY'] = '127.0.0.1'
+    os.environ['NO_PROXY'] = 'localhost,127.0.0.1/*,127.0.0.1'
 except:
-    print ("proxy error")
+    print("proxy error")
 
 
 def execute_only_raw_sql(sql):
@@ -286,7 +284,8 @@ def searchresult(request):
         print(search)
         namebooks = Book.objects.filter(book_name__icontains=search)
         isbnbooks = Book.objects.filter(isbn__icontains=search)
-        books = namebooks | isbnbooks
+        authbooks = Book.objects.filter(author__icontains=search)
+        books = namebooks | isbnbooks | authbooks
         books = books.distinct()
         print(books)
         if books.exists() :
@@ -324,9 +323,10 @@ def mybooks(request):
         otherspec=request.POST.get('otherspecifications')
         securitymoney=request.POST.get('securitymoneyofbook')
 
-        # APIKEY = 'temp475675837'  # <-- replace with YOUR key
+        SERVICE = 'isbndb'
+        APIKEY = 'temp475675837'  # <-- replace with YOUR key
         # register your key
-        # add_apikey(SERVICE, APIKEY)
+        add_apikey(SERVICE, APIKEY)
         try:
             book=meta(isbn)
             print(book)
@@ -339,7 +339,13 @@ def mybooks(request):
                     year=int(book['Year'])
                 except:
                     year=None
-                Book.objects.create(isbn=isbn, book_name=book['Title'],author=auth,language= book['Language'],year=year )
+
+                if book['Language'] == "":
+                    lang=None
+                else:
+                    lang=book['Language']
+
+                Book.objects.create(isbn=isbn, book_name=book['Title'],author=auth,language= lang,year=year )
                 print("new book added")
 
             except Exception as e:
@@ -399,6 +405,7 @@ def userhome(request):
 
 
 def home(request):
+    djlogout(request)
     return render(request,'home.html')
 
 
@@ -429,6 +436,7 @@ def validatelogin(request):
 
 
 def userdetails(request):
+    djlogout(request)
     if request.method == "POST":
         userid = request.POST.get("username")
         email = request.POST.get("email")
@@ -461,9 +469,8 @@ def userdetails(request):
                     first_name="",
                     last_name=""
                 )
-                new_credentials = LoginCredential(user=user, password=password)
-                new_credentials.save()
-
+                b=execute_only_raw_sql("insert into login_credential(User_ID,Password) values('"+str(userid)+"','"+str(password)+"')")
+                print(b)
                 contact = UserPhoneNumber.objects.create(user=user,phone_number=mobileno,isprimary=1)
                 contact.save()
 
