@@ -16,7 +16,7 @@
   * git clone "https://github.com/Anshul718/Book_Bay.git"
   * open terminal in root directory of project
   * login to mysql account
-  * run command 'source <path to schema.sql>' (this will create 'book_bay' database in your mysql)
+  * run command 'source path_to_schema.sql' (this will create 'book_bay' database in your mysql)
   * open settings.py in bookbay folder and change the database setting according to your user account
   * python manage.py makemigrations
   * python manage.py migrate
