@@ -82,8 +82,8 @@ def about(request):
 def history(request):
     user = request.user
     try:
-        incomingrequests=perform_raw_sql("select * from my_books as MB, request as R, user as U, user as RU, book as B where MB.ISBN=B.ISBN and B.ISBN=R.ISBN and R.Requested_User_ID='"+str(user)+"' and R.User_ID=RU.User_ID and U.User_ID=R.Requested_User_ID order by R.Date_of_Request")
-        outgoingrequests=perform_raw_sql("select * from my_books as MB, request as R, user as U, user as RU, book as B where MB.ISBN=B.ISBN and B.ISBN=R.ISBN and R.User_ID='"+str(user)+"' and R.Requested_User_ID=RU.User_ID and U.User_ID=R.User_ID order by R.Date_of_Request")
+        incomingrequests=perform_raw_sql("select * from my_books as MB, request as R, user as U, user as RU, book as B where MB.User_ID=R.Requested_User_ID and MB.ISBN=B.ISBN and B.ISBN=R.ISBN and R.Requested_User_ID='"+str(user)+"' and R.User_ID=RU.User_ID and U.User_ID=R.Requested_User_ID order by R.Date_of_Request")
+        outgoingrequests=perform_raw_sql("select * from my_books as MB, request as R, user as U, user as RU, book as B where MB.User_ID=R.Requested_User_ID  and MB.ISBN=B.ISBN and B.ISBN=R.ISBN and R.User_ID='"+str(user)+"' and R.Requested_User_ID=RU.User_ID and U.User_ID=R.User_ID order by R.Date_of_Request")
         dict={}
         dict['incomingrequests']=incomingrequests
         dict['outgoingrequests']=outgoingrequests
@@ -127,8 +127,8 @@ def pendingrequest(request):
         print(bool)
 
     try:
-        incomingrequests=perform_raw_sql("select * from my_books as MB, request as R, user as U, user as RU, book as B where MB.ISBN=B.ISBN and B.ISBN=R.ISBN and R.Requested_User_ID='"+str(user)+"' and R.User_ID=RU.User_ID and U.User_ID=R.Requested_User_ID and R.completion_flag="+str(0)+" order by R.ISBN")
-        outgoingrequests=perform_raw_sql("select * from my_books as MB, request as R, user as U, user as RU, book as B where MB.ISBN=B.ISBN and B.ISBN=R.ISBN and R.User_ID='"+str(user)+"' and R.Requested_User_ID=RU.User_ID and U.User_ID=R.User_ID and R.completion_flag="+str(0)+" order by R.ISBN")
+        incomingrequests=perform_raw_sql("select * from my_books as MB, request as R, user as U, user as RU, book as B where MB.User_ID=R.Requested_User_ID and MB.ISBN=B.ISBN and B.ISBN=R.ISBN and R.Requested_User_ID='"+str(user)+"' and R.User_ID=RU.User_ID and U.User_ID=R.Requested_User_ID and R.completion_flag="+str(0)+" order by R.ISBN")
+        outgoingrequests=perform_raw_sql("select * from my_books as MB, request as R, user as U, user as RU, book as B where MB.User_ID=R.Requested_User_ID and MB.ISBN=B.ISBN and B.ISBN=R.ISBN and R.User_ID='"+str(user)+"' and R.Requested_User_ID=RU.User_ID and U.User_ID=R.User_ID and R.completion_flag="+str(0)+" order by R.ISBN")
         dict={}
         dict['incomingrequests']=incomingrequests
         dict['outgoingrequests']=outgoingrequests
@@ -225,6 +225,9 @@ def myaccount(request):
         logcred=LoginCredential.objects.get(user=User.objects.get(user_id=userid))
         if logcred.password==oldpass :
             if newpass==confnewpass :
+                u = djUser.objects.get(username=userid)
+                u.set_password(newpass)
+                u.save()
                 logcred.password=newpass
                 logcred.save()
                 messages.success(request,'Password updated successfully')
@@ -330,39 +333,42 @@ def mybooks(request):
         try:
             book=meta(isbn)
             print(book)
-            try:
-                auth=""
-                for a in book['Authors']:
-                    auth=auth+','+a
-                auth=auth[1:]
+            if book == None:
+                messages.error(request,"Book not available in ISBN database.")
+            else:
                 try:
-                    year=int(book['Year'])
-                except:
-                    year=None
+                    auth=""
+                    for a in book['Authors']:
+                        auth=auth+','+a
+                    auth=auth[1:]
+                    try:
+                        year=int(book['Year'])
+                    except:
+                        year=None
 
-                if book['Language'] == "":
-                    lang=None
-                else:
-                    lang=book['Language']
+                    if book['Language'] == "":
+                        lang=None
+                    else:
+                        lang=book['Language']
 
-                Book.objects.create(isbn=isbn, book_name=book['Title'],author=auth,language= lang,year=year )
-                print("new book added")
+                    Book.objects.create(isbn=isbn, book_name=book['Title'],author=auth,language= lang,year=year )
+                    print("new book added")
 
-            except Exception as e:
-                print(e)
-                print("book already exists")
+                except Exception as e:
+                    print(e)
+                    print("book already exists")
 
-            try:
-                MyBooks.objects.create(repayment_policy=repaypol, availability=int(availability),
-                                       other_specifications=otherspec,
-                                       security_money_of_book=int(securitymoney), user=User.objects.get(user_id=user),
-                                       isbn=Book.objects.get(isbn=isbn))
-                messages.success(request, "Book Added Successfully !!!")
-                print("new book added to user : ", user)
-            except Exception as e:
-                print(e)
-                messages.info(request, "Book already exists !")
-                print("Error in adding Book")
+                try:
+                    MyBooks.objects.create(repayment_policy=repaypol, availability=int(availability),
+                                           other_specifications=otherspec,
+                                           security_money_of_book=int(securitymoney), user=User.objects.get(user_id=user),
+                                           isbn=Book.objects.get(isbn=isbn))
+                    messages.success(request, "Book Added Successfully !!!")
+                    print("new book added to user : ", user)
+                except Exception as e:
+                    print(e)
+                    messages.info(request, "Book already exists !")
+                    print("Error in adding Book")
         except Exception as e:
             print(e)
             messages.ERROR(request,"Wrong ISBN Entered !!!")
@@ -421,7 +427,7 @@ def validatelogin(request):
 
             if user_cred.password == password:
                 print('hello its\n')
-                login_user = authenticate(username=userid, password=password)
+                login_user = authenticate(request,username=userid, password=password)
                 djlogin(request, login_user)
                 message = 'no_error'
             else:

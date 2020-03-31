@@ -176,7 +176,7 @@
                                 {% elif u.Availability == '1' %}
                                     <button type="submit" name="makerequest" value="makerequest"  class="btn btn-info" ><i class="fa fa-edit"></i>  Make Request</button>
                                 {% else %}
-                                    <p style="color: #e74c3c;">Book not available for sharing by the u.</p>
+                                    <p style="color: #e74c3c;">Book not available for sharing by the user.</p>
                                 {% endif %}
                                 <button type="button" class="btn btn-default" data-dismiss="modal"><i class="fa fa-remove"></i>  Cancel</button>
                                 <input type="text" style="width: 0px;height: 0px;visibility: hidden;" name="isbn" value="{{ book.isbn }}">
