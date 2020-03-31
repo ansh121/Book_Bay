@@ -1,7 +1,5 @@
 # Book_Bay
 
-Please refer readme from gihub https://github.com/Anshul718/Book_Bay/ for details.
-
 ## Requirements :
    * Python environment
    * Django
