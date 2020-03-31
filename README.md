@@ -14,7 +14,7 @@ Please refer readme from gihub https://github.com/Anshul718/Book_Bay/ for detail
     * virtualenv ./envs/
     * source envs/bin/activate
   * option2:
-    * any python environment
+    * any python environment (eg. anaconda, virtualenv (as shown above), etc.)
     
   * pip install Django
   * pip install mysql
